@@ -1,0 +1,17 @@
+# KHÔNG BAO GIỜ commit key
+.env
+.env.*
+*.key
+secrets*
+# Không commit data pack của khoá (quy định bảo mật — README mục "Bảo mật dữ liệu")
+data/
+*.csv
+__pycache__/
+.DS_Store
+node_modules/
+
+# nhưng golden set trong eval/ thì vẫn commit
+!eval/*.csv
+
+# thư mục làm việc riêng của An — không đẩy lên GitHub
+AN/
