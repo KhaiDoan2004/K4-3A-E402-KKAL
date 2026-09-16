@@ -1,0 +1,479 @@
+<title>Ghim Tri Thức</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap">
+<style>
+:root{
+  --bg:#F5F7F6; --surface:#FFFFFF; --surface-2:#EDF1F0; --surface-3:#E3EAE8;
+  --border:#D6DEDC; --border-strong:#B9C6C3;
+  --text:#14201E; --text-dim:#5A6B67; --text-faint:#849793;
+  --accent:#0D7C6E; --accent-ink:#FFFFFF; --accent-soft:#D9EDE9;
+  --ok:#15803D; --ok-soft:#DCFCE7; --ok-line:#86EFAC;
+  --warn:#A65A07; --warn-soft:#FDF0D5; --warn-line:#F0C475;
+  --crit:#BE123C; --crit-soft:#FFE4E8; --crit-line:#FDA4B0;
+  --shadow:0 1px 2px rgba(20,32,30,.06), 0 8px 24px -12px rgba(20,32,30,.18);
+  --r:10px;
+}
+@media (prefers-color-scheme:dark){ :root:not([data-theme="light"]){
+  --bg:#0F1513; --surface:#161F1D; --surface-2:#1D2926; --surface-3:#243330;
+  --border:#2B3A37; --border-strong:#3C4F4B;
+  --text:#E7EFEC; --text-dim:#98ACA7; --text-faint:#6F827E;
+  --accent:#2DD4BF; --accent-ink:#06211E; --accent-soft:#12312D;
+  --ok:#4ADE80; --ok-soft:#10291C; --ok-line:#1F5637;
+  --warn:#FBBF24; --warn-soft:#2E2309; --warn-line:#6B520F;
+  --crit:#FB7185; --crit-soft:#331017; --crit-line:#6E2233;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+}}
+:root[data-theme="dark"]{
+  --bg:#0F1513; --surface:#161F1D; --surface-2:#1D2926; --surface-3:#243330;
+  --border:#2B3A37; --border-strong:#3C4F4B;
+  --text:#E7EFEC; --text-dim:#98ACA7; --text-faint:#6F827E;
+  --accent:#2DD4BF; --accent-ink:#06211E; --accent-soft:#12312D;
+  --ok:#4ADE80; --ok-soft:#10291C; --ok-line:#1F5637;
+  --warn:#FBBF24; --warn-soft:#2E2309; --warn-line:#6B520F;
+  --crit:#FB7185; --crit-soft:#331017; --crit-line:#6E2233;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--bg); color:var(--text);
+  font-family:"Be Vietnam Pro",system-ui,-apple-system,"Segoe UI",sans-serif;
+  font-size:15px; line-height:1.55; -webkit-font-smoothing:antialiased;
+}
+code,kbd,.mono{font-family:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace}
+.wrap{max-width:1180px; margin:0 auto; padding-inline:16px; padding-block:20px 40px}
+h1,h2,h3{text-wrap:balance; margin:0}
+button{font:inherit; color:inherit; cursor:pointer}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px; border-radius:6px}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important; transition-duration:.01ms!important}}
+
+/* ---------- header ---------- */
+.top{display:flex; flex-wrap:wrap; gap:12px 20px; align-items:flex-start; justify-content:space-between; margin-bottom:6px}
+.brand{display:flex; gap:11px; align-items:center}
+.mark{width:34px; height:34px; border-radius:9px; background:var(--accent); color:var(--accent-ink);
+  display:grid; place-items:center; font-size:17px; flex:none}
+h1{font-size:19px; font-weight:700; letter-spacing:-.01em}
+.sub{color:var(--text-dim); font-size:13px; margin-top:1px}
+.mockflag{display:flex; gap:8px; align-items:center; background:var(--warn-soft); color:var(--warn);
+  border:1px solid var(--warn-line); border-radius:999px; padding:5px 13px; font-size:12.5px; font-weight:600}
+.dotpulse{width:7px; height:7px; border-radius:50%; background:currentColor; animation:pulse 2.4s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* ---------- scenario rail ---------- */
+.rail{margin:18px 0 16px}
+.rail-lab{font-size:11px; font-weight:700; letter-spacing:.09em; text-transform:uppercase;
+  color:var(--text-faint); margin-bottom:9px}
+.chips{display:flex; gap:8px; overflow-x:auto; padding-bottom:4px; scrollbar-width:thin}
+.chip{flex:none; display:flex; flex-direction:column; gap:2px; align-items:flex-start; text-align:left;
+  background:var(--surface); border:1px solid var(--border); border-radius:var(--r);
+  padding:9px 14px; transition:border-color .15s, background .15s}
+.chip:hover{border-color:var(--border-strong)}
+.chip[aria-pressed="true"]{border-color:var(--accent); background:var(--accent-soft)}
+.chip b{font-size:13.5px; font-weight:600}
+.chip span{font-size:11.5px; color:var(--text-dim)}
+.chip[aria-pressed="true"] span{color:var(--text-dim)}
+
+/* ---------- layout ---------- */
+.grid{display:grid; grid-template-columns:1.15fr .85fr; gap:16px; align-items:start}
+@media (max-width:860px){.grid{grid-template-columns:1fr}}
+.panel{background:var(--surface); border:1px solid var(--border); border-radius:14px; box-shadow:var(--shadow); overflow:hidden}
+.phead{display:flex; align-items:center; justify-content:space-between; gap:10px;
+  padding:11px 15px; border-bottom:1px solid var(--border); background:var(--surface-2)}
+.phead h2{font-size:13px; font-weight:600}
+.phead .mono{font-size:11.5px; color:var(--text-faint)}
+
+/* ---------- chat ---------- */
+.chat{padding:14px 15px; display:flex; flex-direction:column; gap:14px; min-height:330px;
+  max-height:min(56vh,520px); overflow-y:auto}
+.msg{display:grid; grid-template-columns:32px 1fr; gap:10px}
+.av{width:32px; height:32px; border-radius:9px; background:var(--surface-3); color:var(--text-dim);
+  display:grid; place-items:center; font-size:11px; font-weight:700; font-family:"JetBrains Mono",monospace}
+.av.bot{background:var(--accent); color:var(--accent-ink)}
+.av.ta{background:var(--warn-soft); color:var(--warn); border:1px solid var(--warn-line)}
+.mhead{display:flex; gap:8px; align-items:baseline; flex-wrap:wrap; margin-bottom:2px}
+.mname{font-size:13px; font-weight:600}
+.mmeta{font-size:11px; color:var(--text-faint); font-family:"JetBrains Mono",monospace}
+.tag{font-size:10px; font-weight:700; letter-spacing:.04em; padding:1px 6px; border-radius:5px;
+  background:var(--accent-soft); color:var(--accent); text-transform:uppercase}
+.tag.ta{background:var(--warn-soft); color:var(--warn)}
+.mbody{font-size:14px}
+.mbody p{margin:0 0 6px}
+.mbody p:last-child{margin-bottom:0}
+pre{margin:7px 0 0; background:var(--surface-2); border:1px solid var(--border); border-radius:8px;
+  padding:9px 11px; overflow-x:auto; font-size:12.5px; line-height:1.5}
+.answer{border-left:3px solid var(--accent); padding-left:11px; margin-top:2px}
+.answer.warn{border-left-color:var(--warn)}
+.answer.crit{border-left-color:var(--crit)}
+.src{display:inline-flex; align-items:center; gap:5px; margin-top:8px; font-size:12px;
+  background:var(--surface-2); border:1px solid var(--border); border-radius:7px; padding:4px 9px; color:var(--text-dim)}
+.src b{color:var(--text); font-weight:600}
+.acts{display:flex; gap:7px; margin-top:9px; flex-wrap:wrap}
+.act{background:transparent; border:1px solid var(--border); border-radius:7px; padding:4px 10px;
+  font-size:12px; color:var(--text-dim); transition:.15s}
+.act:hover{border-color:var(--border-strong); color:var(--text)}
+.act.danger:hover{border-color:var(--crit-line); color:var(--crit); background:var(--crit-soft)}
+.act.pin{border-color:var(--accent); color:var(--accent); font-weight:600}
+.act.pin:hover{background:var(--accent-soft)}
+.act[disabled]{opacity:.45; cursor:default}
+.resolved{background:var(--surface-2); border:1px dashed var(--border-strong); border-radius:10px;
+  padding:10px 12px; font-size:12.5px; color:var(--text-dim); display:flex; flex-wrap:wrap;
+  gap:9px; align-items:center; justify-content:space-between}
+
+/* ---------- composer ---------- */
+.composer{border-top:1px solid var(--border); padding:11px 15px; background:var(--surface-2);
+  display:flex; gap:9px; align-items:center}
+.composer input{flex:1; min-width:0; background:var(--surface); color:var(--text);
+  border:1px solid var(--border); border-radius:9px; padding:9px 12px; font:inherit; font-size:13.5px}
+.composer input::placeholder{color:var(--text-faint)}
+.send{background:var(--accent); color:var(--accent-ink); border:0; border-radius:9px;
+  padding:9px 17px; font-weight:600; font-size:13.5px; flex:none}
+.send[disabled]{opacity:.5; cursor:default}
+
+/* ---------- decision trace ---------- */
+.trace{padding:14px 15px}
+.step{display:grid; grid-template-columns:20px 1fr; gap:10px; padding-bottom:13px; position:relative}
+.step:not(:last-child)::before{content:""; position:absolute; left:9px; top:20px; bottom:0; width:1px; background:var(--border)}
+.stepn{width:20px; height:20px; border-radius:50%; background:var(--surface-3); color:var(--text-dim);
+  display:grid; place-items:center; font-size:10.5px; font-weight:700; z-index:1;
+  font-family:"JetBrains Mono",monospace}
+.step.on .stepn{background:var(--accent); color:var(--accent-ink)}
+.step h3{font-size:12.5px; font-weight:600; margin-bottom:2px}
+.step p{margin:0; font-size:12.5px; color:var(--text-dim)}
+.idle{color:var(--text-faint); font-size:13px; text-align:center; padding:26px 10px}
+
+.cands{display:flex; flex-direction:column; gap:7px; margin-top:8px}
+.cand{display:grid; grid-template-columns:1fr auto; gap:8px; align-items:center;
+  background:var(--surface-2); border:1px solid var(--border); border-radius:8px; padding:7px 10px}
+.cand.top{border-color:var(--accent); background:var(--accent-soft)}
+.cand-t{font-size:12.5px; font-weight:500; line-height:1.35}
+.cand-id{font-size:10.5px; color:var(--text-faint); font-family:"JetBrains Mono",monospace}
+.score{font-family:"JetBrains Mono",monospace; font-size:13px; font-weight:700;
+  font-variant-numeric:tabular-nums; color:var(--text-dim)}
+.cand.top .score{color:var(--accent)}
+.bar{height:3px; border-radius:2px; background:var(--border); overflow:hidden; margin-top:5px; grid-column:1/-1}
+.bar i{display:block; height:100%; background:var(--accent); border-radius:2px}
+
+.verdict{margin-top:12px; border-radius:10px; padding:11px 13px; border:1px solid}
+.verdict.ok{background:var(--ok-soft); border-color:var(--ok-line)}
+.verdict.warn{background:var(--warn-soft); border-color:var(--warn-line)}
+.verdict.crit{background:var(--crit-soft); border-color:var(--crit-line)}
+.vlab{font-size:10.5px; font-weight:700; letter-spacing:.08em; text-transform:uppercase}
+.verdict.ok .vlab{color:var(--ok)} .verdict.warn .vlab{color:var(--warn)} .verdict.crit .vlab{color:var(--crit)}
+.verdict p{margin:3px 0 0; font-size:12.5px; color:var(--text)}
+
+/* ---------- knowledge base ---------- */
+.kb{padding:13px 15px; display:flex; flex-direction:column; gap:9px}
+.entry{border:1px solid var(--border); border-radius:10px; padding:10px 12px; background:var(--surface-2)}
+.entry.fresh{border-color:var(--accent); animation:slidein .4s ease}
+@keyframes slidein{from{opacity:0; transform:translateY(-6px)}to{opacity:1; transform:none}}
+.entry.flagged{border-color:var(--crit-line); background:var(--crit-soft)}
+.etop{display:flex; gap:8px; align-items:baseline; justify-content:space-between; margin-bottom:5px}
+.etitle{font-size:13px; font-weight:600; line-height:1.35}
+.efrom{font-size:10.5px; color:var(--text-faint); font-family:"JetBrains Mono",monospace; flex:none}
+.efix{font-size:12px; color:var(--text-dim)}
+.ebadge{display:inline-block; margin-top:7px; font-size:10.5px; font-weight:600; padding:2px 7px;
+  border-radius:5px; background:var(--accent-soft); color:var(--accent)}
+.ebadge.flag{background:var(--crit-soft); color:var(--crit); border:1px solid var(--crit-line)}
+.kb-empty{font-size:12.5px; color:var(--text-faint); text-align:center; padding:14px}
+
+/* ---------- footer ---------- */
+.legend{margin-top:26px; border-top:1px solid var(--border); padding-top:20px}
+.legend h2{font-size:13px; font-weight:700; margin-bottom:3px}
+.legend > p{margin:0 0 14px; font-size:12.5px; color:var(--text-dim); max-width:66ch}
+.lgrid{display:grid; grid-template-columns:repeat(auto-fit,minmax(232px,1fr)); gap:10px}
+.litem{border:1px solid var(--border); border-radius:10px; padding:10px 12px; background:var(--surface)}
+.lcode{font-family:"JetBrains Mono",monospace; font-size:11px; font-weight:700; color:var(--accent);
+  background:var(--accent-soft); border-radius:5px; padding:1px 6px; display:inline-block; margin-bottom:5px}
+.litem b{display:block; font-size:12.5px; font-weight:600; margin-bottom:2px}
+.litem span{font-size:12px; color:var(--text-dim)}
+.scope{margin-top:16px; border:1px solid var(--warn-line); background:var(--warn-soft);
+  border-radius:10px; padding:12px 14px}
+.scope b{font-size:12.5px; color:var(--warn); display:block; margin-bottom:5px}
+.scope ul{margin:0; padding-left:17px; font-size:12.5px; color:var(--text); line-height:1.7}
+.foot{margin-top:18px; font-size:11.5px; color:var(--text-faint); line-height:1.7}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div class="brand">
+      <div class="mark" aria-hidden="true">📌</div>
+      <div>
+        <h1>Ghim Tri Thức — Trợ lý Discord K4</h1>
+        <div class="sub">Nhóm KKAL · 3A · E402 · Track B2 · mock CP2</div>
+      </div>
+    </div>
+    <div class="mockflag"><span class="dotpulse"></span> MOCK — điểm tin cậy hardcode, chưa có lời gọi AI thật (để CP3)</div>
+  </header>
+
+  <section class="rail">
+    <div class="rail-lab">Bốn đường đi của trải nghiệm — bấm để chạy</div>
+    <div class="chips" role="group" aria-label="Chọn kịch bản">
+      <button class="chip" data-sc="happy" aria-pressed="false">
+        <b>1 · Khớp chắc</b><span>Hỏi đúng lỗi đã ghim</span></button>
+      <button class="chip" data-sc="low" aria-pressed="false">
+        <b>2 · Khớp mờ</b><span>"em bị lỗi 500" — hai ứng viên</span></button>
+      <button class="chip" data-sc="none" aria-pressed="false">
+        <b>3 · Không khớp</b><span>Ngoài kho → chuyển TA</span></button>
+      <button class="chip" data-sc="fix" aria-pressed="false">
+        <b>4 · Sửa sai</b><span>Bot trả nhầm → người dùng bác</span></button>
+      <button class="chip" data-sc="reset" aria-pressed="false">
+        <b>↺ Đặt lại</b><span>Về trạng thái đầu</span></button>
+    </div>
+  </section>
+
+  <div class="grid">
+    <!-- LEFT: chat -->
+    <section class="panel">
+      <div class="phead">
+        <h2># channel_08 · hỗ trợ cài đặt</h2>
+        <span class="mono">K4-L2-3 · 13/09</span>
+      </div>
+      <div class="chat" id="chat" aria-live="polite"></div>
+      <div class="composer">
+        <label class="sr" for="q" hidden>Câu hỏi</label>
+        <input id="q" placeholder="Chọn một kịch bản ở trên…" readonly>
+        <button class="send" id="send" disabled>Gửi</button>
+      </div>
+    </section>
+
+    <!-- RIGHT: decision + KB -->
+    <div style="display:flex; flex-direction:column; gap:16px">
+      <section class="panel">
+        <div class="phead"><h2>Quyết định của AI</h2><span class="mono" id="lat">—</span></div>
+        <div class="trace" id="trace">
+          <p class="idle">Chưa có câu hỏi nào. Chọn một kịch bản để xem AI quyết định thế nào.</p>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="phead"><h2>Kho tri thức đã ghim</h2><span class="mono" id="kbn">1 mục</span></div>
+        <div class="kb" id="kb"></div>
+      </section>
+    </div>
+  </div>
+
+  <!-- LEGEND -->
+  <section class="legend">
+    <h2>Nguyên tắc HAX áp ở đâu trong bản mock này</h2>
+    <p>Rubric R2 cho 6 điểm nếu mỗi nguyên tắc trỏ được vào một chỗ cụ thể trong prototype. Đây là bốn chỗ đó.</p>
+    <div class="lgrid">
+      <div class="litem"><span class="lcode">G10</span><b>Thu hẹp phạm vi khi nghi ngờ</b>
+        <span>Kịch bản 2: điểm khớp 0,54 → bot hỏi lại một câu thay vì chọn bừa một trong hai mục.</span></div>
+      <div class="litem"><span class="lcode">G11</span><b>Giải thích vì sao</b>
+        <span>Mọi câu trả lời kèm thẻ nguồn: ca gốc, TA nào ghim, ngày nào. Bảng bên phải hiện cả điểm khớp.</span></div>
+      <div class="litem"><span class="lcode">G9</span><b>Sửa dễ dàng</b>
+        <span>Nút "Không đúng" ngay dưới câu trả lời — kịch bản 4 gắn cờ mục và đẩy sang TA.</span></div>
+      <div class="litem"><span class="lcode">G2</span><b>Nói rõ làm tốt đến đâu</b>
+        <span>Bot luôn nói mức chắc chắn trước khi trả lời, và nói thẳng khi không tìm thấy gì trong kho.</span></div>
+    </div>
+
+    <div class="scope">
+      <b>Phần nào là mock, phần nào thật — khai theo rubric R5</b>
+      <ul>
+        <li><b>Mock:</b> điểm khớp hardcode theo kịch bản; kho tri thức chỉ có 2 mục; sự kiện ghim 📌 là nút bấm, không phải reaction Discord thật.</li>
+        <li><b>Thật:</b> toàn bộ tin nhắn lấy nguyên văn từ <code>k4_messages.csv</code> — <code>M12802</code>, <code>M07901</code>, <code>M30675</code>, <code>M54305</code>.</li>
+        <li><b>CP3 sẽ thay:</b> bước 2 và 3 trong bảng quyết định — nhúng câu hỏi và so khớp — bằng lời gọi model thật, giữ nguyên phần còn lại.</li>
+        <li><b>Vì sao ghim phải mock:</b> data pack có 12 cột và <b>không có cột reaction/emoji</b>, nên không lấy được sự kiện ghim thật.</li>
+      </ul>
+    </div>
+
+    <p class="foot">
+      Trích dẫn tối đa 2 câu mỗi ví dụ, dẫn <code>msg_id</code> thay vì dán nguyên đoạn — theo quy định bảo mật dữ liệu ở <code>data/discord-pack/README.md</code>.
+      Tác giả giữ mã ẩn danh <code>D####</code>, không suy ngược danh tính.
+    </p>
+  </section>
+</div>
+
+<script>
+const KB0 = [{
+  id:'KB-01',
+  title:'CVAT health check báo 500 sau docker compose up -d',
+  fix:'OPA chưa lấy được policy bundle từ cvat-server. Chờ migration xong rồi nạp lại bundle; nếu vẫn lỗi thì kiểm tra tag openpolicyagent/opa trong docker-compose.yml.',
+  from:'M12802', by:'D6587', at:'13/09 10:35'
+}];
+const KB1 = {
+  id:'KB-02',
+  title:'docker compose pull báo permission denied khi cài CVAT',
+  fix:'User chưa nằm trong group docker. Chạy sudo usermod -aG docker $USER rồi newgrp docker, kiểm lại bằng docker version.',
+  from:'M30675→M54305', by:'D2012', at:'13/09 23:23'
+};
+
+const BASE = [
+  {who:'D5159', av:'59', name:'D5159', meta:'M07901 · 22:49', body:'<p>Hi, mình vẫn chưa cài được CVAT. Có bạn nào hỗ trợ được mình không?</p>'},
+  {who:'D2012', av:'12', name:'D2012', tag:'TA', body:'<p>Bạn chạy lần lượt từng lệnh nhé</p><pre>sudo usermod -aG docker $USER\nnewgrp docker\ndocker version</pre>', meta:'M39872 · 23:13'},
+  {resolved:true}
+];
+
+const SC = {
+  happy:{
+    q:'docker compose up -d xong mà health check báo 500, sửa kiểu gì ạ',
+    cands:[['KB-01','CVAT health check báo 500 sau docker compose up -d',0.91],
+           ['KB-02','docker compose pull báo permission denied',0.22]],
+    verdict:'ok', vlab:'Khớp chắc — tự trả lời',
+    vtext:'Điểm khớp 0,91 vượt ngưỡng 0,75. Nội dung đã được TA duyệt khi ghim nên phát lại là an toàn.',
+    lat:'0,4s', kb:'KB-01',
+    reply:`<div class="answer"><p><b>Khá chắc</b> — mình tìm thấy một ca giống, đã được TA gỡ xong và ghim lại.</p>
+      <p>OPA chưa lấy được policy bundle từ cvat-server nên health check trả 500. Chờ migration xong rồi nạp lại bundle:</p>
+      <pre>sleep 45\ndocker exec -t cvat_server python manage.py migrate</pre>
+      <p>Vẫn lỗi thì kiểm tra tag <code>openpolicyagent/opa</code> trong <code>docker-compose.yml</code>.</p>
+      <div class="src">📌 <b>KB-01</b> · ca gốc <span class="mono">M12802</span> · TA <span class="mono">D6587</span> ghim 13/09</div></div>`,
+    acts:[['Đúng rồi, cảm ơn','',1],['Không đúng','danger',0]]
+  },
+  low:{
+    q:'em bị lỗi 500 ạ',
+    cands:[['KB-01','CVAT health check báo 500 sau docker compose up -d',0.54],
+           ['KB-02','docker compose pull báo permission denied',0.41]],
+    verdict:'warn', vlab:'Không đủ chắc — hỏi lại một câu',
+    vtext:'Hai mục cách nhau 0,13 và mục cao nhất mới 0,54, dưới ngưỡng 0,75. Trả bừa một trong hai thì học viên chạy nhầm lệnh.',
+    lat:'0,3s',
+    reply:`<div class="answer warn"><p><b>Mình chưa chắc</b> — có hai ca đã ghim đều liên quan tới lỗi 500, nhưng cách sửa khác hẳn nhau.</p>
+      <p>Bạn cho mình biết thêm một ý thôi: <b>lỗi hiện ra ngay sau lệnh nào?</b></p>
+      <p>· <code>docker compose up -d</code> → nhiều khả năng là KB-01<br>· <code>docker compose pull</code> → nhiều khả năng là KB-02</p></div>`,
+    acts:[['up -d','',0],['pull','',0],['Không cái nào','danger',0]]
+  },
+  none:{
+    q:'máy em Mac M1 thì cài CVAT theo hướng dẫn được không ạ',
+    cands:[['KB-01','CVAT health check báo 500 sau docker compose up -d',0.18],
+           ['KB-02','docker compose pull báo permission denied',0.11]],
+    verdict:'crit', vlab:'Không có trong kho — chuyển TA',
+    vtext:'Cao nhất 0,18. Hai mục đã ghim đều viết cho Ubuntu, không có mục nào nói về Apple Silicon. Không đoán.',
+    lat:'0,3s',
+    reply:`<div class="answer crit"><p><b>Trong kho chưa có ca nào về Apple Silicon</b> — hai ca cài CVAT đã ghim đều làm trên Ubuntu, mình không suy ra được cho M1.</p>
+      <p>Mình đã chuyển câu này cho TA và mở phiếu theo dõi để không ai quên nó.</p>
+      <div class="src">🎫 <b>TICKET-014</b> · đã tag TA · trạng thái <b>chờ TA</b> · mở 13/09 23:41</div></div>`,
+    acts:[['Theo dõi phiếu','',1]]
+  },
+  fix:{
+    q:'docker compose up -d xong mà health check báo 500, sửa kiểu gì ạ',
+    cands:[['KB-01','CVAT health check báo 500 sau docker compose up -d',0.91],
+           ['KB-02','docker compose pull báo permission denied',0.22]],
+    verdict:'ok', vlab:'Khớp chắc — tự trả lời', vtext:'Điểm khớp 0,91 vượt ngưỡng 0,75.',
+    lat:'0,4s', kb:'KB-01', autofix:true,
+    reply:`<div class="answer"><p><b>Khá chắc</b> — mình tìm thấy một ca giống, đã được TA gỡ xong và ghim lại.</p>
+      <pre>sleep 45\ndocker exec -t cvat_server python manage.py migrate</pre>
+      <div class="src">📌 <b>KB-01</b> · ca gốc <span class="mono">M12802</span> · TA <span class="mono">D6587</span> ghim 13/09</div></div>`,
+    acts:[['Đúng rồi, cảm ơn','',1],['Không đúng','danger',0]]
+  }
+};
+
+let kb = KB0.slice(), pinned = false, flagged = false;
+const $ = s => document.querySelector(s);
+const chat = $('#chat'), trace = $('#trace'), kbEl = $('#kb');
+
+function esc(s){return s.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]))}
+
+function renderKB(fresh){
+  kbEl.innerHTML = kb.length ? '' : '<p class="kb-empty">Chưa có mục nào được ghim.</p>';
+  kb.forEach(e=>{
+    const d=document.createElement('div');
+    d.className='entry'+(fresh===e.id?' fresh':'')+(flagged&&e.id==='KB-01'?' flagged':'');
+    d.innerHTML=`<div class="etop"><div class="etitle">${esc(e.title)}</div>
+      <div class="efrom">${e.id}</div></div>
+      <div class="efix">${esc(e.fix)}</div>
+      <div class="ebadge${flagged&&e.id==='KB-01'?' flag':''}">${flagged&&e.id==='KB-01'
+        ? '⚠ bị báo sai — chờ TA duyệt lại'
+        : `📌 ${e.by} ghim ${e.at} · ca gốc ${e.from}`}</div>`;
+    kbEl.appendChild(d);
+  });
+  $('#kbn').textContent = kb.length+' mục';
+}
+
+function msg({av,name,tag,meta,body,bot,ta}){
+  const el=document.createElement('div'); el.className='msg';
+  el.innerHTML=`<div class="av ${bot?'bot':ta?'ta':''}">${bot?'🤖':av}</div>
+    <div><div class="mhead"><span class="mname">${name}</span>
+      ${tag?`<span class="tag ${ta?'ta':''}">${tag}</span>`:''}
+      <span class="mmeta">${meta||''}</span></div>
+      <div class="mbody">${body}</div></div>`;
+  chat.appendChild(el); chat.scrollTop=chat.scrollHeight; return el;
+}
+
+function resolvedBlock(){
+  const el=document.createElement('div'); el.className='resolved';
+  el.innerHTML=`<span>✅ Ca này đã gỡ xong — <span class="mono">M07901 → M54305</span>, 7 tin, 24 phút</span>`;
+  const b=document.createElement('button'); b.className='act pin';
+  b.textContent = pinned ? '📌 Đã ghim' : '📌 TA ghim ca này';
+  if(pinned) b.disabled=true;
+  b.onclick=()=>{
+    if(pinned) return;
+    pinned=true; b.textContent='📌 Đã ghim'; b.disabled=true;
+    msg({bot:true,name:'Trợ lý',tag:'BOT',meta:'tóm tắt từ ca đã ghim',
+      body:`<div class="answer"><p>Đã đọc 7 tin trong ca này và rút thành một mục tri thức:</p>
+        <p><b>Triệu chứng:</b> <code>docker compose pull</code> báo permission denied.<br>
+        <b>Cách sửa:</b> user chưa ở group docker → <code>sudo usermod -aG docker $USER</code> → <code>newgrp docker</code>.</p>
+        <div class="src">📌 <b>KB-02</b> · chờ TA duyệt trước khi dùng để trả lời</div></div>`});
+    kb.push(KB1); renderKB('KB-02');
+  };
+  el.appendChild(b); chat.appendChild(el); chat.scrollTop=chat.scrollHeight;
+}
+
+function reset(){
+  chat.innerHTML=''; kb=KB0.slice(); pinned=false; flagged=false;
+  BASE.forEach(m => m.resolved ? resolvedBlock() : msg(m));
+  trace.innerHTML='<p class="idle">Chưa có câu hỏi nào. Chọn một kịch bản để xem AI quyết định thế nào.</p>';
+  $('#lat').textContent='—'; $('#q').value=''; $('#send').disabled=true;
+  renderKB();
+}
+
+function runTrace(sc){
+  const steps=[
+    ['1','Nhận câu hỏi','Tách câu hỏi khỏi lời chào và mention.'],
+    ['2','Nhúng và tìm trong kho',`So với ${kb.length} mục đã được TA ghim.`],
+    ['3','Chấm điểm khớp','Ngưỡng tự trả lời: 0,75.'],
+    ['4','Quyết định',sc.vlab]
+  ];
+  trace.innerHTML = steps.map(([n,h,p])=>
+    `<div class="step on"><div class="stepn">${n}</div><div><h3>${h}</h3><p>${p}</p></div></div>`).join('')
+    + `<div class="cands">${sc.cands.map(([id,t,s],i)=>
+      `<div class="cand${i===0&&s>=.75?' top':''}"><div><div class="cand-t">${esc(t)}</div>
+        <div class="cand-id">${id}</div></div><div class="score">${s.toFixed(2)}</div>
+        <div class="bar"><i style="width:${Math.round(s*100)}%"></i></div></div>`).join('')}</div>`
+    + `<div class="verdict ${sc.verdict}"><div class="vlab">${sc.vlab}</div><p>${sc.vtext}</p></div>`;
+  $('#lat').textContent = sc.lat;
+}
+
+function run(key){
+  if(key==='reset'){reset(); document.querySelectorAll('.chip').forEach(c=>c.setAttribute('aria-pressed','false')); return;}
+  const sc=SC[key]; reset();
+  $('#q').value=sc.q; $('#send').disabled=false;
+  $('#send').onclick=()=>{
+    $('#send').disabled=true; $('#q').value='';
+    msg({av:'59',name:'D5159',meta:'vừa xong',body:`<p>${esc(sc.q)}</p>`});
+    runTrace(sc);
+    setTimeout(()=>{
+      const el=msg({bot:true,name:'Trợ lý',tag:'BOT',meta:sc.lat,body:sc.reply});
+      const bar=document.createElement('div'); bar.className='acts';
+      sc.acts.forEach(([t,cls])=>{
+        const b=document.createElement('button'); b.className='act '+cls; b.textContent=t;
+        b.onclick=()=>{
+          if(cls==='danger'&&sc.autofix){
+            flagged=true; renderKB();
+            msg({ta:true,av:'12',name:'Trợ lý → TA',tag:'CHUYỂN TA',meta:'ngay lập tức',
+              body:`<div class="answer crit"><p>Đã ghi nhận <b>KB-01 trả lời không đúng ca này</b>.</p>
+                <p>Mục bị gắn cờ và tạm dừng dùng để trả lời tự động. Đã tag TA <span class="mono">D6587</span> — người ghim mục này — để duyệt lại.</p>
+                <div class="src">🎫 <b>TICKET-015</b> · loại <b>mục ghim sai</b> · trạng thái <b>chờ TA duyệt lại</b></div></div>`});
+          } else if(cls==='danger'){
+            msg({ta:true,av:'12',name:'Trợ lý → TA',tag:'CHUYỂN TA',meta:'ngay lập tức',
+              body:`<div class="answer crit"><p>Đã chuyển câu hỏi cho TA và mở phiếu theo dõi.</p></div>`});
+          } else {
+            msg({bot:true,name:'Trợ lý',tag:'BOT',meta:'',
+              body:`<p>Ghi nhận nhé. Phản hồi này dùng để chấm lại độ chính xác của mục đã ghim.</p>`});
+          }
+          bar.querySelectorAll('.act').forEach(x=>x.disabled=true);
+        };
+        bar.appendChild(b);
+      });
+      el.querySelector('.mbody').appendChild(bar);
+    }, 420);
+  };
+}
+
+document.querySelectorAll('.chip').forEach(c=>{
+  c.onclick=()=>{
+    document.querySelectorAll('.chip').forEach(x=>x.setAttribute('aria-pressed','false'));
+    if(c.dataset.sc!=='reset') c.setAttribute('aria-pressed','true');
+    run(c.dataset.sc);
+  };
+});
+reset();
+</script>
