@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Phương pháp đếm evidence cho B2 — bản tin cuối ngày cho TA.
+"""Phương pháp đếm evidence cho B2 — ghim tri thức sau khi gỡ xong sự cố.
 Rubric R1 đòi "phương pháp đếm kiểm lại được": mọi con số trong canvas.md ra từ đây.
 
 Chạy:
@@ -74,7 +74,35 @@ tiep_nhan = sum(1 for r in human if r['reply_to'] in ne_ids)
 print(f"Bot né ('không có thông tin' / 'nhờ Mod') : {len(bot_ne):3d} / {len(bot)}")
 print(f"  → số ca có người vào tiếp nhận          : {tiep_nhan:3d} / {len(bot_ne)}   ← câu hỏi chết tại đó\n")
 
-# ---------- Câu hỏi thật mỗi ngày mỗi server (để đối chiếu độ phủ bản tin) ----------
+# ---------- Tri thức bị gõ lại: các lượt hướng dẫn kỹ thuật lặp ----------
+TECH = re.compile(r'cvat|docker', re.I)
+tech = [r for r in rows if TECH.search(r['content'])]
+tech_h = [r for r in tech if not r['is_bot']]
+print(f"Tin nhắn nhắc CVAT/Docker : {len(tech_h)} tin / {len(set(r['author'] for r in tech_h))} người\n")
+
+# "Lượt hướng dẫn" = cụm tin liên tiếp CÙNG tác giả, CÙNG kênh, cách nhau <= 30 phút
+luot = []
+by_ac = collections.defaultdict(list)
+for r in tech_h:
+    by_ac[(r['channel'], r['author'])].append(r)
+for v in by_ac.values():
+    v.sort(key=lambda x: x['t']); cur = [v[0]]
+    for a, b in zip(v, v[1:]):
+        if (b['t'] - a['t']).total_seconds() <= 1800:
+            cur.append(b)
+        else:
+            if len(cur) >= 3: luot.append(cur)
+            cur = [b]
+    if len(cur) >= 3: luot.append(cur)
+print(f"Lượt hướng dẫn cài đặt (>=3 tin liên tiếp cùng người) : {len(luot)}")
+for c in sorted(luot, key=lambda c: c[0]['t']):
+    phut = (c[-1]['t'] - c[0]['t']).total_seconds() / 60
+    print(f"  {c[0]['created_at_vn']} → {c[-1]['created_at_vn'][-5:]}  "
+          f"{c[0]['author']}  {len(c)} tin, kéo {phut:.0f}′")
+print(f"  → tổng {sum(len(c) for c in luot)} tin gõ tay cho cùng một lớp sự cố"
+      f", bởi {len(set(c[0]['author'] for c in luot))} người khác nhau\n")
+
+# ---------- Câu hỏi thật mỗi ngày mỗi server ----------
 print("Câu hỏi thật theo server × ngày:")
 dem = collections.Counter((r['guild'], r['created_at_vn'][:10]) for r in hq)
 for k in sorted(dem):

@@ -4,14 +4,16 @@
 
 ## 👥 Thành viên nhóm & Phân công vai trò
 
-**Lớp:** 3A · **Phòng:** E402 · **Cụm:** C1 · **Track:** **B2 — Trợ lý Discord: bản tin cuối ngày cho TA** · **Nhóm:** KKAL
+**Lớp:** 3A · **Phòng:** E402 · **Cụm:** C1 · **Track:** **B2 — Trợ lý Discord: ghim tri thức sau khi gỡ xong sự cố** · **Nhóm:** KKAL
 
 | Họ và Tên | Mã Học Viên | Vai trò chính | Phần việc đảm nhiệm trong dự án |
 |---|---|---|---|
-| Đoàn Bá Khải | 2A202602728 | **Đội trưởng** · Prototype | Nộp cả 5 form CP1–CP5 bằng cùng mã học viên; dựng flow bản tin bấm đi hết được (CP2); tích lời gọi AI thật vào quyết định "câu hỏi này còn treo hay không" (CP3) |
-| Nguyễn Văn An | 2A202602782 | Evidence & mining | Đếm trên `k4_messages.csv` (script `dem-discord.py`), siết mẫu từ khoá + chấm tay 30 mẫu, khảo sát ≥20 học viên có log nguyên văn, viết spec §1–§2 |
-| Đỗ Thanh Lâm | 2A202602577 | Mining & baseline | Phân tích 4 bản tin bot hiện có (độ phủ, lỗi format); prompt phân loại "còn treo / đã xong / không phải câu hỏi"; 4 lớp chỗ khó + ≥8 kịch bản (spec §5–§6) |
-| Trần Ngọc Khuyến | 2A202602682 | Golden set & đo | Golden set ≥20 case (≥10 case từ `k4_messages.csv`), chốt quality bar bằng số, chạy trọn bộ và lập bảng kết quả trong `eval/`, spec §7 |
+| Đoàn Bá Khải | 2A202602728 | **Đội trưởng** · Spec | Nộp cả 5 form CP1–CP5 bằng cùng một mã học viên; viết `spec.md` §1–§9; chốt quality bar trước 21:00 17/9 |
+| Nguyễn Văn An | 2A202602782 | Code prototype | Dựng flow bấm đi hết được (CP2); tích lời gọi AI thật ở quyết định "câu hỏi này có khớp mục tri thức đã ghim không" (CP3); dựng fixture sự kiện ghim 📌 |
+| Trần Ngọc Khuyến | 2A202602682 | Mining data | Siết mẫu đếm trên `k4_messages.csv`, chấm tay 30 mẫu đo độ chính xác, khảo sát ≥20 người ngoài nhóm có log nguyên văn |
+| Đỗ Thanh Lâm | 2A202602577 | Kiểm thử & demo | Golden set ≥20 case (≥2 case/lớp chỗ khó), chạy trọn bộ + bảng kết quả trong `eval/`, dựng demo script và dry run |
+
+**Willing users (khai từ CP1):** Nguyễn Văn Biển — 2A202602416 · Nguyễn Phúc Bảo — 2A202602925
 
 > Nhóm copy nguyên file README này về repo của mình, rồi điền bảng trên. Cột **Phần việc đảm nhiệm** ghi càng cụ thể càng tốt.
 
