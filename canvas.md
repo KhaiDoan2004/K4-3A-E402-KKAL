@@ -3,6 +3,9 @@
 **Đội trưởng nộp form: Đoàn Bá Khải — 2A202602728**
 **Repo:** https://github.com/KhaiDoan2004/K4-3A-E402-KKAL
 
+> **Cập nhật 17/09 sau CP3** — ba chỗ đánh dấu 🔄 đã đổi so với bản nộp CP1, vì bản build
+> thật khác dự kiến. Ghi lại thay vì sửa lặng để người chấm đối chiếu được với `spec.md` §9.
+>
 > Mọi con số đếm trên `data/discord-pack/`, **chạy lại được** bằng `eval/dem-discord.py`.
 > Bản mining đầy đủ: `AN/pain-points-discord-k4.md` (không commit — quy định bảo mật data).
 
@@ -49,7 +52,9 @@
 ### ⚠️ Hai hạn chế tự khai *(khai từ CP1, không giấu)*
 
 1. **Pack chỉ có 3 ngày onboarding** và lab CVAT rơi đúng 1 ngày → **n nhỏ: 19 tin / 7 người**. Trước CP4 nhóm sẽ bổ sung bằng **khảo sát ≥20 người** (chuẩn A) hỏi *"lần gần nhất bạn hỏi một lỗi kỹ thuật trong Discord, bạn mất bao lâu để có câu trả lời?"* — vì mining một mình chưa đủ đô cho lát cắt này.
-2. **Data pack KHÔNG có cột reaction/emoji** (12 cột: `msg_id, guild, channel, author, is_bot, msg_type, created_at_vn, reply_to, mentions_bot, n_attachments, n_chars, content`). Nghĩa là **không thể lấy sự kiện ghim 📌 thật từ data** → golden set sẽ dùng **fixture tự dựng**: nhóm tự đánh dấu các cụm tin đã giải quyết trong pack làm "ca đã ghim". Phần này khai rõ là mock trong spec §4.
+2. 🔄 **Data pack KHÔNG có cột reaction/emoji** (12 cột: `msg_id, guild, channel, author, is_bot, msg_type, created_at_vn, reply_to, mentions_bot, n_attachments, n_chars, content`), nên **không lấy được sự kiện ghim từ data lịch sử**.
+   **Cách giải quyết đã đổi ở CP3:** thay vì dựng fixture giả, nhóm bỏ hẳn cơ chế "ghim bằng reaction" và dùng **lệnh context menu thật của Discord** — trợ giảng chuột phải vào tin trả lời → *Apps → Lưu vào kho tri thức*. Sự kiện lưu vì thế là **thật, không mock**. Kho hiện có **4 mục được lưu trực tiếp trên Discord** theo đúng đường này.
+   Data pack vẫn dùng để **nạp kho ban đầu**: 19 cặp hỏi–đáp có thật, chọn tay theo `msg_id`, chạy qua `codebase/bot/src/seed.js`.
 
 ---
 
@@ -62,7 +67,7 @@
 
 | Ứng viên | Bao nhiêu người gặp | Tần suất | Mỗi lần tốn gì | Build nổi? | Chọn? |
 |---|---|---|---|---|---|
-| **A · Ghim tri thức sau khi gỡ xong sự cố** | 7 người / 19 tin CVAT-Docker; 0/27 ca bot né được tiếp nhận | Mỗi khi có lab kỹ thuật mới | **gõ lại 7 tin / 24 phút** cho ca đã từng gỡ; học viên chờ tới đêm | ⚠️ được, nhưng **phải mock sự kiện ghim** (pack không có reaction) | ✅ **CHỌN** |
+| **A · Ghim tri thức sau khi gỡ xong sự cố** | 7 người / 19 tin CVAT-Docker; 0/27 ca bot né được tiếp nhận | Mỗi khi có lab kỹ thuật mới | **gõ lại 7 tin / 24 phút** cho ca đã từng gỡ; học viên chờ tới đêm | 🔄 ✅ build được **không cần mock** — dùng context menu thật của Discord | ✅ **CHỌN** |
 | B · Bản tin cuối ngày gom câu hỏi còn treo cho TA | 45/211 câu (21%) không ai reply | Mỗi ngày | Học viên chờ tới **695 phút** | ✅ có baseline thật để so trước/sau | ❌ giá trị rơi vào **1 TA/ngày**; A tích luỹ giá trị theo thời gian và càng dùng càng mạnh |
 | C · Bot hỏi lại 1 câu khi câu hỏi mơ hồ | 75 chuỗi hỏi-lại / 198 tin | Mỗi ngày | Học viên diễn đạt lại 2–7 lượt | ✅ dễ nhất | ❌ đây là **B1**, không phải B2 |
 | D · Sửa lỗi format bản tin ("nguồn tham chiếu" chèn giữa từ) | 13 chỗ trong 1/4 bản tin | 1/4 bản tin | Đọc vấp | ✅ | ❌ **bug `str.replace` thiếu biên từ — sửa 1 dòng, không phải bài toán AI.** Vẫn báo lại team vận hành |
@@ -73,18 +78,27 @@
 
 ## Ô 4 · LÁT CẮT — MỘT CÂU
 
-> **Một học viên khoá 4 hỏi một lỗi kỹ thuật trong Discord · AI quyết định câu hỏi này có khớp với một mục tri thức đã được TA ghim hay không, và có đủ chắc để tự trả lời hay không · nếu chắc thì trả lời kèm link tới ca gốc đã được TA duyệt, nếu không chắc thì tag TA — TA không phải gõ lại hướng dẫn đã gõ.**
+> **Một học viên khoá 4 hỏi một câu trong Discord · AI quyết định câu hỏi này có được trả lời bằng một mục tri thức đã có trong kho hay không, và có đủ chắc để tự trả lời hay không · nếu chắc thì trả lời kèm dẫn nguồn, nếu không chắc hoặc không có thì nói thẳng và tag TA — TA không phải gõ lại hướng dẫn đã gõ.**
 
-Bốn mảnh: **ai** = học viên gặp lỗi kỹ thuật · **việc** = hỏi cách sửa · **quyết định AI** = câu này có khớp một mục tri thức đã ghim, đủ chắc để trả lời không · **kết quả** = trả lời có dẫn ca gốc, hoặc chuyển TA.
+Bốn mảnh: **ai** = học viên có câu hỏi · **việc** = tìm câu trả lời · **quyết định AI** = câu này có được trả lời từ kho không, đủ chắc không · **kết quả** = trả lời có dẫn nguồn, hoặc chuyển TA.
 
-**Bước phụ trợ (khai rõ, không phải quyết định trung tâm):** khi TA thả 📌 lên một đoạn chat đã gỡ xong, AI tóm tắt đoạn đó thành một mục tri thức *(triệu chứng → cách sửa → link ca gốc)*. Đây là bước nạp dữ liệu; **quyết định được chấm điểm là bước truy hồi ở trên**.
+🔄 **Đổi so với CP1:** bản CP1 viết *"khớp với một mục tri thức đã được TA ghim"*. Từ CP3 kho có **hai nguồn**, nên câu chốt nói "một mục tri thức đã có trong kho":
+
+| Nguồn | Số mục | Dẫn nguồn ra sao |
+|---|---|---|
+| Trợ giảng lưu từ Discord (`trust: ta`) | 23 | *"📌 @tên lưu ngày X"* + link nhảy tới tin gốc |
+| Rút từ tài liệu chính thức của khoá (`trust: doc`) | 77 | *"📄 Sổ tay học viên 20K AI v2.2 · tr. N · chưa qua trợ giảng duyệt lại"* |
+
+Khi hai nguồn cùng khớp, **mục do trợ giảng lưu được ưu tiên** — vì có người chịu trách nhiệm.
+
+**Bước phụ trợ (khai rõ, không phải quyết định trung tâm):** khi TA lưu một cặp hỏi–đáp, AI viết lại thành một mục tri thức sạch *(triệu chứng → cách sửa)* và tự phân loại tuổi thọ. Đây là bước nạp dữ liệu; **quyết định được chấm điểm là bước truy hồi ở trên**.
 
 *Tự kiểm: bỏ chữ AI đi thì việc "tìm lại cách sửa lỗi đã từng được gỡ" vẫn tồn tại — hiện đang làm bằng tay qua topic `M55809`.* ✅
 
 **Non-goals *(bản build không được vi phạm)*:**
 1. **Không tự sinh cách sửa lỗi mới** — chỉ trả lại nội dung đã được TA ghim.
 2. **Không tự trả lời khi không khớp chắc** — tag TA, không đoán.
-3. **Không ghim tự động** — chỉ TA mới tạo được mục tri thức *(đây là cổng người trong thiết kế)*.
+3. 🔄 **Bot không tự tạo mục tri thức từ chat.** Tri thức chỉ vào kho qua hai cổng, **cả hai đều do người chủ động mở**: trợ giảng lưu một cặp hỏi–đáp, hoặc người trong nhóm nạp một tài liệu chính thức bằng lệnh riêng. Mục từ tài liệu bị đánh dấu `trust: doc` và **luôn hiện dòng "chưa qua trợ giảng duyệt lại"** khi được dùng để trả lời.
 4. Không làm intent/hỏi lại của bot (B1), không làm bản tin cuối ngày.
 5. Không nêu tên/định danh học viên trong mục tri thức — dẫn link ca gốc, không dẫn người.
 
