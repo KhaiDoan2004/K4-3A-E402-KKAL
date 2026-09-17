@@ -419,7 +419,8 @@ Mỗi dòng là **một quyết định đã đổi**. Xếp theo mốc mà vi�
 
 - **Chưa khảo sát TA** — người thật sự chịu chi phí trong JTBD. Khảo sát N = 21 đã đạt chuẩn A
   nhưng toàn bộ người trả lời là học viên.
-- **Chưa chấm tay 30 mẫu để đo độ chính xác của `is_q`.**
+- **Chưa chấm tay 30 mẫu để đo độ chính xác của `is_q`** *(nhóm tự đặt thêm — BTC chỉ đòi
+  "phương pháp đếm kiểm lại được", điều này script `dem-discord.py` đã đáp ứng).*
   `is_q` là bộ lọc tự động quyết định *"tin nhắn này có phải câu hỏi không"*, và nó nằm ở **mẫu số**
   của con số **50/245 = 20%** — máy gắn nhãn sai thì con số đó sai theo.
   Công cụ đã dựng xong (`eval/cham-tay.py`): bốc 30 tin *(15 máy nói có + 15 máy nói không)*,

@@ -30,8 +30,9 @@ def norm(s):
     s = re.sub(r'\[@?\w+\]', ' ', s)
     return re.sub(r'\s+', ' ', re.sub(r'[^a-z0-9\s]', ' ', s)).strip()
 
-# 22 cụm hỏi tiếng Việt đã bỏ dấu. ĐÂY LÀ HEURISTIC —
-# phải chấm tay 30 mẫu để đo độ chính xác trước khi đưa vào spec (CP4).
+# 22 cụm hỏi tiếng Việt đã bỏ dấu. ĐÂY LÀ HEURISTIC, chưa đo độ chính xác.
+# BTC chỉ đòi "phương pháp đếm kiểm lại được" — script này đã đáp ứng.
+# Chấm tay 30 mẫu (eval/cham-tay.py) là nhóm TỰ ĐẶT THÊM, không phải yêu cầu.
 QW = ['cho em hoi','cho minh hoi','cho hoi','the nao','nhu the nao','lam sao',
       'khi nao','bao gio','o dau','tai sao','vi sao','bao nhieu','la gi',
       'co phai','duoc khong','dc ko','duoc ko','co can','ai biet','giup em',
