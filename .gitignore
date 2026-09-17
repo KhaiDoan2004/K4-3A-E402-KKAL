@@ -27,3 +27,7 @@ codebase/bot/data/
 
 # Tài liệu nguồn của khoá — không commit lên repo public
 *.pdf
+
+# Phiếu chấm tay chứa nguyên văn tin nhắn từ data pack của khoá — không commit.
+# Kết quả (eval/cham-tay-ketqua.md) chỉ có số đếm + trích ngắn nên commit được.
+eval/cham-tay-phieu.md

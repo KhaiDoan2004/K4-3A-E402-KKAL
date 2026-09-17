@@ -404,7 +404,6 @@ Mỗi dòng là **một quyết định đã đổi**. Xếp theo mốc mà vi�
 | **CP1** | Track **B1 → B2** | B1 *(bot hỏi lại khi câu hỏi mơ hồ)* là ứng viên C, giá trị không cộng dồn |
 | **CP1** | B2: bản tin cuối ngày → **ghim tri thức** | Bản tin chỉ lợi cho 1 TA/ngày; ghim thì tích luỹ theo thời gian |
 | **CP1** | Bổ sung **khảo sát N = 21** → evidence đạt **cả chuẩn A và B** | Mining một mình n nhỏ: 19 tin / 7 người |
-| **CP1** | **Vá lỗi bỏ dấu `đ`** trong script đếm *(mãi CP4 mới phát hiện)* | 3/22 cụm hỏi không bao giờ khớp → sót 34 câu hỏi. Số chính **21% → 20%** |
 | **CP2** | Bỏ ý định hiện **điểm khớp** cho người dùng | Không ai cần biết cosine; đưa số ra chỉ làm loãng quyết định |
 | **CP2** | Bỏ **ghim bằng reaction** → **context menu** của Discord *(dựng ở CP3)* | Pack không có cột reaction — nhưng không cần mock, Discord có sẵn lệnh này |
 | **CP3** | Tách quyền nút 👎: **học viên báo, TA mới gỡ** | Trước đó một click của bất kỳ ai cũng xoá tri thức của cả lớp |
@@ -424,8 +423,6 @@ Mỗi dòng là **một quyết định đã đổi**. Xếp theo mốc mà vi�
   `is_q` là bộ lọc tự động quyết định *"tin nhắn này có phải câu hỏi không"*, và nó nằm ở **mẫu số**
   của con số **50/245 = 20%**. Cách kiểm: bốc ngẫu nhiên 30 tin, **người tự đọc và gắn nhãn**
   hỏi / không hỏi, rồi đối chiếu với máy và đếm số lệch — ra được tỉ lệ máy gắn sai.
-  Chưa làm, nên chưa biết sai số của con số 20% là bao nhiêu.
-  *Lỗi bỏ dấu `đ` ở trên đúng là loại lỗi bước này sinh ra để bắt — nhóm tìm ra nó bằng đường khác, muộn hơn.*
 - **Chưa làm buổi thử có quan sát** với willing user. Hai người đã dùng và nhắn lại nhận xét
   tổng quát, nhưng nhóm **chưa ngồi xem họ dùng** — nên chưa biết họ phản ứng thế nào
   ngay lúc bot nói *"chưa có trong kho"*, vốn là chỗ đáng quan sát nhất. Kế hoạch ở §8.

@@ -5,6 +5,7 @@
 | File | Là gì | Mốc |
 |---|---|---|
 | `dem-discord.py` | **Phương pháp đếm** cho evidence (rubric R1 đòi "kiểm lại được"). Mọi con số trong `canvas.md` ra từ script này | CP1 |
+| `cham-tay.py` | **Chấm tay 30 mẫu** để đo độ chính xác của bộ lọc `is_q` trong `dem-discord.py`. Phiếu chấm không commit *(chứa nguyên văn tin nhắn)*, kết quả thì có | CP1 |
 | `golden_set.json` | **29 ca kiểm thử**, phân loại theo 4 lớp chỗ khó. Khai luôn cách chấm ở khoá `grading` | CP3 |
 | `run_eval.mjs` | Chạy trọn bộ qua **đúng engine** bot Discord dùng (`codebase/bot/src/core`), sinh `run_results.md` | CP3 |
 | `run_results.md` | Bảng kết quả **tự sinh** — đừng sửa tay, chạy lại để cập nhật | CP3 |
