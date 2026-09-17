@@ -2,6 +2,7 @@
  * Đăng ký lệnh với Discord. Chạy một lần, và chạy lại mỗi khi đổi tên/mô tả lệnh.
  *   node src/discord/register.js
  */
+import { pathToFileURL } from 'node:url';
 import { REST, Routes, ApplicationCommandType, ContextMenuCommandBuilder,
          SlashCommandBuilder, PermissionFlagsBits } from 'discord.js';
 import { config } from '../config.js';
@@ -32,6 +33,7 @@ async function main() {
   log.ok(`đã đăng ký ${commands.length} lệnh ${guildId ? `cho guild ${guildId}` : 'toàn cục (có thể mất tới 1 tiếng để hiện)'}`);
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+// So bằng pathToFileURL, không nối chuỗi — đường dẫn có dấu cách sẽ thành %20 và không khớp.
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   main().catch((e) => { log.err(e.message); process.exit(1); });
 }
