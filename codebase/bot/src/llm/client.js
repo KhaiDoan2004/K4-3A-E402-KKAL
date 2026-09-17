@@ -28,6 +28,10 @@ async function withRetry(label, fn, tries = 3) {
 }
 
 /** Gọi chat, ép trả JSON. Ghi vết cả prompt vào lẫn phản hồi thô. */
+// temperature 0 KHÔNG đảm bảo tất định — đo được: cùng một ca lúc PASS lúc FAIL
+// giữa các lượt chạy. Thêm seed cố định để kết quả eval tái lập được (rubric R4).
+const SEED = 42;
+
 export async function chatJSON({ system, user, label, temperature = 0 }) {
   const model = config.openai.chatModel;
   const t0 = Date.now();
@@ -35,6 +39,7 @@ export async function chatJSON({ system, user, label, temperature = 0 }) {
     client().chat.completions.create({
       model,
       temperature,
+      seed: SEED,
       response_format: { type: 'json_object' },
       messages: [
         { role: 'system', content: system },
@@ -44,7 +49,8 @@ export async function chatJSON({ system, user, label, temperature = 0 }) {
   );
   const raw = res.choices[0]?.message?.content ?? '';
   trace({
-    kind: 'llm_chat', label, model,
+    kind: 'llm_chat', label, model, seed: SEED,
+    system_fingerprint: res.system_fingerprint,
     prompt: { system, user },
     raw_response: raw,
     usage: res.usage,

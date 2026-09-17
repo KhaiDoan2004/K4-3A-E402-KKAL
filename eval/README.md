@@ -44,18 +44,31 @@ node src/seed.js --pack <…>/data/discord-pack/k4_messages.csv --reset
 cd ../.. && node eval/run_eval.mjs
 ```
 
-**Lượt 1 (17/9): ĐẠT 25/29 = 86,2%** · thước nghiêm 23/29 = 79,3%.
-Chạy hai lần cho ra đúng một kết quả, đúng bốn ca trượt — tái lập được.
+| Lượt | Bộ | Kho | Đạt | Thước nghiêm |
+|---|---|---|---|---|
+| 1 | v1.0 · 29 ca | 14 mục | 25/29 = **86,2%** | 23/29 = 79,3% |
+| 2 | v1.1 · 41 ca | 20 mục | 32/41 = **78,0%** | 30/41 = 73,2% |
+
+Lượt 2 thấp hơn **không phải vì bot kém đi**: trên đúng 29 ca của lượt 1, bot giữ y nguyên
+25/29 = 86,2%. Phần tụt đến từ 12 ca mới cố ý khó hơn (58,3%). Chi tiết: `analysis.md`.
+
+Kết quả lượt 1 giữ nguyên ở `run_results_v1.0.md`, không sửa đè.
 
 Thành phần golden set so với chuẩn R4:
 
-| Yêu cầu | Chuẩn | Có |
-|---|---|---|
-| Tổng số ca | ≥20 | **29** |
-| Mỗi lớp chỗ khó | ≥2 | ① 4 · ② 4 · ③ 5 · ④ 4 |
-| Ca thường gặp | 8–10 | 8 |
-| Ca hiếm | 2–4 | 4 |
-| Lấy từ chatlog thật | ≥10 | **17** |
+| Yêu cầu | Chuẩn | v1.0 | v1.1 |
+|---|---|---|---|
+| Tổng số ca | ≥20 | 29 | **41** |
+| Mỗi lớp chỗ khó | ≥2 | ①4 ②4 ③5 ④4 | **①7 ②6 ③7 ④8** |
+| Ca thường gặp | 8–10 | 8 | 8 |
+| Ca hiếm | 2–4 | 4 | 5 |
+| Lấy từ chatlog thật | ≥10 | 17 | **27** |
+
+## ⚠️ `temperature: 0` không đảm bảo tất định
+
+Phát hiện ở lượt 2: hai lần chạy liên tiếp ra 31/41 rồi 32/41. Đã vá bằng `seed: 42` cố định
+trong `codebase/bot/src/llm/client.js`, và ghi `system_fingerprint` vào trace. Sau khi vá,
+hai lượt đầy đủ đều ra 32/41. **Chạy lại để đối chiếu thì phải dùng đúng seed đó.**
 
 Quality bar bằng số nằm ở `codebase/bot/src/config.js` → `config.bar`.
 

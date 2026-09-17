@@ -42,6 +42,19 @@ CÁCH CHỌN lifespan:
 - "long" (lâu dài): lỗi kỹ thuật thuần, cách sửa không phụ thuộc thời điểm.`,
 
   user({ question, answer, meta }) {
+    // TA ghim một THÔNG BÁO (không có ai hỏi trước). Để LLM tự suy ra câu hỏi
+    // mà thông báo đó trả lời, rồi viết mục tri thức như bình thường.
+    if (!question) {
+      return `Đây là một THÔNG BÁO của ban tổ chức (${meta.answerMsgIds?.join(', ') || meta.answerMsgId || 'không rõ'}), không phải câu trả lời cho riêng ai:
+"""
+${answer}
+"""
+
+Hãy tự suy ra câu hỏi mà học viên sẽ hỏi để cần đến thông báo này, đặt vào trường "question",
+rồi viết phần "answer" dựa HOÀN TOÀN vào nội dung thông báo. Không thêm gì ngoài thông báo.
+Trả về đúng khuôn JSON.`;
+    }
+
     return `CÂU HỎI GỐC (${meta.questionMsgId || 'không rõ'}):
 """
 ${question}

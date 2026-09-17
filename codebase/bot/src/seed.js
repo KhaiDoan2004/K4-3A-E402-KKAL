@@ -33,6 +33,13 @@ const PAIRS = [
   { q: 'M02512', a: ['M94913'] },
   { q: 'M71241', a: ['M10708'] },
   { q: 'M57545', a: ['M14573'] },
+
+  // Bổ sung sau khi đối chiếu golden set của Khuyến (17/9)
+  { q: 'M83358', a: ['M43101'] },              // một team mấy người -> 5
+  { q: 'M00554', a: ['M26380', 'M11538'] },    // khác level ghép team -> NGƯỢC với M24912, cố ý giữ cả hai
+  { q: 'M03059', a: ['M81088'] },              // giấy tờ gấp -> viết mail cho trường
+  { q: 'M37242', a: ['M11596'] },              // tạo ticket -> /ticket create
+  { q: null,     a: ['M47011'] },              // THÔNG BÁO đổi tên Discord (không có ai hỏi trước)
 ];
 
 function parseCsv(text) {
@@ -69,7 +76,10 @@ async function main() {
   if (!fs.existsSync(pack)) { console.error(`Không thấy file: ${pack}`); process.exit(1); }
 
   initTrace(config.traceDir, 'seed');
-  const byId = Object.fromEntries(parseCsv(fs.readFileSync(pack, 'utf8')).map((r) => [r.msg_id, r]));
+  // Pack có 3 msg_id bị trùng (1.092 dòng / 1.089 mã). Giữ bản ĐẦU TIÊN để
+  // việc dẫn nguồn theo msg_id cho ra cùng một tin mỗi lần chạy.
+  const byId = {};
+  for (const r of parseCsv(fs.readFileSync(pack, 'utf8'))) byId[r.msg_id] ??= r;
   const bot = await KnowledgeBot.open();
   log.info(`kho: ${color.bold(bot.storeLabel)}`);
 
@@ -77,23 +87,23 @@ async function main() {
 
   let ok = 0, skip = 0;
   for (const [n, p] of PAIRS.entries()) {
-    const qm = byId[p.q];
+    const qm = p.q ? byId[p.q] : null;            // p.q = null -> ghim thông báo
     const ams = p.a.map((id) => byId[id]).filter(Boolean);
-    if (!qm || !ams.length) { log.warn(`bỏ qua ${p.q} — không có trong pack`); skip++; continue; }
+    if ((p.q && !qm) || !ams.length) { log.warn(`bỏ qua ${p.q ?? p.a[0]} — không có trong pack`); skip++; continue; }
 
     if (await bot.store.findBySourceMessage(ams.at(-1).msg_id)) {
       log.info(`${p.q} đã có trong kho, bỏ qua`); skip++; continue;
     }
 
-    process.stdout.write(color.gray(`[${n + 1}/${PAIRS.length}] ${p.q} → ${p.a.join(',')} … `));
+    process.stdout.write(color.gray(`[${n + 1}/${PAIRS.length}] ${p.q ?? '(thông báo)'} → ${p.a.join(',')} … `));
     try {
       const { draft } = await bot.draft({
-        question: qm.content,
+        question: qm ? qm.content : '',
         answer: ams.map((m) => m.content).join('\n'),
         meta: {
-          questionMsgId: qm.msg_id, answerMsgId: ams.at(-1).msg_id,
-          answerMsgIds: p.a, askedBy: qm.author, savedBy: ams.at(-1).author,
-          channelId: qm.channel, guildId: qm.guild,
+          questionMsgId: qm?.msg_id ?? null, answerMsgId: ams.at(-1).msg_id,
+          answerMsgIds: p.a, askedBy: qm?.author ?? null, savedBy: ams.at(-1).author,
+          channelId: (qm ?? ams[0]).channel, guildId: (qm ?? ams[0]).guild,
         },
       });
       await bot.commit(draft);

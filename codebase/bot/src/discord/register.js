@@ -27,13 +27,25 @@ async function main() {
   if (!token || !clientId) throw new Error('Thiếu DISCORD_TOKEN hoặc DISCORD_CLIENT_ID trong .env');
 
   const rest = new REST({ version: '10' }).setToken(token);
-  const route = guildId ? Routes.applicationGuildCommands(clientId, guildId)
-                        : Routes.applicationCommands(clientId);
-  await rest.put(route, { body: commands });
-  log.ok(`đã đăng ký ${commands.length} lệnh ${guildId ? `cho guild ${guildId}` : 'toàn cục (có thể mất tới 1 tiếng để hiện)'}`);
+  const onlyGuild  = process.argv.includes('--guild');
+  const onlyGlobal = process.argv.includes('--global');
+
+  // Mặc định đăng ký CẢ HAI:
+  //  - guild: hiện ngay lập tức, dùng để test
+  //  - global: hiện ở mọi server bot được mời, nhưng Discord mất tới 1 tiếng mới lan
+  // Chỉ đăng ký guild thì sang server khác sẽ thấy "No Commands Available".
+  if (guildId && !onlyGlobal) {
+    await rest.put(Routes.applicationGuildCommands(clientId, guildId), { body: commands });
+    log.ok(`guild ${guildId}: ${commands.length} lệnh — hiện ngay`);
+  }
+  if (!onlyGuild) {
+    await rest.put(Routes.applicationCommands(clientId), { body: commands });
+    log.ok(`toàn cục: ${commands.length} lệnh — mọi server bot được mời, lan trong vòng 1 tiếng`);
+  }
+
+  log.info('Bot phải được MỜI vào server thì lệnh mới hiện. Link mời: xem SETUP-DISCORD.md mục 3.');
 }
 
-// So bằng pathToFileURL, không nối chuỗi — đường dẫn có dấu cách sẽ thành %20 và không khớp.
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   main().catch((e) => { log.err(e.message); process.exit(1); });
 }

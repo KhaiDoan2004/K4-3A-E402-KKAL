@@ -15,9 +15,10 @@ const EXPIRY = { long: null, term: 90, temp: 7 };
  * Trả về bản NHÁP để TA duyệt trước, đúng tinh thần HAX G9.
  */
 export async function draftEntry({ question, answer, meta = {} }) {
-  const q = clip(scrub(stripMentions(question)), 1200);
+  const q = clip(scrub(stripMentions(question || '')), 1200);
   const a = clip(scrub(stripMentions(answer)), 3000);
-  if (!q || !a) throw new Error('Thiếu câu hỏi hoặc câu trả lời.');
+  // q rỗng = TA ghim một thông báo; prompt sẽ tự suy ra câu hỏi tương ứng.
+  if (!a) throw new Error('Thiếu nội dung câu trả lời.');
 
   const { parsed } = await chatJSON({
     label: 'smooth',
