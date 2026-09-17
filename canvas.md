@@ -131,7 +131,7 @@ Khi hai nguồn cùng khớp, **mục do trợ giảng lưu được ưu tiên**
 |---|---|---|
 | **Đoàn Bá Khải** *(đội trưởng)* | 2A202602728 | Nộp cả 5 form CP1–CP5 bằng **cùng một mã học viên**; viết `spec.md` |
 | **Nguyễn Văn An** | 2A202602782 | Code prototype: flow bấm được (CP2) + lời gọi AI thật ở quyết định khớp/không khớp (CP3) |
-| **Trần Ngọc Khuyến** | 2A202602682 | Mining data: siết mẫu đếm, chấm tay 30 mẫu, khảo sát ≥20 người có log nguyên văn |
+| **Trần Ngọc Khuyến** | 2A202602682 | Mining data: siết mẫu đếm trên `k4_messages.csv`, khảo sát ≥20 người ngoài nhóm có log đầy đủ |
 | **Đỗ Thanh Lâm** | 2A202602577 | Chạy kiểm thử & demo: golden set ≥20 case, quality bar bằng số, bảng kết quả trong `eval/` |
 
 ---
