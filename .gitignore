@@ -15,3 +15,12 @@ node_modules/
 
 # thư mục làm việc riêng của An — không đẩy lên GitHub
 AN/
+
+# bot
+codebase/bot/node_modules/
+codebase/bot/.env
+codebase/bot/data/
+
+# trace lời gọi LLM thì PHẢI commit (rubric R5 đòi log/trace trong repo)
+!eval/traces/
+!eval/traces/*.jsonl

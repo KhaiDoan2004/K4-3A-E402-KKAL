@@ -1,10 +1,16 @@
 # codebase/ — prototype
 
-**Mức prototype hiện tại: Sketch** *(theo `02-guide.md` §3.2)*
+**Mức prototype hiện tại: Working** *(theo `02-guide.md` §3.2)* — từ CP3, bot gọi LLM thật và chạy được trên Discord.
 
-| File | Là gì | Mốc |
+| Thư mục / file | Là gì | Mốc |
 |---|---|---|
+| **`bot/`** | **Bot Discord chạy thật** — ghim → LLM làm mượt → kho → tra cứu. Xem `bot/README.md` | **CP3** |
 | `mock-cp2.html` | Mock bấm được, một file, không cần cài gì — mở thẳng bằng trình duyệt | CP2 |
+| `cp2_workflow.html` | Sơ đồ luồng nghiệp vụ (mermaid) | CP2 |
+
+**Lời gọi AI thật nằm ở đâu:** `bot/src/core/decide.js` (quyết định trung tâm) và
+`bot/src/core/capture.js` (làm mượt). Trace mọi lượt gọi: `eval/traces/*.jsonl`.
+Kết quả kiểm thử lượt 1: `eval/run_results.md` — **25/29 = 86,2%**.
 
 Bản chạy online: https://claude.ai/artifact/RcDFrLhdXG147cFsjPZCzU
 

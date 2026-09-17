@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sơ Đồ Luồng CP2 - @botcute</title>
+    <style>
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            padding: 20px; 
+            background-color: #f8f9fa; 
+            color: #333;
+        }
+        h1 { 
+            text-align: center; 
+            color: #2c3e50; 
+            margin-bottom: 5px;
+        }
+        p.subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 30px;
+        }
+        .mermaid { 
+            display: flex; 
+            justify-content: center; 
+            background: white; 
+            padding: 30px; 
+            border-radius: 12px; 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08); 
+            max-width: 900px;
+            margin: 0 auto;
+        }
+    </style>
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true, theme: 'base', themeVariables: {
+            primaryColor: '#e0f7fa',
+            primaryTextColor: '#006064',
+            primaryBorderColor: '#00bcd4',
+            lineColor: '#2c3e50',
+            secondaryColor: '#f3e5f5',
+            tertiaryColor: '#fff3e0'
+        }});
+    </script>
+</head>
+<body>
+    <h1>WORKFLOW: XÂY DỰNG CƠ SỞ TRI THỨC VÀ TRUY VẤN VỚI @botcute</h1>
+    <p class="subtitle">Quy trình chủ động Verify kiến thức từ Trợ giảng và Tự động hóa giải đáp</p>
+    
+    <div class="mermaid">
+        sequenceDiagram
+            autonumber
+            actor HV as Học Viên
+            actor TA as Người phụ trách (TA)
+            participant Kênh as Kênh Discord
+            participant Bot as Agent (@botcute)
+            participant DB as QA Database (Mongo/Vector)
+
+            Note over HV, DB: 🔴 GIAI ĐOẠN 1: VERIFY & LƯU KIẾN THỨC CHỦ ĐỘNG
+            HV->>Kênh: Hỏi một vấn đề/lỗi kỹ thuật
+            TA->>Kênh: Đưa ra câu trả lời / Hướng dẫn giải quyết
+            TA->>Kênh: Chủ động "Pin" (Ghim) câu hỏi & câu trả lời
+            Note right of TA: Bước Verify: TA xác nhận<br/>kiến thức này chuẩn, cần đưa vào DB
+            Kênh-->>Bot: Gửi tín hiệu Pin cho Agent
+            Bot->>Bot: Đọc ngữ cảnh, làm mượt văn phong (Smooth out)
+            Bot->>DB: Cập nhật vào bộ QA Database
+
+            Note over HV, DB: 🟢 GIAI ĐOẠN 2: TRUY VẤN & HỖ TRỢ TỰ ĐỘNG
+            actor HV2 as Học Viên Mới
+            HV2->>Kênh: Nhắn tin tag @botcute hỏi lỗi tương tự
+            Kênh-->>Bot: Kích hoạt Agent từ Mention
+            Bot->>DB: Truy vấn câu hỏi trong QA Database
+            DB-->>Bot: Trả về dữ liệu QA đã được làm mượt
+            Bot->>HV2: Trả lời chính xác + Trích dẫn nguồn (Nguồn: TA)
+            Note right of TA: Giảm tải hoàn toàn cho TA<br/>tránh việc lặp lại câu trả lời
+    </div>
+</body>
+</html>

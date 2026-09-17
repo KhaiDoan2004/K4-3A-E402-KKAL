@@ -1,0 +1,11 @@
+# Mongo local cho ai muốn chạy backend Mongo thay vì file JSON.
+#   docker compose up -d
+#   rồi đặt MONGODB_URI=mongodb://localhost:27017 trong .env
+services:
+  mongo:
+    image: mongo:7
+    container_name: botcute-mongo
+    ports: ["27017:27017"]
+    volumes: ["botcute_mongo:/data/db"]
+volumes:
+  botcute_mongo:
