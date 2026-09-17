@@ -10,7 +10,7 @@
 |---|---|---|---|
 | Đoàn Bá Khải | 2A202602728 | **Đội trưởng** · Spec | Nộp cả 5 form CP1–CP5 bằng cùng một mã học viên; viết `spec.md` §1–§9; chốt quality bar trước 21:00 17/9 |
 | Nguyễn Văn An | 2A202602782 | Code prototype | Dựng flow bấm đi hết được (CP2); toàn bộ `codebase/bot/` — quyết định trung tâm gọi LLM thật, nạp kho từ data pack và từ tài liệu PDF, adapter Discord (CP3); bộ chạy kiểm thử `eval/run_eval.mjs` |
-| Trần Ngọc Khuyến | 2A202602682 | Mining data | Siết mẫu đếm trên `k4_messages.csv`, chấm tay 30 mẫu đo độ chính xác, khảo sát ≥20 người ngoài nhóm có log nguyên văn |
+| Trần Ngọc Khuyến | 2A202602682 | Mining data | Siết mẫu đếm trên `k4_messages.csv`, khảo sát ≥20 người ngoài nhóm có log đầy đủ |
 | Đỗ Thanh Lâm | 2A202602577 | Kiểm thử & demo | Golden set ≥20 case (≥2 case/lớp chỗ khó), chạy trọn bộ + bảng kết quả trong `eval/`, dựng demo script và dry run |
 
 **Willing users (khai từ CP1):** Nguyễn Văn Biển — 2A202602416 · Nguyễn Phúc Bảo — 2A202602925

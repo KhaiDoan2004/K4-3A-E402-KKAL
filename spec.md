@@ -99,7 +99,8 @@ sinh trong khoá** — nhu cầu được người dùng xác nhận bằng hàn
 - Mẫu khảo sát **tự nguyện, không ngẫu nhiên** → có thể nghiêng về người dùng bot nặng.
 - **Chưa khảo sát được TA** — trong khi TA mới là job executor. Toàn bộ 21 người trả lời là học viên.
 - Khảo sát **không có câu mở** → không có quote nguyên văn nào từ nguồn này; mọi con số là tự đánh giá.
-- `is_q` là heuristic, **chưa chấm tay 30 mẫu** để đo độ chính xác.
+- `is_q` là **quy tắc tự động**, độ chính xác chưa được đo — nên con số **20%** nên đọc là *cỡ khoảng*,
+  không phải số đếm tuyệt đối. *(Quy tắc viết đầy đủ ở trên, script commit trong repo nên kiểm lại được.)*
 
 ---
 
@@ -419,14 +420,6 @@ Mỗi dòng là **một quyết định đã đổi**. Xếp theo mốc mà vi�
 
 - **Chưa khảo sát TA** — người thật sự chịu chi phí trong JTBD. Khảo sát N = 21 đã đạt chuẩn A
   nhưng toàn bộ người trả lời là học viên.
-- **Chưa chấm tay 30 mẫu để đo độ chính xác của `is_q`** *(nhóm tự đặt thêm — BTC chỉ đòi
-  "phương pháp đếm kiểm lại được", điều này script `dem-discord.py` đã đáp ứng).*
-  `is_q` là bộ lọc tự động quyết định *"tin nhắn này có phải câu hỏi không"*, và nó nằm ở **mẫu số**
-  của con số **50/245 = 20%** — máy gắn nhãn sai thì con số đó sai theo.
-  Công cụ đã dựng xong (`eval/cham-tay.py`): bốc 30 tin *(15 máy nói có + 15 máy nói không)*,
-  người tự gắn nhãn mà **không thấy máy đoán gì**, rồi đối chiếu và suy ra sai số.
-  **Còn thiếu đúng một việc: có người ngồi chấm.**
-  *Lỗi bỏ dấu `đ` ở §9 đúng là loại lỗi bước này sinh ra để bắt — nhóm tìm ra nó bằng đường khác, muộn hơn.*
 - **Chưa làm buổi thử có quan sát** với willing user. Hai người đã dùng và nhắn lại nhận xét
   tổng quát, nhưng nhóm **chưa ngồi xem họ dùng** — nên chưa biết họ phản ứng thế nào
   ngay lúc bot nói *"chưa có trong kho"*, vốn là chỗ đáng quan sát nhất. Kế hoạch ở §8.
