@@ -1,79 +1,259 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sơ Đồ Luồng CP2 - @botcute</title>
-    <style>
-        body { 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            padding: 20px; 
-            background-color: #f8f9fa; 
-            color: #333;
-        }
-        h1 { 
-            text-align: center; 
-            color: #2c3e50; 
-            margin-bottom: 5px;
-        }
-        p.subtitle {
-            text-align: center;
-            color: #7f8c8d;
-            margin-bottom: 30px;
-        }
-        .mermaid { 
-            display: flex; 
-            justify-content: center; 
-            background: white; 
-            padding: 30px; 
-            border-radius: 12px; 
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08); 
-            max-width: 900px;
-            margin: 0 auto;
-        }
-    </style>
-    <script type="module">
-        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
-        mermaid.initialize({ startOnLoad: true, theme: 'base', themeVariables: {
-            primaryColor: '#e0f7fa',
-            primaryTextColor: '#006064',
-            primaryBorderColor: '#00bcd4',
-            lineColor: '#2c3e50',
-            secondaryColor: '#f3e5f5',
-            tertiaryColor: '#fff3e0'
-        }});
-    </script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Luồng hoạt động KKAL bot</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:wght@600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+  :root{
+    --ink:#1b2430; --ink-soft:#54626f; --ink-faint:#8996a3;
+    --paper:#f7f6f3; --card:#ffffff; --rule:#e3e0d9;
+    --teal:#0f766e; --teal-soft:#e6f2f0;
+    --amber:#b45309; --amber-soft:#fdf2e2;
+    --rose:#b3261e;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font:400 15px/1.65 Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+    padding-block:48px; padding-left:20px; padding-right:20px;
+  }
+  .wrap{max-width:980px; margin:0 auto; display:flex; flex-direction:column; gap:40px}
+
+  header{border-bottom:2px solid var(--ink); padding-bottom:20px}
+  .eyebrow{font:500 12px/1 Inter; letter-spacing:.14em; text-transform:uppercase; color:var(--teal); margin:0 0 12px}
+  h1{font:600 30px/1.2 Lora, Georgia, serif; margin:0 0 8px; text-wrap:balance}
+  header p{margin:0; color:var(--ink-soft); max-width:62ch}
+  .meta{margin-top:16px; display:flex; flex-wrap:wrap; gap:8px}
+  .chip{
+    font:500 12px/1 "JetBrains Mono", ui-monospace, monospace; padding:6px 10px;
+    border:1px solid var(--rule); border-radius:999px; background:var(--card); color:var(--ink-soft);
+  }
+
+  section{display:flex; flex-direction:column; gap:14px}
+  h2{font:600 20px/1.3 Lora, Georgia, serif; margin:0; display:flex; gap:12px; align-items:baseline}
+  h2 .num{
+    font:500 12px/1 "JetBrains Mono", monospace; color:var(--teal);
+    border:1px solid var(--teal); border-radius:4px; padding:4px 6px; flex:none;
+  }
+  .lede{margin:0; color:var(--ink-soft); max-width:70ch}
+
+  .figure{
+    background:var(--card); border:1px solid var(--rule); border-radius:10px;
+    padding:24px 16px;
+  }
+  .mermaid{display:block; text-align:center; line-height:normal}
+  .mermaid svg{display:block; margin:0 auto; max-width:100%; height:auto}
+
+  .note{
+    border-left:3px solid var(--teal); background:var(--teal-soft);
+    padding:12px 16px; border-radius:0 6px 6px 0; font-size:14px; color:var(--ink);
+  }
+  .note.warn{border-left-color:var(--amber); background:var(--amber-soft)}
+  .note strong{font-weight:600}
+
+  table{border-collapse:collapse; width:100%; font-size:14px; background:var(--card)}
+  th,td{text-align:left; padding:10px 12px; border-bottom:1px solid var(--rule); vertical-align:top}
+  th{font:600 12px/1.3 Inter; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-faint)}
+  tbody tr:last-child td{border-bottom:none}
+  td.was{color:var(--ink-soft)}
+  td.now{font-weight:500}
+  .tbl{border:1px solid var(--rule); border-radius:10px; overflow:hidden}
+
+  code{font:500 13px/1.4 "JetBrains Mono", ui-monospace, monospace; background:#eeece6; padding:1px 5px; border-radius:4px}
+
+  footer{border-top:1px solid var(--rule); padding-top:20px; color:var(--ink-faint); font-size:13px}
+  @media (max-width:560px){ h1{font-size:25px} body{padding-block:32px} }
+</style>
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+  mermaid.initialize({
+    startOnLoad:true, theme:'base', securityLevel:'loose',
+    flowchart:{useMaxWidth:true}, sequence:{useMaxWidth:true}, fontFamily:'Inter, system-ui, sans-serif',
+    themeVariables:{
+      primaryColor:'#e6f2f0', primaryTextColor:'#1b2430', primaryBorderColor:'#0f766e',
+      lineColor:'#54626f', secondaryColor:'#fdf2e2', tertiaryColor:'#f7f6f3',
+      noteBkgColor:'#fdf2e2', noteBorderColor:'#b45309', noteTextColor:'#1b2430',
+      actorBkg:'#ffffff', actorBorder:'#0f766e', actorTextColor:'#1b2430',
+      signalColor:'#54626f', signalTextColor:'#1b2430'
+    }
+  });
+</script>
 </head>
 <body>
-    <h1>WORKFLOW: XÂY DỰNG CƠ SỞ TRI THỨC VÀ TRUY VẤN VỚI @botcute</h1>
-    <p class="subtitle">Quy trình chủ động Verify kiến thức từ Trợ giảng và Tự động hóa giải đáp</p>
-    
-    <div class="mermaid">
-        sequenceDiagram
-            autonumber
-            actor HV as Học Viên
-            actor TA as Người phụ trách (TA)
-            participant Kênh as Kênh Discord
-            participant Bot as Agent (@botcute)
-            participant DB as QA Database (Mongo/Vector)
+<div class="wrap">
 
-            Note over HV, DB: 🔴 GIAI ĐOẠN 1: VERIFY & LƯU KIẾN THỨC CHỦ ĐỘNG
-            HV->>Kênh: Hỏi một vấn đề/lỗi kỹ thuật
-            TA->>Kênh: Đưa ra câu trả lời / Hướng dẫn giải quyết
-            TA->>Kênh: Chủ động "Pin" (Ghim) câu hỏi & câu trả lời
-            Note right of TA: Bước Verify: TA xác nhận<br/>kiến thức này chuẩn, cần đưa vào DB
-            Kênh-->>Bot: Gửi tín hiệu Pin cho Agent
-            Bot->>Bot: Đọc ngữ cảnh, làm mượt văn phong (Smooth out)
-            Bot->>DB: Cập nhật vào bộ QA Database
+<header>
+  <p class="eyebrow">Nhóm KKAL · Lớp 3A · E402</p>
+  <h1>Luồng hoạt động KKAL bot</h1>
+  <p>Trợ giảng duyệt tri thức vào kho, bot trả lời thay khi câu hỏi lặp lại — và <em>nói thẳng là chưa có</em> khi kho không đủ dữ liệu. Sơ đồ dưới đây vẽ theo đúng code đang chạy trong <code>codebase/bot/</code>.</p>
+  <div class="meta">
+    <span class="chip">discord.js v14</span>
+    <span class="chip">gpt-4o-mini</span>
+    <span class="chip">text-embedding-3-small</span>
+    <span class="chip">kho: 23 mục TA + 77 mục tài liệu</span>
+  </div>
+</header>
 
-            Note over HV, DB: 🟢 GIAI ĐOẠN 2: TRUY VẤN & HỖ TRỢ TỰ ĐỘNG
-            actor HV2 as Học Viên Mới
-            HV2->>Kênh: Nhắn tin tag @botcute hỏi lỗi tương tự
-            Kênh-->>Bot: Kích hoạt Agent từ Mention
-            Bot->>DB: Truy vấn câu hỏi trong QA Database
-            DB-->>Bot: Trả về dữ liệu QA đã được làm mượt
-            Bot->>HV2: Trả lời chính xác + Trích dẫn nguồn (Nguồn: TA)
-            Note right of TA: Giảm tải hoàn toàn cho TA<br/>tránh việc lặp lại câu trả lời
-    </div>
+<section>
+  <h2><span class="num">1</span> Nạp tri thức — nguồn A: trợ giảng duyệt trên Discord</h2>
+  <p class="lede">Không dùng nút Ghim của Discord. Cổng vào là <strong>context menu trên tin nhắn</strong>: chuột phải tin trả lời → <em>Ứng dụng → Lưu vào kho tri thức</em>. Bot tự đi tìm câu hỏi đi kèm, viết lại thành một mục tri thức, rồi đưa bản nháp cho chính TA đó duyệt.</p>
+  <div class="figure"><div class="mermaid">
+sequenceDiagram
+    autonumber
+    actor HV as Học viên
+    actor TA as Trợ giảng
+    participant Kenh as Kênh Discord
+    participant Bot as KKAL bot
+    participant LLM as OpenAI
+    participant KB as Kho tri thức
+
+    HV->>Kenh: Hỏi một vấn đề
+    TA->>Kenh: Reply câu trả lời
+    TA->>Bot: Chuột phải tin trả lời → Lưu vào kho tri thức
+    Note right of TA: Chỉ role Trợ giảng bấm được.<br/>Người ngoài bấm sẽ bị từ chối.
+
+    Bot->>Kenh: Ghép câu hỏi — 3 tầng chắc chắn giảm dần
+    Note over Bot,Kenh: 1. Reply  2. Tin mở thread<br/>3. Đoán trong 30 phút (có cảnh báo đỏ)
+
+    Bot->>LLM: smooth — viết lại thành mục tri thức
+    LLM-->>Bot: tiêu đề · câu hỏi · câu trả lời · từ khoá · hạn dùng
+    Bot->>LLM: embed
+    Bot->>KB: Dò trùng nghĩa (cosine ≥ 0.90)
+    Bot-->>TA: Bản nháp riêng tư + nguyên văn 2 tin gốc để đối chiếu
+    Note right of Bot: Bot không tự ghi.<br/>Nháp tự huỷ sau 15 phút.
+
+    opt Chưa ưng
+        TA->>Bot: ✏️ Sửa lại (modal) · ⏳ đổi hạn dùng
+    end
+
+    alt Trùng mục đã có
+        TA->>Bot: 🔁 Thay thế bản cũ
+        Bot->>KB: bản cũ → superseded · bản mới version + 1
+    else Mục mới
+        TA->>Bot: 💾 Lưu
+        Bot->>KB: ghi mục mới · trust = ta · status = active
+    else Sai rồi
+        TA->>Bot: ❌ Bỏ
+    end
+  </div></div>
+  <div class="note"><strong>Vì sao TA phải duyệt bản nháp:</strong> LLM viết lại câu trả lời thì có thể đổi nghĩa. Bản nháp hiển thị song song <em>bản LLM viết</em> và <em>nguyên văn tin gốc</em>, nên TA phát hiện sai lệch ngay trước khi nó vào kho.</div>
+</section>
+
+<section>
+  <h2><span class="num">2</span> Nạp tri thức — nguồn B: tài liệu chính thức</h2>
+  <p class="lede">Chạy một lần bằng dòng lệnh, không qua Discord. Mục sinh ra gắn <code>trust = doc</code> để phân biệt với mục do TA duyệt.</p>
+  <div class="figure"><div class="mermaid">
+flowchart LR
+    P["Sổ tay 20K AI<br/>PDF · 22 trang"] --> R["readPdf<br/>vá lỗi dấu tiếng Việt"]
+    R --> C["chunkPages<br/>19 khối 600–3500 ký tự"]
+    C --> X["LLM docExtract<br/>tách thành cặp hỏi–đáp"]
+    X --> E["embed"]
+    E --> K["77 mục<br/>trust = doc · trích dẫn theo số trang"]
+    style K fill:#e6f2f0,stroke:#0f766e
+  </div></div>
+  <div class="note warn"><strong>Hai nguồn không ngang hàng.</strong> Khi cùng khớp một câu hỏi, mục <code>doc</code> bị trừ 0.03 điểm để mục do TA duyệt thắng — vì mục đó có người chịu trách nhiệm. Mức phạt cố tình để nhỏ, không đủ lật một kết quả đã rõ ràng.</div>
+</section>
+
+<section>
+  <h2><span class="num">3</span> Học viên hỏi — quyết định trung tâm</h2>
+  <p class="lede">Bot chỉ thức dậy khi bị tag đúng tài khoản, hoặc khi gõ <code>/hoi</code>. Mọi câu trả lời đều phải neo vào một mục có thật trong kho — không có câu trả lời nào viết cứng trong code.</p>
+  <div class="figure"><div class="mermaid">
+flowchart TD
+    A["@KKAL + câu hỏi<br/>hoặc lệnh /hoi"] --> B["bỏ mention · che PII · cắt 1200 ký tự"]
+    B --> C["embed câu hỏi"]
+    C --> D["Xếp hạng lai<br/>cosine + từ khoá (tối đa +0.08) − phạt doc (0.03)<br/>lọc ≥ 0.30 · lấy top 3"]
+    D --> E["LLM phán quyết theo 3 bước<br/>B1 có thuộc thẩm quyền không<br/>B2 câu hỏi đã đủ thông tin chưa<br/>B3 kho có nội dung trả lời không"]
+    E --> F{"Kết quả"}
+
+    F -->|OUT_OF_SCOPE| G["🚫 Ngoài thẩm quyền<br/>chỉ sang đúng người quyết"]
+    F -->|CLARIFY| H["❓ Hỏi lại cho rõ"]
+    F -->|NOT_FOUND| I["🔍 Chưa có trong kho<br/>tag trợ giảng"]
+    F -->|ANSWER| J{"Đối chiếu ngưỡng"}
+
+    J -->|"tin cậy < 0.50 hoặc điểm nguồn < 0.30"| I
+    J -->|"tin cậy < 0.75 hoặc điểm nguồn < 0.45"| K["⚠️ Có thể liên quan<br/>tag trợ giảng xác nhận"]
+    J -->|"qua cả hai ngưỡng"| L["✅ Trả lời + trích nguồn<br/>ai lưu · lúc nào · link tin gốc hoặc số trang"]
+
+    L --> M["👍 / 👎 dưới mỗi câu trả lời"]
+    K --> M
+
+    style G fill:#fde8e6,stroke:#b3261e
+    style H fill:#e8f0fd,stroke:#4f9cf5
+    style I fill:#eeece6,stroke:#8996a3
+    style K fill:#fdf2e2,stroke:#b45309
+    style L fill:#e6f2f0,stroke:#0f766e
+  </div></div>
+  <div class="note"><strong>Ngưỡng chỉ hạ cấp, không bao giờ nâng cấp.</strong> Một <code>NOT_FOUND</code> của LLM không thể bị điểm số kéo ngược thành câu trả lời. Chiều ngược lại thì có: LLM tự tin nhưng nguồn yếu → tụt xuống <em>chưa chắc</em> hoặc <em>chưa có</em>. Toàn bộ số ngưỡng nằm gọn trong <code>config.bar</code>, chốt từ lượt đo đầu tiên và không chỉnh theo kết quả.</div>
+</section>
+
+<section>
+  <h2><span class="num">4</span> Báo sai — hai mức quyền, hai hậu quả</h2>
+  <p class="lede">Người phát hiện câu trả lời sai thường chính là học viên đang bị nó làm hỏng việc, nên nút 👎 mở cho tất cả. Nhưng một cú bấm của một người thì chưa đủ để gỡ kiến thức của cả lớp.</p>
+  <div class="figure"><div class="mermaid">
+sequenceDiagram
+    actor HV as Học viên
+    actor TA as Trợ giảng
+    participant Bot as KKAL bot
+    participant KB as Kho tri thức
+    participant Kenh as Kênh Discord
+
+    HV->>Bot: 👎 câu này sai rồi
+    Bot->>KB: ghi khiếu nại · mục VẪN đang dùng
+    Bot-->>HV: "Đã báo trợ giảng, bạn đừng làm theo vội"
+    Bot->>Kenh: ping đúng TA đã lưu mục đó
+    Note over Bot,KB: Mỗi người một phiếu.<br/>Bấm lại không cộng thêm.
+
+    TA->>Bot: 👎 xác nhận sai
+    Bot->>KB: status = flagged · gỡ khỏi trả lời tự động ngay
+    Bot->>Kenh: sửa chính tin cũ thành "đã rút câu trả lời này"
+    Note right of TA: Thà bot nói "chưa có"<br/>còn hơn tiếp tục trả lời sai.
+  </div></div>
+</section>
+
+<section>
+  <h2><span class="num">5</span> Vòng đời một mục tri thức</h2>
+  <p class="lede">Deadline, phòng học, link nộp bài đều đổi theo kỳ. Mỗi mục mang sẵn hạn dùng do LLM đề xuất và TA chốt lại: <code>long</code> (không hạn) · <code>term</code> (90 ngày) · <code>temp</code> (7 ngày).</p>
+  <div class="figure"><div class="mermaid">
+stateDiagram-v2
+    direction LR
+    [*] --> active: TA duyệt · hoặc nạp tài liệu
+    active --> superseded: có bản mới thay thế
+    active --> flagged: TA bấm 👎
+    active --> needs_review: hết hạn (long · term 90 ngày)
+    active --> archived: hết hạn (temp 7 ngày)
+    needs_review --> active: TA gia hạn + 90 ngày
+    needs_review --> archived: TA bỏ hẳn
+    note right of archived
+      Không bao giờ xoá document.
+      Chỉ đổi trạng thái — còn dữ liệu
+      thì còn đối chiếu và quay lui được.
+    end note
+  </div></div>
+  <div class="note"><strong>Hết hạn xong phải có người biết.</strong> Bot rà kho lúc khởi động và mỗi giờ một lần; mục rơi vào <code>needs_review</code> được nhắn riêng cho đúng TA đã lưu nó, kèm hai nút <em>Còn đúng</em> / <em>Bỏ</em>. Không nhắn riêng được thì đăng ở kênh duyệt. Thiếu bước này thì mục hết hạn nằm im, không ai biết mà xem lại.</div>
+</section>
+
+<section>
+  <h2><span class="num">6</span> Sơ đồ cũ sai ở đâu</h2>
+  <p class="lede">Bản vẽ ở CP2 là bản dự kiến trước khi code. Sáu chỗ dưới đây đã khác so với bản đang chạy.</p>
+  <div class="tbl"><table>
+    <thead><tr><th style="width:30%">Bản CP2</th><th>Thực tế trong code</th></tr></thead>
+    <tbody>
+      <tr><td class="was">TA bấm <em>Pin</em>, bot bắt sự kiện ghim</td><td class="now">Context menu <code>Lưu vào kho tri thức</code>. Discord không bắn sự kiện kèm ai ghim tin nào, và kênh giới hạn 50 pin — không dùng được.</td></tr>
+      <tr><td class="was">Bot làm mượt → ghi thẳng vào DB</td><td class="now">Thêm một chặng bắt buộc: bản nháp cho TA duyệt, sửa, chọn hạn dùng, cảnh báo trùng. Bot không tự ghi.</td></tr>
+      <tr><td class="was">Chỉ có một nhánh: trả lời chính xác</td><td class="now">Năm kết cục — <code>ANSWER</code> · <code>UNCERTAIN</code> · <code>CLARIFY</code> · <code>OUT_OF_SCOPE</code> · <code>NOT_FOUND</code>. Bốn nhánh còn lại mới là phần khó.</td></tr>
+      <tr><td class="was">Chỉ một nguồn: chat Discord</td><td class="now">Thêm nguồn tài liệu PDF, tách bằng <code>trust</code> và trích dẫn theo số trang.</td></tr>
+      <tr><td class="was">Không có gì sau khi trả lời</td><td class="now">👍/👎 phân quyền, vòng đời hết hạn → báo TA → gia hạn hoặc bỏ.</td></tr>
+      <tr><td class="was">“Giảm tải <em>hoàn toàn</em> cho TA”</td><td class="now">Tự động hoá <strong>có điều kiện</strong>. TA vẫn đứng ở ba cửa: duyệt lúc lưu, xác nhận khi bot chưa chắc, quyết khi mục hết hạn.</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<footer>
+  Vẽ theo <code>codebase/bot/src/</code> — <code>core/decide.js</code> (mục 3) · <code>core/capture.js</code> (mục 1) · <code>core/index.js</code> (mục 4, 5) · <code>ingest-pdf.js</code> (mục 2). Ngưỡng lấy từ <code>config.bar</code>.
+</footer>
+
+</div>
 </body>
 </html>

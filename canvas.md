@@ -3,9 +3,7 @@
 **Đội trưởng nộp form: Đoàn Bá Khải — 2A202602728**
 **Repo:** https://github.com/KhaiDoan2004/K4-3A-E402-KKAL
 
-> **Cập nhật 17/09 sau CP3** — ba chỗ đánh dấu 🔄 đã đổi so với bản nộp CP1, vì bản build
-> thật khác dự kiến. Ghi lại thay vì sửa lặng để người chấm đối chiếu được với `spec.md` §9.
->
+
 > Mọi con số đếm trên `data/discord-pack/`, **chạy lại được** bằng `eval/dem-discord.py`.
 > Bản mining đầy đủ: `AN/pain-points-discord-k4.md` (không commit — quy định bảo mật data).
 
@@ -49,9 +47,10 @@
 
 **Phương pháp đếm:** `is_q` = tin của người có dấu `?` **hoặc** chứa 1 trong 22 cụm hỏi tiếng Việt đã bỏ dấu. "Lượt hướng dẫn" = cụm tin liên tiếp cùng tác giả, cùng kênh, chứa `cvat|docker`, cách nhau ≤30 phút. "Bot né" = khớp 13 mẫu (*không có thông tin / chưa rõ / nhờ Mod / ngoài phạm vi…*). Script: `eval/dem-discord.py`.
 
-### ⚠️ Hai hạn chế tự khai *(khai từ CP1, không giấu)*
+### ⚠️ Hai hạn chế tự khai *(từ CP1)*
 
-1. **Pack chỉ có 3 ngày onboarding** và lab CVAT rơi đúng 1 ngày → **n nhỏ: 19 tin / 7 người**. Trước CP4 nhóm sẽ bổ sung bằng **khảo sát ≥20 người** (chuẩn A) hỏi *"lần gần nhất bạn hỏi một lỗi kỹ thuật trong Discord, bạn mất bao lâu để có câu trả lời?"* — vì mining một mình chưa đủ đô cho lát cắt này.
+1. **Pack chỉ có 3 ngày onboarding** và lab CVAT rơi đúng 1 ngày → **n nhỏ: 19 tin / 7 người**.
+   🔄 **Đã bù ở CP4:** khảo sát chuẩn A **N = 15** học viên khoá 4 — 87% từng phải hỏi lại bot, 80% phải tự đi kiểm tra lại câu trả lời, 60% thấy câu hỏi lặp lại *thường xuyên*. Vẫn **chưa đạt mốc 20** nhóm tự đặt, và **chưa khảo sát TA**. Chi tiết: `docs/khao-sat-nguoi-dung.md`.
 2. 🔄 **Data pack KHÔNG có cột reaction/emoji** (12 cột: `msg_id, guild, channel, author, is_bot, msg_type, created_at_vn, reply_to, mentions_bot, n_attachments, n_chars, content`), nên **không lấy được sự kiện ghim từ data lịch sử**.
    **Cách giải quyết đã đổi ở CP3:** thay vì dựng fixture giả, nhóm bỏ hẳn cơ chế "ghim bằng reaction" và dùng **lệnh context menu thật của Discord** — trợ giảng chuột phải vào tin trả lời → *Apps → Lưu vào kho tri thức*. Sự kiện lưu vì thế là **thật, không mock**. Kho hiện có **4 mục được lưu trực tiếp trên Discord** theo đúng đường này.
    Data pack vẫn dùng để **nạp kho ban đầu**: 19 cặp hỏi–đáp có thật, chọn tay theo `msg_id`, chạy qua `codebase/bot/src/seed.js`.
@@ -72,7 +71,7 @@
 | C · Bot hỏi lại 1 câu khi câu hỏi mơ hồ | 75 chuỗi hỏi-lại / 198 tin | Mỗi ngày | Học viên diễn đạt lại 2–7 lượt | ✅ dễ nhất | ❌ đây là **B1**, không phải B2 |
 | D · Sửa lỗi format bản tin ("nguồn tham chiếu" chèn giữa từ) | 13 chỗ trong 1/4 bản tin | 1/4 bản tin | Đọc vấp | ✅ | ❌ **bug `str.replace` thiếu biên từ — sửa 1 dòng, không phải bài toán AI.** Vẫn báo lại team vận hành |
 
-**Lý do chọn A bằng số:** A là ứng viên duy nhất mà **giá trị cộng dồn** — mỗi ca được ghim làm giảm chi phí của mọi ca sau, trong khi B phải chạy lại từ đầu mỗi ngày. Bằng chứng A còn cho thấy **giải pháp thủ công đã tự phát sinh** (`M55809` học viên tự lập topic gom issue, `M97517` mod trỏ người sang đó) — nhu cầu được người dùng tự xác nhận bằng hành động, không phải bằng lời nói. Đổi lại A có **n nhỏ nhất** (19 tin) nên bắt buộc bù bằng khảo sát ≥20 người trước CP4.
+**Lý do chọn A bằng số:** A là ứng viên duy nhất mà **giá trị cộng dồn** — mỗi ca được ghim làm giảm chi phí của mọi ca sau, trong khi B phải chạy lại từ đầu mỗi ngày. Bằng chứng A còn cho thấy **giải pháp thủ công đã tự phát sinh** (`M55809` học viên tự lập topic gom issue, `M97517` mod trỏ người sang đó) — nhu cầu được người dùng tự xác nhận bằng hành động, không phải bằng lời nói. Đổi lại A có **n nhỏ nhất** (19 tin) nên phải bù bằng khảo sát — 🔄 **đã làm ở CP4, N = 15**, xác nhận đúng hướng nhưng cũng cho thấy **nỗi đau là độ tin cậy chứ không phải tốc độ** (chỉ 2/15 *thường xuyên* phải đợi TA lâu).
 
 ---
 
@@ -120,8 +119,8 @@ Khi hai nguồn cùng khớp, **mục do trợ giảng lưu được ưu tiên**
 
 | # | Họ tên | Mã học viên | Đã đồng ý thử trước CP5 |
 |---|---|---|---|
-| 1 | **Nguyễn Văn Biển** | 2A202602416 | ✅ |
-| 2 | **Nguyễn Phúc Bảo** | 2A202602925 | ✅ |
+| 1 | **Nguyễn Văn Biển** | 2A202602416 | ✅ 🔄 đã thử, nhận xét: *cần xem kĩ bài toán dữ liệu và chi phí* |
+| 2 | **Nguyễn Phúc Bảo** | 2A202602925 | ✅ 🔄 đã thử, nhận xét: *có triển vọng, chạy được ở mức cơ bản* |
 | 3 | *(nên xin thêm 1 TA/Mod — họ là job executor thật của lát cắt này)* | | ☐ |
 
 ---

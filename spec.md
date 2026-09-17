@@ -31,6 +31,32 @@ cách sửa đó ngay mà không phải gõ lại, để tôi dành thời gian 
 **cách sửa chỉ tồn tại trong trí nhớ của người vừa gỡ nó**. Người tiếp theo gặp đúng lỗi phải
 hỏi lại từ đầu, TA tiếp theo phải gõ lại từ đầu — dù câu trả lời đã nằm sẵn trong lịch sử kênh.
 
+### Evidence — **chuẩn A** (khảo sát người dùng, N = 15)
+
+Khảo sát **con bot sẵn có của khoá 4**, 15 học viên, 9 câu hỏi đóng.
+Dữ liệu gốc: `docs/…Câu-trả-lời.xlsx` · phân tích đầy đủ: **`docs/khao-sat-nguoi-dung.md`**.
+
+| Chỉ số | Kết quả |
+|---|---|
+| Dùng bot hằng ngày / vài lần mỗi tuần | **14/15 (93%)** |
+| Bot hiểu đúng ngay lần đầu *(thang 1–5)* | **median 3** · 12/15 chấm ≤ 3 |
+| Đã phải **hỏi lại** vì câu đầu không đúng ý | **13/15 (87%)** |
+| Đã phải **tự kiểm tra lại** bằng nguồn khác | **12/15 (80%)** — trong đó 8 người đi hỏi Mentor/TA |
+| Khi kiểm tra lại, bot **không hoàn toàn đúng** | **13/15 (87%)**, chủ yếu là *"đúng một phần"* (10/15) |
+| Thấy bạn học hỏi lại câu TA/BTC đã trả lời | **9/15 (60%)** *thường xuyên* hoặc *rất thường xuyên* |
+
+**Hai điều khảo sát làm rõ:**
+
+1. **Bot hiện tại không kết thúc câu hỏi, nó thêm một bước.** 12/15 phải đi xác minh lại, và
+   **10 trong 12 người đó xác minh bằng cách hỏi người thật** (Mentor/TA, BTC hoặc bạn học).
+   Mỗi lượt hỏi bot vẫn đẻ ra một lượt hỏi người — đúng chi phí nhóm muốn cắt.
+2. **Nỗi đau là độ tin cậy, không phải tốc độ.** Chỉ 2/15 *thường xuyên* phải đợi TA lâu; 5/15
+   *chưa bao giờ*. Nhóm **giữ nguyên lát cắt** nhưng sửa cách phát biểu giá trị: không phải
+   *"trả lời nhanh hơn TA"* mà là **"trả lời có nguồn, và im lặng đúng lúc khi không có nguồn"**.
+
+> Khảo sát đo **bot của khoá**, không đo bot của nhóm — nên nó là bằng chứng cho **bài toán**,
+> không phải nghiệm thu sản phẩm. Phần nghiệm thu nằm ở §7 và `validation/feedback-log.md`.
+
 ### Evidence — **chuẩn B** (mining, có phương pháp đếm kiểm lại được)
 
 Nguồn: `data/discord-pack/k4_messages.csv` — 1.092 tin, 12–14/09, hai server khoá 4.
@@ -68,9 +94,11 @@ sinh trong khoá** — nhu cầu được người dùng xác nhận bằng hàn
 
 ### ⚠️ Hạn chế của evidence *(tự khai)*
 
-- **n nhỏ:** pack chỉ có 3 ngày onboarding, lab CVAT rơi đúng 1 ngày → 19 tin / 7 người.
-- **Khảo sát chuẩn A đang chạy, chưa xong** — Khuyến phụ trách, dự kiến bổ sung trước CP5.
-  Spec này vì vậy đứng **hoàn toàn trên evidence chuẩn B**.
+- **n nhỏ ở chuẩn B:** pack chỉ có 3 ngày onboarding, lab CVAT rơi đúng 1 ngày → 19 tin / 7 người.
+- **Khảo sát mới có N = 15**, chưa đạt mốc 20 nhóm tự đặt ở CP1. Mẫu **tự nguyện, không ngẫu nhiên**
+  nên có thể nghiêng về người dùng bot nặng.
+- **Chưa khảo sát được TA** — trong khi TA mới là job executor. Toàn bộ 15 người trả lời là học viên.
+- Khảo sát **không có câu mở** → không có quote nguyên văn nào từ nguồn này; mọi con số là tự đánh giá.
 - `is_q` là heuristic, **chưa chấm tay 30 mẫu** để đo độ chính xác.
 
 ---
@@ -333,12 +361,23 @@ từng chỉnh**:
 
 ### Willing users & kế hoạch validation *(bonus R6)*
 
-| # | Họ tên | Mã học viên | Trạng thái |
+| # | Họ tên | Mã học viên | Đã thử & cho nhận xét |
 |---|---|---|---|
-| 1 | Nguyễn Văn Biển | 2A202602416 | Đã thử prototype, **chưa ghi lại có cấu trúc** |
-| 2 | Nguyễn Phúc Bảo | 2A202602925 | Đã thử prototype, **chưa ghi lại có cấu trúc** |
+| 1 | Nguyễn Văn Biển | 2A202602416 | Chạy được trên Discord, API thật, kết quả thật — **"cần xem kĩ hơn bài toán dữ liệu và chi phí"** |
+| 2 | Nguyễn Phúc Bảo | 2A202602925 | **"Có triển vọng, tiện dụng, hoạt động được ở mức cơ bản"** |
 
-**Kế hoạch trước CP5** — làm lại có ghi chép, vì R6 đòi quote nguyên văn:
+Ghi chép đầy đủ + xử lý từng ý: **`validation/feedback-log.md`**.
+Hai câu trên là **nhóm tóm tắt lại**; bản gốc là tin nhắn của hai bạn, đang chép nguyên văn vào log.
+
+**Feedback của Biển đã dẫn tới hai việc:**
+
+- **Dữ liệu** — khảo sát xác nhận Biển đúng: 2 chủ đề hỏi nhiều nhất (*Daily Standup* 93%,
+  *chọn/đổi đề tài* 53%) hiện có **0 mục** trong kho. → đổi thứ tự ưu tiên cho mẻ tri thức tiếp theo.
+- **Chi phí** — trước đó nhóm chỉ ước chừng; đã **đo thật** từ 741 lượt hỏi trong trace:
+  **≈ 0,34 $ / 1.000 câu hỏi**, độ trễ **p50 ≈ 1,5 giây**. Kết luận: nút thắt là **dữ liệu**,
+  không phải tiền.
+
+**Còn nợ trước CP5** — buổi thử **có quan sát**, vì R6 đòi quote nguyên văn:
 
 1. Giao mỗi người **2 task thật**: (a) hỏi bot một lỗi kỹ thuật họ từng gặp; (b) hỏi một câu
    mà kho chắc chắn chưa có.
@@ -365,13 +404,22 @@ từng chỉnh**:
 | 17/9 CP3 | Thêm nguồn tri thức **tài liệu PDF** (77 mục) | Kho chỉ có 20 mục từ chat → quá mỏng. Giữ phân biệt `trust: ta` / `trust: doc` |
 | 17/9 CP3 | Pin `seed: 42` | Phát hiện cùng một ca lúc PASS lúc FAIL giữa các lượt |
 | 17/9 CP4 | **Sửa prompt** theo phân tích: bỏ thứ tự ưu tiên tuyến tính → cây quyết định; chặn theo *thứ được hỏi* thay vì *chủ đề* | 8/9 ca trượt cùng một nguyên nhân. **33 → 36/41.** Quality bar giữ nguyên |
+| 17/9 CP4 | Bổ sung **evidence chuẩn A** (khảo sát N=15) vào §1 | Trước đó spec chỉ đứng trên chuẩn B |
+| 17/9 CP4 | Sửa cách phát biểu giá trị: **"có nguồn + im lặng đúng lúc"**, bỏ ý *"nhanh hơn TA"* | Khảo sát cho thấy chờ TA lâu không phải nỗi đau chính (2/15) |
+| 17/9 CP4 | Đổi ưu tiên mẻ tri thức tiếp theo → **Daily Standup + quy trình đề tài** | Hai chủ đề hỏi nhiều nhất nhưng kho có **0 mục**. Từ feedback của Biển, khảo sát xác nhận |
+| 17/9 CP4 | Bỏ hạng mục **nút *Lưu QA* cuối thread** khỏi kế hoạch | Context menu đã phủ đúng nhu cầu đó; thêm nút thứ hai chỉ làm rối |
 | 17/9 CP4 | Bản sửa **đầu tiên** bị hoàn tác một phần | Nó làm `G13` tụt từ `OUT_OF_SCOPE` xuống `UNCERTAIN` — bot bắt đầu trả lời một yêu cầu phê duyệt. Tổng điểm vẫn *tăng* nên suýt cho qua; đọc từng ca mới thấy |
 
 ### Phần chưa xong — tự khai
 
-- **Khảo sát ≥20 người (chuẩn A)** đang chạy, chưa có số. Spec đứng trên chuẩn B.
+- **Khảo sát mới N = 15**, chưa đạt mốc 20 nhóm tự đặt; và **chưa khảo sát TA** — người thật sự
+  chịu chi phí trong JTBD.
 - **Chấm tay 30 mẫu** để đo độ chính xác heuristic `is_q` — chưa làm.
-- **Feedback log có cấu trúc** cho 2 willing user — chưa có, kế hoạch ở §8.
-- **Nút *Lưu QA* ở cuối thread** — mới có context menu.
+- **Chưa làm buổi thử có quan sát** với willing user. Hai người đã dùng và nhắn lại nhận xét
+  tổng quát, nhưng nhóm **chưa ngồi xem họ dùng** — nên chưa biết họ phản ứng thế nào
+  ngay lúc bot nói *"chưa có trong kho"*, vốn là chỗ đáng quan sát nhất. Kế hoạch ở §8.
+- **Kho lệch chủ đề:** *Daily Standup* (93% người hỏi) và *chọn/đổi đề tài* (53%) hiện **0 mục**.
+  Với hai chủ đề này bot trả `NOT_FOUND` — đúng thiết kế, nhưng cho thấy kho còn mỏng so với
+  nhu cầu thật. Chỉ dày lên được khi TA dùng thật, không vá được bằng sửa prompt.
 - **Ca hiếm mới đạt 2/5 = 40%** — yếu nhất, và là nhóm quality bar không ràng buộc. Ba ca trượt:
   bẻ prompt kèm điều kiện lạ (`G27`), trích nhầm mục cùng chủ đề (`G28`), câu hai ý chỉ trả một ý (`G41`).
