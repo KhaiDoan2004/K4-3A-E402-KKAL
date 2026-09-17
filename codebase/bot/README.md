@@ -105,7 +105,8 @@ Cần Mongo local: `docker compose up -d`.
 |---|---|---|
 | **G10** Thu hẹp phạm vi khi nghi ngờ | `decide.js` — `NOT_FOUND` / `CLARIFY`; ngưỡng không bao giờ nâng cấp một NOT_FOUND | G02 G03 G05–G08 G27 |
 | **G11** Giải thích vì sao | `util/render.js` `sourceLine()` — ai hỏi, TA nào lưu, link tới tin gốc | G01 G14–G25 |
-| **G9** Sửa dễ dàng | nút 👎 → `core/index.js` `flag()` gỡ mục khỏi trả lời tự động ngay; nút ✏️ Sửa mở modal trước khi lưu | G28 |
+| **G9** Sửa dễ dàng | nút 👎 mở cho **mọi người**, không khoá theo vai trò — người gặp câu trả lời sai chính là người biết nó sai. `core/index.js` `flag()` | G28 |
+| **G15** Khuyến khích phản hồi | 👎 của học viên **không gỡ** mục, chỉ ghi khiếu nại + ping TA đã lưu; 👎 của TA mới gỡ. Một người một phiếu. Khi TA gỡ, bot sửa lại chính tin nhắn cũ để người đọc sau không làm theo | — |
 | **G2** Nói rõ làm tốt đến đâu | mức chắc ở footer embed; nhãn ⏳ cho mục tạm thời; tuổi thông tin trong dòng nguồn | G04 |
 | **G8** Gạt bỏ dễ dàng | bản nháp là ephemeral, chỉ TA thấy; chế độ passive chỉ thả reaction, không chen tin vào kênh | — |
 

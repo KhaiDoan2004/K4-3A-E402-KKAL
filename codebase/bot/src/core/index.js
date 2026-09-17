@@ -32,27 +32,61 @@ export class KnowledgeBot {
   }
 
   /**
-   * Người dùng bấm 👎. Gỡ mục khỏi trả lời tự động NGAY, không đợi TA duyệt.
-   * Thà bot nói "chưa có" còn hơn tiếp tục trả lời sai (HAX G10).
+   * Bấm 👎. Quyền khác nhau thì hậu quả khác nhau:
+   *
+   *   Học viên  -> ghi khiếu nại + báo TA, mục VẪN dùng được.
+   *                Người gặp câu trả lời sai chính là người biết nó sai, nên nút
+   *                phải mở cho mọi người (HAX G9, G15). Nhưng một cú click của
+   *                một người thì chưa đủ để xoá kiến thức của cả lớp.
+   *
+   *   TA        -> gỡ khỏi trả lời tự động NGAY, không đợi ai duyệt.
+   *                Thà bot nói "chưa có" còn hơn tiếp tục trả lời sai (HAX G10).
+   *
+   * Một người một phiếu cho mỗi mục — bấm lại không cộng thêm, không báo TA lần nữa.
    */
-  async flag(entryId, { by, note } = {}) {
+  async flag(entryId, { by, byId, isTA = false, note } = {}) {
     const e = await this.store.get(entryId);
     if (!e) return null;
-    const updated = await this.store.update(entryId, {
-      status: 'flagged',
-      stats: { ...e.stats, thumbsDown: (e.stats?.thumbsDown || 0) + 1 },
-      flag: { by: by ?? null, note: note ?? null, at: new Date().toISOString() },
-    });
-    trace({ kind: 'flag', id: entryId, by });
-    return { entry: updated, notify: e.savedBy };
+
+    const voters = e.voters ?? { up: [], down: [] };
+    const voterKey = byId || by;
+    const already = voterKey ? voters.down.includes(voterKey) : false;
+    if (!already && voterKey) voters.down = [...voters.down, voterKey];
+
+    const patch = { voters };
+    if (!already) patch.stats = { ...e.stats, thumbsDown: (e.stats?.thumbsDown || 0) + 1 };
+
+    if (isTA) {
+      patch.status = 'flagged';
+      patch.flag = { by: by ?? null, note: note ?? null, at: new Date().toISOString() };
+    } else if (!already) {
+      patch.reports = [...(e.reports ?? []), { by: by ?? null, note: note ?? null, at: new Date().toISOString() }];
+    }
+
+    const updated = await this.store.update(entryId, patch);
+    trace({ kind: isTA ? 'flag' : 'report', id: entryId, by, already });
+
+    return {
+      entry: updated,
+      removed: isTA,                       // TA bấm thì mục bị gỡ ngay
+      already,                             // người này đã bấm 👎 mục này trước đó
+      notify: e.savedById || e.savedBy,    // TA đã lưu mục này
+      reportCount: updated?.reports?.length ?? 0,
+    };
   }
 
-  async approve(entryId, { by } = {}) {
+  async approve(entryId, { by, byId } = {}) {
     const e = await this.store.get(entryId);
     if (!e) return null;
-    return this.store.update(entryId, {
-      stats: { ...e.stats, thumbsUp: (e.stats?.thumbsUp || 0) + 1 },
+    const voters = e.voters ?? { up: [], down: [] };
+    const voterKey = byId || by;
+    const already = voterKey ? voters.up.includes(voterKey) : false;
+    if (already) return { entry: e, already: true };
+    if (voterKey) voters.up = [...voters.up, voterKey];
+    const updated = await this.store.update(entryId, {
+      voters, stats: { ...e.stats, thumbsUp: (e.stats?.thumbsUp || 0) + 1 },
     });
+    return { entry: updated, already: false };
   }
 
   /** Hết hạn thì ĐỔI TRẠNG THÁI, không xoá — còn document thì còn audit và rollback. */

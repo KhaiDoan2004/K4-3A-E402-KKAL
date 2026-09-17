@@ -61,7 +61,8 @@ async function onSaveCommand(itx) {
     meta: {
       guildId: itx.guildId, channelId: itx.channelId,
       questionMsgId: found.msg.id, answerMsgId: answerMsg.id,
-      askedBy: found.msg.author.username, savedBy: itx.user.username,
+      askedBy: found.msg.author.username,
+      savedBy: itx.user.username, savedById: itx.user.id,
       jumpUrl: answerMsg.url,
     },
   });
@@ -91,10 +92,39 @@ async function onButton(itx) {
   const [action, key, extra] = itx.customId.split(':');
 
   if (action === 'up' || action === 'down') {
-    if (action === 'up') { await bot.approve(key, { by: itx.user.username }); return itx.reply(eph('Cảm ơn bạn 👍')); }
-    const r = await bot.flag(key, { by: itx.user.username, note: 'báo sai từ Discord' });
-    const who = r?.notify ? `\`${r.notify}\`` : 'trợ giảng';
-    return itx.reply(eph(`Đã gỡ mục này khỏi trả lời tự động và báo ${who} duyệt lại. Cảm ơn bạn 🙏`));
+    const who = { by: itx.user.username, byId: itx.user.id };
+
+    if (action === 'up') {
+      const r = await bot.approve(key, who);
+      return itx.reply(eph(r?.already ? 'Bạn bấm rồi mà 🙂' : 'Cảm ơn bạn 👍'));
+    }
+
+    // Học viên báo sai -> chỉ báo TA. TA báo sai -> gỡ luôn.
+    const ta = isTA(itx.member);
+    const r = await bot.flag(key, { ...who, isTA: ta, note: 'báo sai từ Discord' });
+    if (!r) return itx.reply(eph('Không tìm thấy mục này nữa.'));
+    if (r.already) return itx.reply(eph('Bạn đã báo mục này rồi, trợ giảng đang xem 👀'));
+
+    if (r.removed) {
+      await itx.reply(eph('Đã gỡ mục này khỏi trả lời tự động. Nhớ sửa lại rồi lưu bản mới nhé.'));
+      // Sửa chính tin nhắn đang mang câu trả lời, để người đọc sau không tưởng nó còn đúng.
+      await itx.message.edit({
+        content: `⚠️ Trợ giảng **${itx.user.username}** đã rút câu trả lời này. Đừng làm theo nữa nhé.`,
+        components: [],
+      }).catch(() => {});
+      return;
+    }
+
+    // Học viên: mục vẫn dùng được, nhưng TA phải thấy.
+    await itx.reply(eph('Đã báo trợ giảng xem lại. Trong lúc chờ thì bạn đừng làm theo vội nhé 🙏'));
+    const ping = r.notify && /^\d{17,20}$/.test(String(r.notify))
+      ? `<@${r.notify}>`
+      : (config.discord.taRoleId ? `<@&${config.discord.taRoleId}>` : 'Trợ giảng ơi');
+    await itx.channel?.send(
+      `${ping} — **${itx.user.username}** báo câu trả lời này chưa đúng (mục \`${key}\`, ${r.reportCount} lượt báo).\n` +
+      `Mục vẫn đang được dùng để trả lời. Xem lại giúp: đúng thì bỏ qua, sai thì bấm 👎 để gỡ.`
+    ).catch(() => {});
+    return;
   }
 
   const slot = drafts.get(key);

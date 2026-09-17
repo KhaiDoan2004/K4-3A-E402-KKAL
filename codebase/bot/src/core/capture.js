@@ -53,6 +53,9 @@ export async function draftEntry({ question, answer, meta = {} }) {
     },
     askedBy: meta.askedBy ?? null,
     savedBy: meta.savedBy ?? null,
+    savedById: meta.savedById ?? null,     // id Discord thật, để ping đúng người khi bị báo sai
+    voters: { up: [], down: [] },
+    reports: [],
     savedAt: now.toISOString(),
     updatedAt: now.toISOString(),
     stats: { served: 0, thumbsUp: 0, thumbsDown: 0 },
