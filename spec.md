@@ -421,8 +421,11 @@ Mỗi dòng là **một quyết định đã đổi**. Xếp theo mốc mà vi�
   nhưng toàn bộ người trả lời là học viên.
 - **Chưa chấm tay 30 mẫu để đo độ chính xác của `is_q`.**
   `is_q` là bộ lọc tự động quyết định *"tin nhắn này có phải câu hỏi không"*, và nó nằm ở **mẫu số**
-  của con số **50/245 = 20%**. Cách kiểm: bốc ngẫu nhiên 30 tin, **người tự đọc và gắn nhãn**
-  hỏi / không hỏi, rồi đối chiếu với máy và đếm số lệch — ra được tỉ lệ máy gắn sai.
+  của con số **50/245 = 20%** — máy gắn nhãn sai thì con số đó sai theo.
+  Công cụ đã dựng xong (`eval/cham-tay.py`): bốc 30 tin *(15 máy nói có + 15 máy nói không)*,
+  người tự gắn nhãn mà **không thấy máy đoán gì**, rồi đối chiếu và suy ra sai số.
+  **Còn thiếu đúng một việc: có người ngồi chấm.**
+  *Lỗi bỏ dấu `đ` ở §9 đúng là loại lỗi bước này sinh ra để bắt — nhóm tìm ra nó bằng đường khác, muộn hơn.*
 - **Chưa làm buổi thử có quan sát** với willing user. Hai người đã dùng và nhắn lại nhận xét
   tổng quát, nhưng nhóm **chưa ngồi xem họ dùng** — nên chưa biết họ phản ứng thế nào
   ngay lúc bot nói *"chưa có trong kho"*, vốn là chỗ đáng quan sát nhất. Kế hoạch ở §8.
