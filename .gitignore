@@ -24,3 +24,6 @@ codebase/bot/data/
 # trace lời gọi LLM thì PHẢI commit (rubric R5 đòi log/trace trong repo)
 !eval/traces/
 !eval/traces/*.jsonl
+
+# Tài liệu nguồn của khoá — không commit lên repo public
+*.pdf

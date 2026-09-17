@@ -22,7 +22,7 @@ export class KnowledgeBot {
 
   /** Học viên hỏi -> quyết định trung tâm. */
   async ask(question, opts) {
-    await this.#sweepExpired();
+    await this.sweepExpired();
     const res = await decide(this.store, question, opts);
     if (res.source?.id) {
       const e = await this.store.get(res.source.id);
@@ -89,16 +89,49 @@ export class KnowledgeBot {
     return { entry: updated, already: false };
   }
 
-  /** Hết hạn thì ĐỔI TRẠNG THÁI, không xoá — còn document thì còn audit và rollback. */
-  async #sweepExpired() {
+  /**
+   * Hết hạn thì ĐỔI TRẠNG THÁI, không xoá — còn document thì còn audit và rollback.
+   * Trả về danh sách vừa đổi để lớp Discord đi báo trợ giảng.
+   */
+  async sweepExpired() {
     const now = Date.now();
+    const swept = [];
     for (const e of await this.store.all({ status: 'active' })) {
       if (!e.expiresAt || new Date(e.expiresAt).getTime() > now) continue;
       const to = e.lifespan === 'temp' ? 'archived' : 'needs_review';
-      await this.store.update(e.id, { status: to });
+      const updated = await this.store.update(e.id, { status: to, expiredAt: new Date().toISOString() });
       trace({ kind: 'expire', id: e.id, to });
+      swept.push({ ...(updated ?? e), status: to });
     }
+    return swept;
   }
+
+  /** TA xác nhận mục hết hạn vẫn còn đúng -> dùng lại, gia hạn thêm. */
+  async renew(entryId, { by, days = 90 } = {}) {
+    const e = await this.store.get(entryId);
+    if (!e) return null;
+    const upd = await this.store.update(entryId, {
+      status: 'active',
+      expiresAt: new Date(Date.now() + days * 86400000).toISOString(),
+      renewedBy: by ?? null, renewedAt: new Date().toISOString(),
+    });
+    trace({ kind: 'renew', id: entryId, by, days });
+    return upd;
+  }
+
+  /** TA quyết định bỏ hẳn mục hết hạn. Vẫn không xoá, chỉ lưu trữ. */
+  async retire(entryId, { by } = {}) {
+    const e = await this.store.get(entryId);
+    if (!e) return null;
+    const upd = await this.store.update(entryId, {
+      status: 'archived', retiredBy: by ?? null, retiredAt: new Date().toISOString(),
+    });
+    trace({ kind: 'retire', id: entryId, by });
+    return upd;
+  }
+
+  /** Các mục đang chờ trợ giảng duyệt lại. */
+  async pendingReview() { return this.store.all({ status: 'needs_review' }); }
 
   async stats() {
     const all = await this.store.all({ status: null });

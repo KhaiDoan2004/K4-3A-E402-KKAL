@@ -3,7 +3,9 @@
   "version": "0.3.0",
   "description": "Bot ghim tri thức cho Discord khoá 4 — ghim Q&A -> LLM làm mượt -> kho -> tra cứu",
   "type": "module",
-  "engines": { "node": ">=20" },
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "seed": "node src/seed.js",
     "cli": "node src/cli.js",
@@ -15,6 +17,7 @@
     "discord.js": "^14.16.3",
     "dotenv": "^16.4.5",
     "mongodb": "^6.9.0",
-    "openai": "^4.68.4"
+    "openai": "^4.68.4",
+    "pdfjs-dist": "^4.6.82"
   }
 }

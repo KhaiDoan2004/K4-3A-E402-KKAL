@@ -109,3 +109,31 @@ export function answerButtons(res) {
     new ButtonBuilder().setCustomId(`down:${res.source.id}`).setLabel('Không đúng').setEmoji('👎').setStyle(ButtonStyle.Danger),
   )];
 }
+
+const daysOld = (iso) => (iso ? Math.floor((Date.now() - new Date(iso)) / 86400000) : null);
+
+/** Mục vừa hết hạn, cần trợ giảng quyết định giữ hay bỏ. */
+export function reviewEmbed(e) {
+  const src = e.source?.type === 'pdf'
+    ? `📄 ${e.source.docName} · tr. ${e.source.page}`
+    : `📌 ${e.savedBy ?? 'trợ giảng'} ghim ${e.savedAt?.slice(0, 10) ?? ''}`;
+  return new EmbedBuilder()
+    .setColor(0xf0b429)
+    .setTitle('🔁 Mục tri thức hết hạn — nhờ xem lại')
+    .setDescription(cut(e.title, 250))
+    .addFields(
+      { name: 'Câu hỏi', value: cut(e.question, 500) },
+      { name: 'Câu trả lời đang lưu', value: cut(e.answer, 700) },
+      { name: 'Nguồn', value: src, inline: true },
+      { name: 'Đã dùng', value: `${e.stats?.served ?? 0} lượt`, inline: true },
+      { name: 'Tuổi', value: `${daysOld(e.savedAt) ?? '?'} ngày`, inline: true },
+    )
+    .setFooter({ text: `${e.id} · đã tạm ngừng dùng để trả lời tự động cho tới khi có người quyết` });
+}
+
+export function reviewButtons(id) {
+  return [new ActionRowBuilder().addComponents(
+    new ButtonBuilder().setCustomId(`renew:${id}`).setLabel('Còn đúng — dùng tiếp').setEmoji('✅').setStyle(ButtonStyle.Success),
+    new ButtonBuilder().setCustomId(`retire:${id}`).setLabel('Bỏ hẳn').setEmoji('🗑️').setStyle(ButtonStyle.Danger),
+  )];
+}

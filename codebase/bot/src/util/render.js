@@ -18,6 +18,12 @@ const daysAgo = (iso) => {
 /** Dòng nguồn dưới mỗi câu trả lời — đây chính là chỗ áp HAX G11 và G2. */
 export function sourceLine(src, { markdown = false } = {}) {
   if (!src) return '';
+
+  // Mục rút từ tài liệu: dẫn tên tài liệu + số trang, không có tin gốc để nhảy tới.
+  if (src.type === 'pdf') {
+    const pg = src.pageTo && src.pageTo !== src.page ? `tr. ${src.page}-${src.pageTo}` : `tr. ${src.page}`;
+    return `📄 ${src.docName} · ${pg} · tài liệu chính thức, chưa qua trợ giảng duyệt lại`;
+  }
   const who = src.savedBy ? `@${src.savedBy}` : 'trợ giảng';
   const when = daysAgo(src.savedAt);
   const life = src.lifespan === 'temp' ? ' · ⏳ thông tin tạm, nên kiểm lại với TA'

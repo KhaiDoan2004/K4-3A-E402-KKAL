@@ -98,6 +98,10 @@ CHỌN ĐÚNG MỘT "decision":
 
 THỨ TỰ ƯU TIÊN khi phân vân: OUT_OF_SCOPE > CLARIFY > ANSWER > NOT_FOUND.
 
+KHI HAI ỨNG VIÊN CÙNG TRẢ LỜI ĐƯỢC: ưu tiên mục do trợ giảng ghim hơn mục rút từ tài liệu,
+vì mục trợ giảng ghim đã có người chịu trách nhiệm. Chỉ chọn mục tài liệu khi nó trả lời
+rõ ràng hơn hẳn, hoặc khi không có mục trợ giảng nào phù hợp.
+
 "confidence" là số 0..1, mức chắc rằng quyết định của bạn đúng.
 Với ANSWER, confidence là mức chắc rằng mục đã chọn thật sự giải quyết đúng câu hỏi đó.
 Nếu mục chỉ liên quan chung chung chứ không đúng ca, hãy cho confidence thấp (0.5-0.7) thay vì đổi sang NOT_FOUND.
@@ -119,7 +123,10 @@ id: ${c.id}
 tiêu đề: ${c.title}
 câu hỏi gốc: ${c.question}
 cách xử lý: ${c.answer}
-chủ đề: ${c.topic} | loại: ${c.lifespan} | trợ giảng lưu: ${c.savedBy} ngày ${c.savedAt?.slice(0, 10)}`).join('\n\n')
+nguồn: ${c.trust === 'doc'
+        ? `TÀI LIỆU CHÍNH THỨC "${c.source?.docName}" trang ${c.source?.page}`
+        : `trợ giảng ${c.savedBy} ghim ngày ${c.savedAt?.slice(0, 10)}`}
+chủ đề: ${c.topic} | loại: ${c.lifespan}`).join('\n\n')
       : '(kho chưa có mục nào đủ gần với câu hỏi này)';
 
     return `CÂU HỎI MỚI:
@@ -131,5 +138,47 @@ CÁC MỤC TRI THỨC ỨNG VIÊN:
 ${list}
 
 Phán quyết theo đúng khuôn JSON.`;
+  },
+};
+
+export const docExtract = {
+  system: `Bạn là biên tập viên xây dựng cơ sở tri thức hỏi–đáp cho một khoá học AI tiếng Việt.
+Nhiệm vụ: đọc MỘT ĐOẠN trích từ tài liệu chính thức của chương trình, rút ra các cặp hỏi–đáp
+mà học viên thật sự sẽ hỏi.
+
+QUY TẮC TUYỆT ĐỐI:
+- CHỈ dùng thông tin có trong đoạn trích. Không thêm kiến thức bên ngoài, không suy diễn.
+- Con số, tên riêng, mốc thời gian, tên tổ chức phải chép đúng từng ký tự.
+- Nếu đoạn trích chỉ là bìa, mục lục, tiêu đề trang hay trang trí, trả về mảng rỗng.
+- Mỗi cặp phải đứng độc lập: đọc riêng nó vẫn hiểu được, không cần đọc đoạn gốc.
+- Câu hỏi viết theo giọng học viên hay hỏi ("... là gì ạ", "... thế nào ạ").
+- KHÔNG tạo câu hỏi mà đoạn trích không trả lời được đầy đủ.
+
+TRẢ VỀ JSON đúng khuôn:
+{
+  "items": [
+    {
+      "title": "một dòng mô tả nội dung, <= 90 ký tự",
+      "question": "câu hỏi học viên sẽ hỏi",
+      "answer": "câu trả lời lấy từ đoạn trích, gọn, có thể dùng gạch đầu dòng",
+      "topic": "chuong-trinh | tuyen-sinh | hoc-tap | thuc-tap | quy-che | danh-gia | khac",
+      "keywords": ["3-8 từ khoá, chữ thường"]
+    }
+  ]
+}
+
+Một đoạn thường cho ra 1-4 cặp. Chất lượng quan trọng hơn số lượng — thà ít mà chắc.`,
+
+  user({ text, from, to, docName }) {
+    const where = from === to ? `trang ${from}` : `trang ${from}-${to}`;
+    return `TÀI LIỆU: ${docName}
+VỊ TRÍ: ${where}
+
+ĐOẠN TRÍCH:
+"""
+${text}
+"""
+
+Rút các cặp hỏi–đáp theo đúng khuôn JSON.`;
   },
 };

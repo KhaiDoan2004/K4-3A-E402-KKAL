@@ -8,6 +8,7 @@
 | Lượt 2 · bộ v1.1, kho 20 mục — **29 ca cũ** | 29 | 25 | 86,2% |
 | Lượt 2 · bộ v1.1 — **12 ca mới** | 12 | 7 | **58,3%** |
 | Lượt 2 · toàn bộ | 41 | 32 | **78,0%** |
+| **Lượt 3** · bộ v1.1, kho **97 mục** (thêm 77 mục từ sổ tay PDF) | 41 | **33** | **80,5%** |
 
 Tỷ lệ tụt từ 86,2% xuống 78,0% **không phải vì bot kém đi**. Trên đúng 29 ca cũ, bot giữ
 **y nguyên 25/29 = 86,2%**, dù kho đã lớn từ 14 lên 20 mục. Toàn bộ phần tụt đến từ 12 ca mới
@@ -15,6 +16,20 @@ cố ý khó hơn (mâu thuẫn nguồn, tiếng Việt không dấu, câu hai �
 chỉ đạt 58,3% và kéo trung bình xuống.
 
 Bộ v1.0 và kết quả lượt 1 giữ nguyên trong `eval/run_results_v1.0.md`, không sửa đè.
+
+### Lượt 3 — nạp thêm tài liệu PDF vào kho
+
+Kho tăng từ 20 lên **97 mục**: thêm 77 mục rút từ *Sổ tay học viên 20K AI v2.2* (22 trang).
+Mục từ tài liệu mang `trust: 'doc'`, mục do trợ giảng ghim mang `trust: 'ta'`; khi hai bên
+gần ngang điểm thì mục của trợ giảng thắng, vì có người chịu trách nhiệm.
+
+**Kho to gấp gần 5 lần nhưng kết quả không xấu đi — còn nhích lên 32 → 33.** Ca `G30`
+(mâu thuẫn nguồn về ghép team khác level) chuyển từ trượt sang đạt.
+
+Một ca đổi **kiểu** trượt theo hướng xấu hơn: `G03` (*"cài CVAT trên Windows bằng WSL2"*)
+trước trả `CLARIFY`, giờ trả `ANSWER` với mức chắc 80% — tức là từ chỗ lúng túng chuyển sang
+**tự tin đưa hướng dẫn Linux cho người dùng WSL2**. Kho càng giàu thì lỗi B (không kiểm điều
+kiện kèm theo) càng dễ bùng, vì luôn có mục nào đó trông đủ giống để bám vào.
 
 ---
 
@@ -67,6 +82,12 @@ chức theo câu hỏi.** Một chủ đề "cá nhân" vẫn có thể có câu
 
 **Hướng sửa (chưa áp dụng):** thu hẹp luật thành *"từ chối khi câu hỏi đòi **quyết định** hoặc **dữ
 liệu riêng** của một cá nhân; còn hỏi **quy trình chung** thì vẫn trả lời nếu kho có."*
+
+**Xác nhận lần hai, bằng ví dụ độc lập (lượt 3).** Sau khi nạp sổ tay PDF, hỏi
+*"em muốn bảo lưu kết quả học tập thì sao ạ"* — kho **có** mục *"Chính sách bảo lưu kết quả học tập"*
+rút từ trang 16, cosine **0,785** — bot vẫn trả `OUT_OF_SCOPE` và đẩy sang BTC.
+Cùng một cơ chế hỏng với `G36`, trên một nguồn tri thức hoàn toàn khác.
+Đây là lỗi tốn tri thức nhất hiện nay: **kho có câu trả lời mà bot tự bịt miệng mình.**
 
 ### D · `temperature: 0` KHÔNG đảm bảo tất định — và nhóm đã suýt kết luận sai vì nó
 

@@ -43,6 +43,7 @@ export async function draftEntry({ question, answer, meta = {} }) {
     lifespanReason: parsed.lifespan_reason || '',
     expiresAt: days ? new Date(now.getTime() + days * DAY).toISOString() : null,
     status: 'active',
+    trust: 'ta',                        // <-> 'doc' cho mục rút từ tài liệu
     version: 1,
     supersededBy: null,
     previousVersion: null,

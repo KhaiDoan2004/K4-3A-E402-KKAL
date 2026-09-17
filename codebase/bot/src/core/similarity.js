@@ -29,7 +29,10 @@ export function rank(queryVec, queryText, entries, { floor = 0.3, topK = 3 } = {
       let hit = 0;
       for (const k of kws) if (qt.has(k)) hit++;
       const boost = Math.min(0.08, hit * 0.02);
-      return { ...e, cosine: cos, keywordHits: hit, score: cos + boost };
+      // Mục do TA ghim có người chịu trách nhiệm, nên thắng mục rút từ tài liệu
+      // khi hai bên gần ngang điểm. Không đủ lớn để lật một kết quả rõ ràng.
+      const trust = e.trust === 'doc' ? -0.03 : 0;
+      return { ...e, cosine: cos, keywordHits: hit, score: cos + boost + trust };
     })
     .filter((e) => e.score >= floor)
     .sort((a, b) => b.score - a.score)

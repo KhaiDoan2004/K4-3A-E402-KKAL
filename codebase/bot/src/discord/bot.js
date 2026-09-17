@@ -167,6 +167,18 @@ async function onButton(itx) {
     return;
   }
 
+  if (action === 'renew' || action === 'retire') {
+    if (!isTA(itx.member)) return itx.reply(eph('Chỉ trợ giảng mới quyết được mục này.'));
+    const r = action === 'renew'
+      ? await bot.renew(key, { by: itx.user.username })
+      : await bot.retire(key, { by: itx.user.username });
+    if (!r) return itx.reply(eph('Không tìm thấy mục này nữa.'));
+    const msg = action === 'renew'
+      ? `✅ **${itx.user.username}** xác nhận còn đúng — dùng tiếp tới ${r.expiresAt?.slice(0, 10)}.`
+      : `🗑️ **${itx.user.username}** đã bỏ mục này khỏi kho.`;
+    return itx.update({ content: msg, embeds: [], components: [] });
+  }
+
   const slot = drafts.get(key);
   if (!slot) return itx.reply(eph('Bản nháp đã hết hạn (15 phút). Lưu lại giúp mình nhé.'));
   if (slot.userId !== itx.user.id) return itx.reply(eph('Bản nháp này của người khác.'));
@@ -212,9 +224,41 @@ async function main() {
     partials: [Partials.Channel, Partials.Message],
   });
 
+  // Rà mục hết hạn rồi BÁO người đã lưu nó. Không có bước này thì mục chuyển
+  // needs_review xong nằm im, không ai biết mà duyệt lại.
+  async function sweepAndNotify(client) {
+    let swept;
+    try { swept = await bot.sweepExpired(); } catch (e) { return log.err(e.message); }
+    const need = swept.filter((e) => e.status === 'needs_review');
+    if (!need.length) return;
+    log.info(`${need.length} mục hết hạn, đang báo trợ giảng`);
+
+    for (const e of need) {
+      const payload = { embeds: [ui.reviewEmbed(e)], components: ui.reviewButtons(e.id) };
+      // Ưu tiên nhắn riêng đúng người đã lưu; không được thì đăng ở kênh duyệt.
+      let sent = false;
+      if (e.savedById) {
+        sent = await client.users.fetch(e.savedById)
+          .then((u) => u.send(payload)).then(() => true).catch(() => false);
+      }
+      if (!sent) {
+        const chId = config.discord.reviewChannelId || e.source?.channelId;
+        const ch = chId && await client.channels.fetch(chId).catch(() => null);
+        if (ch?.isTextBased()) {
+          const ping = config.discord.taRoleId ? `<@&${config.discord.taRoleId}> ` : '';
+          await ch.send({ content: ping + 'mục này hết hạn, nhờ xem lại giúp:', ...payload }).catch(() => {});
+          sent = true;
+        }
+      }
+      if (!sent) log.warn(`không báo được cho mục ${e.id} — đặt DISCORD_REVIEW_CHANNEL_ID trong .env`);
+    }
+  }
+
   client.once(Events.ClientReady, async (c) => {
     log.ok(`đăng nhập ${color.bold(c.user.tag)} · kho ${bot.storeLabel} · ${(await bot.stats()).active} mục`);
     log.info(`trace: ${traceFile()}`);
+    await sweepAndNotify(c);
+    setInterval(() => sweepAndNotify(c), 60 * 60 * 1000).unref();   // mỗi giờ
   });
 
   client.on(Events.InteractionCreate, async (itx) => {

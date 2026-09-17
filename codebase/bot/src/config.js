@@ -21,6 +21,7 @@ export const config = {
     allowedChannels: (process.env.DISCORD_ALLOWED_CHANNELS || '')
       .split(',').map((s) => s.trim()).filter(Boolean),
     taRoleId: process.env.DISCORD_TA_ROLE_ID || '',
+    reviewChannelId: process.env.DISCORD_REVIEW_CHANNEL_ID || '',
   },
   store: {
     mongoUri: process.env.MONGODB_URI || '',

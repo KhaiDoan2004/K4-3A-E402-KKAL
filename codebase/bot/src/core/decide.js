@@ -66,6 +66,11 @@ function final(parsed, candidates, mode, t0, kbSize = 0) {
     source: source && {
       id: source.id, title: source.title, savedBy: source.savedBy,
       savedAt: source.savedAt, lifespan: source.lifespan,
+      trust: source.trust ?? 'ta',
+      type: source.source?.type ?? 'discord',
+      docName: source.source?.docName ?? null,
+      page: source.source?.page ?? null,
+      pageTo: source.source?.pageTo ?? null,
       jumpUrl: source.source?.jumpUrl ?? null, score: round(source.score),
     },
     candidates: candidates.map((c) => ({ id: c.id, title: c.title, score: round(c.score), cosine: round(c.cosine), keywordHits: c.keywordHits })),
