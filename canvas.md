@@ -50,7 +50,7 @@
 ### ⚠️ Hai hạn chế tự khai *(từ CP1)*
 
 1. **Pack chỉ có 3 ngày onboarding** và lab CVAT rơi đúng 1 ngày → **n nhỏ: 19 tin / 7 người**.
-   🔄 **Đã bù ở CP4:** khảo sát chuẩn A **N = 15** học viên khoá 4 — 87% từng phải hỏi lại bot, 80% phải tự đi kiểm tra lại câu trả lời, 60% thấy câu hỏi lặp lại *thường xuyên*. Vẫn **chưa đạt mốc 20** nhóm tự đặt, và **chưa khảo sát TA**. Chi tiết: `docs/khao-sat-nguoi-dung.md`.
+   🔄 **Đã bù ở CP4:** khảo sát chuẩn A **N = 15** học viên khoá 4 — 87% từng phải hỏi lại bot, 80% phải tự đi kiểm tra lại câu trả lời, 60% thấy câu hỏi lặp lại *thường xuyên*. Chưa đạt chuẩn A (BTC yêu cầu ≥20 người) nên evidence vẫn dựa trên **chuẩn B**; cũng **chưa khảo sát TA**. Chi tiết: `docs/khao-sat-nguoi-dung.md`.
 2. 🔄 **Data pack KHÔNG có cột reaction/emoji** (12 cột: `msg_id, guild, channel, author, is_bot, msg_type, created_at_vn, reply_to, mentions_bot, n_attachments, n_chars, content`), nên **không lấy được sự kiện ghim từ data lịch sử**.
    **Cách giải quyết đã đổi ở CP3:** thay vì dựng fixture giả, nhóm bỏ hẳn cơ chế "ghim bằng reaction" và dùng **lệnh context menu thật của Discord** — trợ giảng chuột phải vào tin trả lời → *Apps → Lưu vào kho tri thức*. Sự kiện lưu vì thế là **thật, không mock**. Kho hiện có **4 mục được lưu trực tiếp trên Discord** theo đúng đường này.
    Data pack vẫn dùng để **nạp kho ban đầu**: 19 cặp hỏi–đáp có thật, chọn tay theo `msg_id`, chạy qua `codebase/bot/src/seed.js`.

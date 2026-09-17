@@ -3,6 +3,21 @@
 **Nguồn:** `docs/Khảo-sát-chất-lượng-Discord-Bot-Level-34-Khóa-4-VIN-AI-20K-Câu-trả-lời.xlsx`
 **Mẫu:** **N = 15** học viên khoá 4 · 9 câu hỏi đóng, không có câu trả lời mở.
 
+## Đứng ở đâu so với chuẩn evidence của BTC
+
+BTC nhận evidence theo **chuẩn A và/hoặc B** — chỉ cần đạt một đường là đủ 6 điểm R1.
+Nhóm **đã đạt trọn chuẩn B** bằng mining *(xem `spec.md` §1)*. Khảo sát này là đường A, còn thiếu một điều kiện:
+
+| Điều kiện chuẩn A | Yêu cầu | Khảo sát này |
+|---|---|---|
+| Số người ngoài nhóm | ≥ 20 | **15** ❌ thiếu 5 |
+| Tỉ lệ xác nhận nỗi đau | ≥ 50% | **80–87%** ✅ |
+| Log đủ câu hỏi + từng câu trả lời | bắt buộc | ✅ file gốc `.xlsx` commit trong `docs/` |
+
+Nói cách khác: **thiếu đúng 5 người là đạt cả hai đường evidence.**
+
+---
+
 ## Khảo sát này đo cái gì
 
 Đo **con bot sẵn có của khoá 4**, không phải bot của nhóm KKAL. Nên nó là bằng chứng cho
@@ -86,7 +101,7 @@ Nhưng nó cho thấy kho còn mỏng so với nhu cầu thật, và chỉ dày 
 
 ## Hạn chế của khảo sát *(tự khai)*
 
-- **N = 15, chưa đạt mốc 20** mà nhóm tự đặt ở CP1.
+- **N = 15, thiếu 5 người so với mốc ≥20 của chuẩn A** *(mốc này do BTC quy định, không phải nhóm tự đặt)*.
 - **Mẫu tự nguyện, không ngẫu nhiên.** Người chịu bỏ công điền form nhiều khả năng là người
   dùng bot nhiều hơn mức trung bình của khoá, nên các con số ở trên có thể **nghiêng về phía
   người dùng nặng**.

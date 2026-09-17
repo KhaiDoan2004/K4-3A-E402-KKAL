@@ -95,7 +95,9 @@ sinh trong khoá** — nhu cầu được người dùng xác nhận bằng hàn
 ### ⚠️ Hạn chế của evidence *(tự khai)*
 
 - **n nhỏ ở chuẩn B:** pack chỉ có 3 ngày onboarding, lab CVAT rơi đúng 1 ngày → 19 tin / 7 người.
-- **Khảo sát mới có N = 15**, chưa đạt mốc 20 nhóm tự đặt ở CP1. Mẫu **tự nguyện, không ngẫu nhiên**
+- **Khảo sát mới có N = 15** → **chưa đạt chuẩn A** (BTC yêu cầu ≥20 người). Hai điều kiện còn lại
+  của chuẩn A thì đạt: tỉ lệ xác nhận 80–87% (cần ≥50%) và log đầy đủ (file gốc commit trong `docs/`).
+  **Spec vẫn đứng vững trên chuẩn B** — BTC chấm *"A và/hoặc B"*. Mẫu **tự nguyện, không ngẫu nhiên**
   nên có thể nghiêng về người dùng bot nặng.
 - **Chưa khảo sát được TA** — trong khi TA mới là job executor. Toàn bộ 15 người trả lời là học viên.
 - Khảo sát **không có câu mở** → không có quote nguyên văn nào từ nguồn này; mọi con số là tự đánh giá.
@@ -412,8 +414,9 @@ Hai câu trên là **nhóm tóm tắt lại**; bản gốc là tin nhắn của 
 
 ### Phần chưa xong — tự khai
 
-- **Khảo sát mới N = 15**, chưa đạt mốc 20 nhóm tự đặt; và **chưa khảo sát TA** — người thật sự
-  chịu chi phí trong JTBD.
+- **Khảo sát N = 15 → thiếu 5 người** là đạt trọn chuẩn A (BTC yêu cầu ≥20). Không chặn điểm R1
+  vì chuẩn B đã đạt, nhưng đây là 5 người dễ kiếm nhất trong tất cả các việc còn lại.
+  Ngoài ra **chưa khảo sát TA** — người thật sự chịu chi phí trong JTBD.
 - **Chấm tay 30 mẫu** để đo độ chính xác heuristic `is_q` — chưa làm.
 - **Chưa làm buổi thử có quan sát** với willing user. Hai người đã dùng và nhắn lại nhận xét
   tổng quát, nhưng nhóm **chưa ngồi xem họ dùng** — nên chưa biết họ phản ứng thế nào
