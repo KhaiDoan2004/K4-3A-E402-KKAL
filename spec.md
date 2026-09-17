@@ -1,7 +1,7 @@
 # AI SPEC — Bot ghim tri thức cho Discord khoá 4 · Nhóm KKAL · Lớp 3A · Phòng E402 · Cụm C1
 
-**Hướng:** ☐ A — VLearn · ☑ **B — Trợ lý Học viên** · ☐ C — Làn mở
-**Loại:** ☐ Tối ưu tính năng có sẵn · ☑ **Tính năng mới**
+**Hướng:** **B — Trợ lý Học viên** 
+**/ Loại:**  **Tính năng mới**
 
 > Repo: https://github.com/KhaiDoan2004/K4-3A-E402-KKAL · Canvas CP1: `canvas.md`
 > Mọi con số trong file này **chạy lại được**: bằng chứng bằng `eval/dem-discord.py`,
@@ -27,7 +27,7 @@ Học viên gặp lỗi → hỏi trong kênh
 **Core JTBD:** *Khi tôi trực kênh và có người hỏi một lỗi đã từng được gỡ, tôi muốn đưa lại
 cách sửa đó ngay mà không phải gõ lại, để tôi dành thời gian cho ca thật sự mới.*
 
-**Problem statement** *(không có chữ AI)*: Khi một sự cố kỹ thuật được gỡ xong trong chat,
+**Problem statement** : Khi một sự cố kỹ thuật được gỡ xong trong chat,
 **cách sửa chỉ tồn tại trong trí nhớ của người vừa gỡ nó**. Người tiếp theo gặp đúng lỗi phải
 hỏi lại từ đầu, TA tiếp theo phải gõ lại từ đầu — dù câu trả lời đã nằm sẵn trong lịch sử kênh.
 
@@ -69,13 +69,13 @@ Script: **`eval/dem-discord.py`** *(nhận đường dẫn data pack làm tham s
 | **Lượt hướng dẫn cài đặt bị gõ lại từ đầu** | **2 lượt cùng ngày 13/09**, hai người hướng dẫn khác nhau |
 | Số tin tiêu tốn cho 2 lượt đó | **12 tin** (5 + 7) |
 | Thời lượng lượt thứ hai | **24 phút** (22:59 → 23:23) |
-| Bot né *"không có thông tin / nhờ Mod"* | **27 / 313 tin bot** |
-| **Trong 27 ca đó, số ca có người vào tiếp nhận** | **0 / 27** |
-| Câu hỏi không ai reply trực tiếp | **45 / 211 = 21%** |
+| Bot né *"không có thông tin / nhờ Mod"* | **29 / 313 tin bot** |
+| **Trong 29 ca đó, số ca có người vào tiếp nhận** | **0 / 29** |
+| Câu hỏi không ai reply trực tiếp | **50 / 245 = 20%** |
 | Nhóm câu hỏi trùng gần đúng | **10 nhóm / 21 tin** |
 
 **Phương pháp đếm:** `is_q` = tin của người có dấu `?` **hoặc** chứa 1 trong 22 cụm hỏi tiếng Việt
-đã bỏ dấu · "lượt hướng dẫn" = cụm tin liên tiếp cùng tác giả, cùng kênh, chứa `cvat|docker`,
+đã bỏ dấu *(⚠️ hàm bỏ dấu bản đầu ăn mất chữ `đ`, làm 3 cụm không bao giờ khớp — đã vá ở CP4, xem §9)* · "lượt hướng dẫn" = cụm tin liên tiếp cùng tác giả, cùng kênh, chứa `cvat|docker`,
 cách nhau ≤30 phút · "bot né" = khớp 13 mẫu từ chối.
 
 ### 7 ví dụ nguyên văn *(≤2 câu mỗi ví dụ, dẫn `msg_id`)*
@@ -88,12 +88,12 @@ cách nhau ≤30 phút · "bot né" = khớp 13 mẫu từ chối.
 | `M30675`→`M54305` | 13/09 22:59–23:23 | D2012 gõ 7 tin: `git clone --branch v2.74.1…` → `docker compose pull` → `usermod -aG docker` | **Gõ lại từ đầu**, không dùng được gì từ lượt 1 |
 | `M55809` | 12/09 23:00 | *"Mình tạo topic này mong muốn các bạn chia sẻ các issuse gặp phải trong quá trình cài đặt"* | Học viên **tự dựng kho tri thức thủ công** |
 | `M97517` | 13/09 11:27 | *"mn có thể qua đây để xem chia sẻ kinh nghiệp setup CVAT nhé [link]"* | Mod phải **trỏ tay** từng người sang thread đó |
-| `M35065` | — | *"Mình chưa rõ thông tin câu này lắm… mình nhờ Mod vào trả lời giúp bạn ạ!"* | Bot né → **không ai vào** (0/27) |
+| `M35065` | — | *"Mình chưa rõ thông tin câu này lắm… mình nhờ Mod vào trả lời giúp bạn ạ!"* | Bot né → **không ai vào** (0/29) |
 
 `M55809` và `M97517` là bằng chứng mạnh nhất: **giải pháp thủ công cho bài toán này đã tự phát
 sinh trong khoá** — nhu cầu được người dùng xác nhận bằng hành động, không phải bằng lời nói.
 
-### ⚠️ Hạn chế của evidence *(tự khai)*
+### ⚠️ Hạn chế của evidence 
 
 - **n nhỏ ở chuẩn B:** pack chỉ có 3 ngày onboarding, lab CVAT rơi đúng 1 ngày → 19 tin / 7 người.
 - Mẫu khảo sát **tự nguyện, không ngẫu nhiên** → có thể nghiêng về người dùng bot nặng.
@@ -107,8 +107,8 @@ sinh trong khoá** — nhu cầu được người dùng xác nhận bằng hàn
 
 | Ứng viên | Bao nhiêu người | Tần suất | Mỗi lần tốn gì | Build nổi? | Chọn? |
 |---|---|---|---|---|---|
-| **A · Ghim tri thức sau khi gỡ xong sự cố** | 7 người / 19 tin CVAT-Docker; 0/27 ca bot né được tiếp nhận | Mỗi khi có lab kỹ thuật mới | **gõ lại 7 tin / 24 phút** cho ca đã từng gỡ; học viên chờ tới đêm | ✅ | ✅ **CHỌN** |
-| B · Bản tin cuối ngày gom câu hỏi còn treo | 45/211 câu (21%) không ai reply | Mỗi ngày | Học viên chờ tới **695 phút** | ✅ | ❌ giá trị rơi vào **1 TA/ngày**; A tích luỹ theo thời gian |
+| **A · Ghim tri thức sau khi gỡ xong sự cố** | 7 người / 19 tin CVAT-Docker; 0/29 ca bot né được tiếp nhận | Mỗi khi có lab kỹ thuật mới | **gõ lại 7 tin / 24 phút** cho ca đã từng gỡ; học viên chờ tới đêm | ✅ | ✅ **CHỌN** |
+| B · Bản tin cuối ngày gom câu hỏi còn treo | 50/245 câu (20%) không ai reply | Mỗi ngày | Học viên chờ tới **695 phút** | ✅ | ❌ giá trị rơi vào **1 TA/ngày**; A tích luỹ theo thời gian |
 | C · Bot hỏi lại 1 câu khi câu hỏi mơ hồ | 75 chuỗi hỏi-lại / 198 tin | Mỗi ngày | Học viên diễn đạt lại 2–7 lượt | ✅ dễ nhất | ❌ đây là **B1**, không phải B2 |
 | D · Sửa lỗi format bản tin (*"nguồn tham chiếu"* chèn giữa từ) | 13 chỗ trong 1/4 bản tin | 1/4 bản tin | Đọc vấp | ✅ | ❌ **bug `str.replace` thiếu biên từ — sửa 1 dòng, không phải bài toán AI** |
 
@@ -380,7 +380,7 @@ Hai câu trên là **nhóm tóm tắt lại**; bản gốc là tin nhắn của 
   **≈ 0,34 $ / 1.000 câu hỏi**, độ trễ **p50 ≈ 1,5 giây**. Kết luận: nút thắt là **dữ liệu**,
   không phải tiền.
 
-**Còn nợ trước CP5** — buổi thử **có quan sát**, vì R6 đòi quote nguyên văn:
+**Task hiện đang còn thiếu trước CP5** — buổi thử **có quan sát**, vì R6 đòi quote nguyên văn:
 
 1. Giao mỗi người **2 task thật**: (a) hỏi bot một lỗi kỹ thuật họ từng gặp; (b) hỏi một câu
    mà kho chắc chắn chưa có.
@@ -397,27 +397,65 @@ Hai câu trên là **nhóm tóm tắt lại**; bản gốc là tin nhắn của 
 
 ## §9. Changelog
 
-| Thời điểm | Đổi gì | Vì sao |
-|---|---|---|
-| 16/9 CP1 | Track B1 → **B2** | B1 (bot hỏi lại) là ứng viên C, giá trị không cộng dồn |
-| 16/9 CP1 | B2 bản tin cuối ngày → **ghim tri thức** | Giá trị bản tin rơi vào 1 TA/ngày; ghim tích luỹ theo thời gian |
-| 16/9 CP2 | Bỏ thiết kế hiện **điểm khớp** cho người dùng | Người dùng không cần biết cosine; đưa số ra chỉ làm loãng quyết định |
-| 17/9 CP3 | Bỏ **fixture ghim giả** → dùng **context menu thật** của Discord | Pack không có cột reaction, nhưng không cần mock: Discord có sẵn lệnh context menu. **Canvas Ô2 đã sửa** |
-| 17/9 CP3 | Tách quyền nút 👎: **học viên báo, TA mới gỡ** | Trước đó một cú click của bất kỳ ai cũng xoá tri thức của cả lớp |
-| 17/9 CP3 | Thêm nguồn tri thức **tài liệu PDF** (77 mục) | Kho chỉ có 20 mục từ chat → quá mỏng. Giữ phân biệt `trust: ta` / `trust: doc` |
-| 17/9 CP3 | Pin `seed: 42` | Phát hiện cùng một ca lúc PASS lúc FAIL giữa các lượt |
-| 17/9 CP4 | **Sửa prompt** theo phân tích: bỏ thứ tự ưu tiên tuyến tính → cây quyết định; chặn theo *thứ được hỏi* thay vì *chủ đề* | 8/9 ca trượt cùng một nguyên nhân. **33 → 36/41.** Quality bar giữ nguyên |
-| 17/9 CP4 | Bổ sung **evidence chuẩn A** (khảo sát **N = 21**) vào §1 | Trước đó spec chỉ đứng trên chuẩn B. Nay **đạt cả hai chuẩn A và B** |
-| 17/9 CP4 | Sửa cách phát biểu giá trị: **"có nguồn + im lặng đúng lúc"**, bỏ ý *"nhanh hơn TA"* | Khảo sát cho thấy chờ TA lâu không phải nỗi đau chính (2/21 *thường xuyên*) |
-| 17/9 CP4 | Đổi ưu tiên mẻ tri thức tiếp theo → **Daily Standup + quy trình đề tài** | Hai chủ đề hỏi nhiều nhất (**95%** và **67%**) nhưng kho có **0 mục**. Từ feedback của Biển, khảo sát xác nhận |
-| 17/9 CP4 | Bỏ hạng mục **nút *Lưu QA* cuối thread** khỏi kế hoạch | Context menu đã phủ đúng nhu cầu đó; thêm nút thứ hai chỉ làm rối |
-| 17/9 CP4 | Bản sửa **đầu tiên** bị hoàn tác một phần | Nó làm `G13` tụt từ `OUT_OF_SCOPE` xuống `UNCERTAIN` — bot bắt đầu trả lời một yêu cầu phê duyệt. Tổng điểm vẫn *tăng* nên suýt cho qua; đọc từng ca mới thấy |
+Mỗi dòng là **một quyết định đã đổi** so với mốc trước, kèm lý do.
+
+### CP1 · 16/9 — chọn bài toán
+
+| Đổi gì | Vì sao |
+|---|---|
+| Track **B1 → B2** | B1 *(bot hỏi lại khi câu hỏi mơ hồ)* là ứng viên C, giá trị không cộng dồn |
+| B2: bản tin cuối ngày → **ghim tri thức** | Giá trị bản tin rơi gọn vào 1 TA/ngày; ghim thì tích luỹ theo thời gian |
+
+### CP2 · 16/9 — thiết kế luồng
+
+| Đổi gì | Vì sao |
+|---|---|
+| Bỏ ý định hiện **điểm khớp** cho người dùng | Người dùng không cần biết cosine; đưa số ra chỉ làm loãng quyết định |
+
+### CP3 · 17/9 — dựng prototype
+
+| Đổi gì | Vì sao |
+|---|---|
+| Bỏ **fixture ghim giả** → **context menu thật** của Discord | Pack không có cột reaction, nhưng không cần mock: Discord có sẵn lệnh context menu *(Canvas Ô2 đã sửa)* |
+| Tách quyền nút 👎: **học viên báo, TA mới gỡ** | Trước đó một cú click của bất kỳ ai cũng xoá tri thức của cả lớp |
+| Thêm nguồn tri thức **tài liệu PDF** (77 mục) | Kho chỉ có 20 mục từ chat → quá mỏng. Giữ phân biệt `trust: ta` / `trust: doc` |
+| Pin `seed: 42` | Phát hiện cùng một ca lúc PASS lúc FAIL giữa các lượt chạy |
+
+### CP4 · 17/9 — chốt spec + quality bar
+
+**Chất lượng bot**
+
+| Đổi gì | Vì sao |
+|---|---|
+| **Sửa prompt**: bỏ thứ tự ưu tiên tuyến tính → cây quyết định 3 bước; chặn theo *thứ được hỏi* thay vì *chủ đề* | 8/9 ca trượt cùng một nguyên nhân. **33 → 36/41.** Quality bar giữ nguyên |
+| Bản sửa **đầu tiên** bị hoàn tác một phần | Nó làm `G13` tụt `OUT_OF_SCOPE` → `UNCERTAIN` — bot bắt đầu trả lời một yêu cầu phê duyệt. Tổng điểm vẫn *tăng* nên suýt cho qua; đọc từng ca mới thấy |
+
+**Bằng chứng**
+
+| Đổi gì | Vì sao |
+|---|---|
+| Bổ sung **evidence chuẩn A** — khảo sát **N = 21** | Trước đó spec chỉ đứng trên chuẩn B. Nay đạt **cả hai chuẩn A và B** |
+| **Vá lỗi bỏ dấu** trong `eval/dem-discord.py`: `đ` bị xoá thành khoảng trắng nên 3/22 cụm hỏi không bao giờ khớp | Đếm sót **34 câu hỏi**. Số chính đổi **45/211 = 21% → 50/245 = 20%**, "bot né" **27 → 29** — kết luận không đổi, nhưng số phải đúng |
+| Sửa cách phát biểu giá trị: **"có nguồn + im lặng đúng lúc"**, bỏ ý *"nhanh hơn TA"* | Khảo sát cho thấy chờ TA lâu không phải nỗi đau chính (2/21 *thường xuyên*) |
+
+**Phạm vi & kế hoạch**
+
+| Đổi gì | Vì sao |
+|---|---|
+| Đổi ưu tiên mẻ tri thức tiếp theo → **Daily Standup + quy trình đề tài** | Hai chủ đề hỏi nhiều nhất (**95%** và **67%**) nhưng kho có **0 mục**. Từ feedback của Biển, khảo sát xác nhận |
+| Bỏ hạng mục **nút *Lưu QA* cuối thread** | Context menu đã phủ đúng nhu cầu đó; thêm nút thứ hai chỉ làm rối |
+| Gỡ `eval/run_results_v1.0.md` | Repo chỉ nên có **một** bảng kết quả hiện hành; số lượt 1 giữ ở §7 và trace gốc |
 
 ### Phần chưa xong — tự khai
 
 - **Chưa khảo sát TA** — người thật sự chịu chi phí trong JTBD. Khảo sát N = 21 đã đạt chuẩn A
   nhưng toàn bộ người trả lời là học viên.
-- **Chấm tay 30 mẫu** để đo độ chính xác heuristic `is_q` — chưa làm.
+- **Chưa chấm tay 30 mẫu để đo độ chính xác của `is_q`.**
+  `is_q` là bộ lọc tự động quyết định *"tin nhắn này có phải câu hỏi không"*, và nó nằm ở **mẫu số**
+  của con số **50/245 = 20%**. Cách kiểm: bốc ngẫu nhiên 30 tin, **người tự đọc và gắn nhãn**
+  hỏi / không hỏi, rồi đối chiếu với máy và đếm số lệch — ra được tỉ lệ máy gắn sai.
+  Chưa làm, nên chưa biết sai số của con số 20% là bao nhiêu.
+  *Lỗi bỏ dấu `đ` ở trên đúng là loại lỗi bước này sinh ra để bắt — nhóm tìm ra nó bằng đường khác, muộn hơn.*
 - **Chưa làm buổi thử có quan sát** với willing user. Hai người đã dùng và nhắn lại nhận xét
   tổng quát, nhưng nhóm **chưa ngồi xem họ dùng** — nên chưa biết họ phản ứng thế nào
   ngay lúc bot nói *"chưa có trong kho"*, vốn là chỗ đáng quan sát nhất. Kế hoạch ở §8.

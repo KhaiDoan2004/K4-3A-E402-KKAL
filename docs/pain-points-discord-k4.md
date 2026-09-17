@@ -128,7 +128,7 @@ Hỏi một dòng, nhận một bức tường. Trên Discord mobile, 1.150 ký 
 
 ### P4 — 9% câu bot né, và không có đường thoát
 
-**Số đếm:** 27 / 313 tin bot (9%) thuộc dạng "không có thông tin trong dữ liệu" / "nhờ Mod trả lời giúp".
+**Số đếm:** 29 / 313 tin bot (9%) thuộc dạng "không có thông tin trong dữ liệu" / "nhờ Mod trả lời giúp".
 
 | msg_id | Nội dung né |
 |---|---|
@@ -138,7 +138,7 @@ Hỏi một dòng, nhận một bức tường. Trên Discord mobile, 1.150 ký 
 | M41569 | clone hay fork code cho Lab 1 |
 | M02666 | hạn thành lập team |
 
-**Số người reply tiếp sau khi bot né: 0 / 27.** Câu hỏi chết tại đó. Bot tag `[@role]` nhưng không tạo ticket, không có trạng thái, không ai xác nhận đã tiếp nhận.
+**Số người reply tiếp sau khi bot né: 0 / 29.** Câu hỏi chết tại đó. Bot tag `[@role]` nhưng không tạo ticket, không có trạng thái, không ai xác nhận đã tiếp nhận.
 
 ---
 
@@ -218,7 +218,7 @@ Và **7 dòng** ghi "Đã có phản hồi, chưa xác nhận đã xử lý" —
 
 Pain đậm nhất, đo được, sửa được trong hackathon: **P2 + P4**.
 
-Bot hiện tại **nhanh nhưng sai ý** (75 chuỗi hỏi-lại) và **né 9% rồi bỏ rơi** (0/27 ca được ai tiếp nhận). Hai đòn bẩy rẻ:
+Bot hiện tại **nhanh nhưng sai ý** (75 chuỗi hỏi-lại) và **né 9% rồi bỏ rơi** (0/29 ca được ai tiếp nhận). Hai đòn bẩy rẻ:
 
 1. **Hỏi lại 1 câu làm rõ khi câu hỏi mơ hồ**, thay vì trả lời dài đoán bừa. Nhắm vào P2 + P3 cùng lúc.
 2. **Khi không có thông tin → tạo ticket / tag TA có trạng thái theo dõi**, không chỉ nói "nhờ Mod". Nhắm vào P4 + P5.
@@ -228,7 +228,7 @@ Bot hiện tại **nhanh nhưng sai ý** (75 chuỗi hỏi-lại) và **né 9% r
 | Metric | Baseline hiện tại | Mục tiêu |
 |---|---|---|
 | Số lượt hỏi/câu hỏi (median) | 2, p90 ≈ 3 | 1 |
-| Tỉ lệ ca bot né được người tiếp nhận | 0% (0/27) | 100% có ticket |
+| Tỉ lệ ca bot né được người tiếp nhận | 0% (0/29) | 100% có ticket |
 | Độ dài trả lời (median / p90) | 256 / 1.150 ký tự | ≤ 400 ở p90 |
 | Câu hỏi không có reply trực tiếp | 27% (70/258) | < 10% |
 | Phủ câu hỏi trong bản tin ngày | 14–17% | ≥ 80% nhóm chủ đề |

@@ -21,7 +21,11 @@ for r in rows:
 
 def norm(s):
     """bỏ dấu, bỏ mask [@D####], còn a-z0-9 + space"""
-    s = unicodedata.normalize('NFD', s.lower())
+    # đ/Đ KHÔNG có canonical decomposition trong NFD, nên nó sống sót qua bước
+    # bỏ dấu rồi bị [^a-z0-9] xoá thành khoảng trắng. Phải đổi tay TRƯỚC khi NFD,
+    # nếu không thì "được không" -> "uoc khong" và 3 cụm hỏi không bao giờ khớp.
+    s = s.lower().replace('đ', 'd')
+    s = unicodedata.normalize('NFD', s)
     s = ''.join(c for c in s if unicodedata.category(c) != 'Mn')
     s = re.sub(r'\[@?\w+\]', ' ', s)
     return re.sub(r'\s+', ' ', re.sub(r'[^a-z0-9\s]', ' ', s)).strip()

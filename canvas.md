@@ -12,7 +12,7 @@
 ## Ô 1 · PAIN CỤ THỂ
 *(ai — đang làm gì — vướng đâu — hậu quả gì)*
 
-**TA/Mod của khoá 4, khi có học viên báo lỗi kỹ thuật trong Discord,** phải gõ tay lại từng bước sửa lỗi. Cách sửa đó **đã từng được gõ ra rồi**, nằm đâu đó trong lịch sử chat, nhưng **không ai tìm lại được và bot không biết gì về nó** — nên TA tiếp theo gõ lại từ đầu. Hậu quả đo được: **ngày 13/09, hai người khác nhau gõ 12 tin nhắn hướng dẫn cài CVAT/Docker cách nhau 12 tiếng** — D6587 lúc 10:26 (5 tin, kéo 9 phút), D2012 lúc 22:59 (7 tin, kéo 24 phút) — cho cùng một lớp sự cố; và **0/27 ca bot tự nhận "không có thông tin" được ai vào tiếp nhận**, tri thức chưa bao giờ quay lại hệ thống.
+**TA/Mod của khoá 4, khi có học viên báo lỗi kỹ thuật trong Discord,** phải gõ tay lại từng bước sửa lỗi. Cách sửa đó **đã từng được gõ ra rồi**, nằm đâu đó trong lịch sử chat, nhưng **không ai tìm lại được và bot không biết gì về nó** — nên TA tiếp theo gõ lại từ đầu. Hậu quả đo được: **ngày 13/09, hai người khác nhau gõ 12 tin nhắn hướng dẫn cài CVAT/Docker cách nhau 12 tiếng** — D6587 lúc 10:26 (5 tin, kéo 9 phút), D2012 lúc 22:59 (7 tin, kéo 24 phút) — cho cùng một lớp sự cố; và **0/29 ca bot tự nhận "không có thông tin" được ai vào tiếp nhận**, tri thức chưa bao giờ quay lại hệ thống.
 
 ---
 
@@ -27,8 +27,8 @@
 | **Lượt hướng dẫn cài đặt bị gõ lại từ đầu** | **2 lượt trong cùng ngày 13/09**, hai người hướng dẫn khác nhau |
 | Số tin nhắn tiêu tốn cho 2 lượt đó | **12 tin** (5 + 7) |
 | Thời lượng lượt thứ hai | **24 phút** (22:59 → 23:23) |
-| Bot né "không có thông tin / nhờ Mod" | **27 / 313 tin bot** |
-| **Trong 27 ca đó, số ca có người vào tiếp nhận** | **0 / 27** |
+| Bot né "không có thông tin / nhờ Mod" | **29 / 313 tin bot** |
+| **Trong 29 ca đó, số ca có người vào tiếp nhận** | **0 / 29** |
 | Nhóm câu hỏi trùng gần đúng (mọi chủ đề) | **10 nhóm / 21 tin** |
 
 ### Ví dụ nguyên văn *(≤2 câu mỗi ví dụ, dẫn `msg_id`)*
@@ -41,7 +41,7 @@
 | `M30675`→`M54305` | 13/09 22:59–23:23 | D2012 gõ 7 tin: `git clone --branch v2.74.1…` → `docker compose pull` → `usermod -aG docker` | **Gõ lại từ đầu**, không dùng được gì từ lượt 1 |
 | `M55809` | 12/09 23:00 | *"Mình tạo topic này mong muốn các bạn chia sẻ các issuse gặp phải trong quá trình cài đặt"* | Học viên **tự dựng kho tri thức thủ công** — đúng nhu cầu, sai công cụ |
 | `M97517` | 13/09 11:27 | *"mn có thể qua đây để xem chia sẻ kinh nghiệp setup CVAT nhé [link]"* | Mod phải **trỏ tay** từng người sang thread đó |
-| `M35065` | — | *"Mình chưa rõ thông tin câu này lắm… mình nhờ Mod vào trả lời giúp bạn ạ!"* | Bot né → **không ai vào** (0/27) |
+| `M35065` | — | *"Mình chưa rõ thông tin câu này lắm… mình nhờ Mod vào trả lời giúp bạn ạ!"* | Bot né → **không ai vào** (0/29) |
 
 `M55809` và `M97517` là bằng chứng mạnh nhất: **giải pháp thủ công cho bài toán này đã tự phát sinh trong khoá.** Người học tự lập topic gom issue, mod tự trỏ người sang đó. Nhu cầu có thật, chỉ là đang làm bằng tay và không tìm lại được.
 
@@ -66,8 +66,8 @@
 
 | Ứng viên | Bao nhiêu người gặp | Tần suất | Mỗi lần tốn gì | Build nổi? | Chọn? |
 |---|---|---|---|---|---|
-| **A · Ghim tri thức sau khi gỡ xong sự cố** | 7 người / 19 tin CVAT-Docker; 0/27 ca bot né được tiếp nhận | Mỗi khi có lab kỹ thuật mới | **gõ lại 7 tin / 24 phút** cho ca đã từng gỡ; học viên chờ tới đêm | 🔄 ✅ build được **không cần mock** — dùng context menu thật của Discord | ✅ **CHỌN** |
-| B · Bản tin cuối ngày gom câu hỏi còn treo cho TA | 45/211 câu (21%) không ai reply | Mỗi ngày | Học viên chờ tới **695 phút** | ✅ có baseline thật để so trước/sau | ❌ giá trị rơi vào **1 TA/ngày**; A tích luỹ giá trị theo thời gian và càng dùng càng mạnh |
+| **A · Ghim tri thức sau khi gỡ xong sự cố** | 7 người / 19 tin CVAT-Docker; 0/29 ca bot né được tiếp nhận | Mỗi khi có lab kỹ thuật mới | **gõ lại 7 tin / 24 phút** cho ca đã từng gỡ; học viên chờ tới đêm | 🔄 ✅ build được **không cần mock** — dùng context menu thật của Discord | ✅ **CHỌN** |
+| B · Bản tin cuối ngày gom câu hỏi còn treo cho TA | 50/245 câu (20%) không ai reply | Mỗi ngày | Học viên chờ tới **695 phút** | ✅ có baseline thật để so trước/sau | ❌ giá trị rơi vào **1 TA/ngày**; A tích luỹ giá trị theo thời gian và càng dùng càng mạnh |
 | C · Bot hỏi lại 1 câu khi câu hỏi mơ hồ | 75 chuỗi hỏi-lại / 198 tin | Mỗi ngày | Học viên diễn đạt lại 2–7 lượt | ✅ dễ nhất | ❌ đây là **B1**, không phải B2 |
 | D · Sửa lỗi format bản tin ("nguồn tham chiếu" chèn giữa từ) | 13 chỗ trong 1/4 bản tin | 1/4 bản tin | Đọc vấp | ✅ | ❌ **bug `str.replace` thiếu biên từ — sửa 1 dòng, không phải bài toán AI.** Vẫn báo lại team vận hành |
 

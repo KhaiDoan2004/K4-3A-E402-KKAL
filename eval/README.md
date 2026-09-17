@@ -25,8 +25,8 @@ Data pack **không** commit vào repo này theo quy định bảo mật — scri
 | **Lượt hướng dẫn cài đặt gõ lại từ đầu** | **2 lượt cùng ngày 13/09, 2 người khác nhau, 12 tin** |
 | Lượt 1 · D6587 | 10:26 → 10:35 · 5 tin · 9 phút |
 | Lượt 2 · D2012 | 22:59 → 23:23 · 7 tin · 24 phút |
-| Bot né → có người tiếp nhận | **0 / 27** |
-| Câu hỏi không có reply trực tiếp | 45 / 211 = 21% |
+| Bot né → có người tiếp nhận | **0 / 29** |
+| Câu hỏi không có reply trực tiếp | 50 / 245 = 20% |
 | Nhóm câu hỏi trùng gần đúng | 10 nhóm / 21 tin |
 
 ## ⚠️ Hai hạn chế phải nhớ khi xây golden set
