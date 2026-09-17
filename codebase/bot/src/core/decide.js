@@ -1,7 +1,7 @@
 import { embed, chatJSON } from '../llm/client.js';
 import { verdict } from '../llm/prompts.js';
 import { rank } from './similarity.js';
-import { scrub, clip } from '../util/scrub.js';
+import { scrub, clip, stripMentions } from '../util/scrub.js';
 import { config } from '../config.js';
 import { trace } from '../util/trace.js';
 
@@ -19,7 +19,7 @@ import { trace } from '../util/trace.js';
  */
 export async function decide(store, rawQuestion, { mode = 'mention' } = {}) {
   const t0 = Date.now();
-  const question = clip(scrub(rawQuestion), 1200);
+  const question = clip(scrub(stripMentions(rawQuestion)), 1200);
   if (!question) {
     return final({ decision: 'CLARIFY', confidence: 1, answer: 'Bạn nhắn câu hỏi giúp mình nhé.', reason: 'câu hỏi rỗng' }, [], mode, t0);
   }

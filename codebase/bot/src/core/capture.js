@@ -1,7 +1,7 @@
 import crypto from 'node:crypto';
 import { chatJSON, embed } from '../llm/client.js';
 import { smooth } from '../llm/prompts.js';
-import { scrub, clip } from '../util/scrub.js';
+import { scrub, clip, stripMentions } from '../util/scrub.js';
 import { trace } from '../util/trace.js';
 import { config } from '../config.js';
 import { rank } from './similarity.js';
@@ -15,8 +15,8 @@ const EXPIRY = { long: null, term: 90, temp: 7 };
  * Trả về bản NHÁP để TA duyệt trước, đúng tinh thần HAX G9.
  */
 export async function draftEntry({ question, answer, meta = {} }) {
-  const q = clip(scrub(question), 1200);
-  const a = clip(scrub(answer), 3000);
+  const q = clip(scrub(stripMentions(question)), 1200);
+  const a = clip(scrub(stripMentions(answer)), 3000);
   if (!q || !a) throw new Error('Thiếu câu hỏi hoặc câu trả lời.');
 
   const { parsed } = await chatJSON({
@@ -35,6 +35,7 @@ export async function draftEntry({ question, answer, meta = {} }) {
     question: parsed.question || q,
     answer: parsed.answer || '',
     answerRaw: a,                       // giữ bản gốc để đối chiếu khi LLM làm sai
+    questionRaw: q,
     topic: parsed.topic || 'khac',
     keywords: (parsed.keywords || []).map((k) => String(k).toLowerCase()),
     lifespan: life,

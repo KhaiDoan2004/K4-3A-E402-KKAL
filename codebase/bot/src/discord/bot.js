@@ -8,6 +8,7 @@ import { KnowledgeBot } from '../core/index.js';
 import { config } from '../config.js';
 import { initTrace, traceFile, trace } from '../util/trace.js';
 import { log, color } from '../util/log.js';
+import { stripMentions } from '../util/scrub.js';
 import * as ui from './ui.js';
 
 const DRAFT_TTL = 15 * 60 * 1000;
@@ -21,21 +22,41 @@ const eph = (content) => ({ content, flags: MessageFlags.Ephemeral });
 
 let bot;
 
-/** Tìm tin câu hỏi tương ứng với tin trả lời — 3 tầng, giảm dần độ chắc. */
+const QUESTION_WINDOW = 30 * 60 * 1000;
+const LOOKS_LIKE_QUESTION =
+  /\?|\b(sao|thế nào|the nao|làm gì|lam gi|bị lỗi|bi loi|lỗi|loi|giúp|giup|hỏi|hoi|có .* (không|ko|k)\b|được không|đc ko)\b/i;
+
+/**
+ * Tìm tin câu hỏi tương ứng với tin trả lời — 3 tầng, giảm dần độ chắc.
+ * Tầng 3 bị siết lại: chỉ nhìn trong 30 phút, bỏ tin của chính người trả lời,
+ * và ưu tiên tin trông giống câu hỏi. Trước đây nó quét 20 tin bất kỳ nên
+ * hay bốc nhầm một tin cũ chẳng liên quan.
+ */
 async function findQuestion(msg) {
   if (msg.reference?.messageId) {
     const r = await msg.channel.messages.fetch(msg.reference.messageId).catch(() => null);
-    if (r) return { msg: r, how: 'reply' };
+    if (r) return { msg: r, how: 'reply', sure: true };
   }
   if (msg.channel.isThread()) {
     const s = await msg.channel.fetchStarterMessage().catch(() => null);
-    if (s) return { msg: s, how: 'thread' };
+    if (s && s.id !== msg.id) return { msg: s, how: 'tin mở thread', sure: true };
   }
-  const before = await msg.channel.messages.fetch({ limit: 20, before: msg.id }).catch(() => null);
-  const cand = before && [...before.values()]
-    .filter((m) => !m.author.bot && m.author.id !== msg.author.id && m.content.length > 15)
-    .sort((a, b) => b.createdTimestamp - a.createdTimestamp)[0];
-  return cand ? { msg: cand, how: 'gần nhất trong kênh' } : null;
+
+  const before = await msg.channel.messages.fetch({ limit: 30, before: msg.id }).catch(() => null);
+  if (!before) return null;
+  const pool = [...before.values()].filter((m) =>
+    !m.author.bot &&
+    m.author.id !== msg.author.id &&
+    m.content.trim().length > 10 &&
+    msg.createdTimestamp - m.createdTimestamp <= QUESTION_WINDOW);
+  if (!pool.length) return null;
+
+  pool.sort((a, b) => {
+    const qa = LOOKS_LIKE_QUESTION.test(a.content) ? 1 : 0;
+    const qb = LOOKS_LIKE_QUESTION.test(b.content) ? 1 : 0;
+    return qb - qa || b.createdTimestamp - a.createdTimestamp;
+  });
+  return { msg: pool[0], how: 'đoán từ 30 phút gần nhất', sure: false };
 }
 
 function isTA(member) {
@@ -52,8 +73,17 @@ async function onSaveCommand(itx) {
   await itx.deferReply({ flags: MessageFlags.Ephemeral });
 
   const answerMsg = itx.targetMessage;
+
+  // Tin được chọn trông như một CÂU HỎI chứ không phải câu trả lời -> gần như chắc chọn nhầm.
+  const looksLikeQuestion =
+    answerMsg.mentions.users.has(itx.client.user.id) ||
+    (config.discord.taRoleId && answerMsg.mentions.roles.has(config.discord.taRoleId)) ||
+    (answerMsg.content.trim().length < 120 && LOOKS_LIKE_QUESTION.test(answerMsg.content));
+
   const found = await findQuestion(answerMsg);
-  if (!found) return itx.editReply(eph('Không tìm được câu hỏi tương ứng. Thử dùng Reply khi trả lời rồi lưu lại nhé.'));
+  if (!found) return itx.editReply(eph(
+    'Không tìm được câu hỏi đi kèm.\n' +
+    'Cách chắc ăn: **Reply** vào tin câu hỏi khi trả lời, rồi lưu chính tin trả lời của bạn.'));
 
   const { draft, duplicate } = await bot.draft({
     question: found.msg.content,
@@ -68,9 +98,19 @@ async function onSaveCommand(itx) {
   });
 
   const key = put({ draft, duplicate, userId: itx.user.id });
+  const warn = looksLikeQuestion
+    ? '🚨 **Tin bạn chọn trông giống CÂU HỎI, không phải câu trả lời.** ' +
+      'Nhớ chọn tin *trả lời* nhé — đọc kỹ hai khối bên dưới trước khi Lưu.\n'
+    : (!found.sure
+        ? '⚠️ Không có Reply nên mình **đoán** câu hỏi. Đối chiếu hai khối bên dưới giúp mình.\n'
+        : '');
+
   await itx.editReply({
-    content: `Câu hỏi lấy theo: **${found.how}** — sai thì bấm Bỏ rồi Reply đúng tin và lưu lại.`,
-    embeds: [ui.draftEmbed(draft, duplicate)],
+    content: warn + `Câu hỏi lấy theo: **${found.how}**. Sai thì bấm ❌ Bỏ, Reply đúng tin rồi lưu lại.`,
+    embeds: [ui.draftEmbed(draft, duplicate, {
+      rawQuestion: found.msg.content, rawAnswer: answerMsg.content,
+      askedBy: found.msg.author.username, answeredBy: answerMsg.author.username,
+    })],
     components: ui.draftButtons(key, duplicate),
   });
 }
@@ -203,8 +243,10 @@ async function main() {
 
   client.on(Events.MessageCreate, async (msg) => {
     if (msg.author.bot || !channelAllowed(msg.channelId)) return;
-    if (!msg.mentions.has(client.user)) return;             // CP3: chỉ trả lời khi bị tag
-    const q = msg.content.replace(/<@!?\d+>/g, '').trim();
+    // Chỉ tính khi tag đúng TÀI KHOẢN bot. mentions.has() tính cả role bot đang mang,
+    // nên nếu có role trùng tên thì mọi lượt ping TA cũng đánh thức bot.
+    if (!msg.mentions.users.has(client.user.id)) return;
+    const q = stripMentions(msg.content);
     if (!q) return;
     try {
       await msg.channel.sendTyping();

@@ -12,12 +12,23 @@ const LIFE = {
 const cut = (s, n) => (s && s.length > n ? s.slice(0, n - 1) + '…' : s || '—');
 
 /** Bản nháp TA duyệt trước khi vào kho — HAX G9, và để TA verify đúng thứ sắp được lưu. */
-export function draftEmbed(draft, duplicate) {
+export function draftEmbed(draft, duplicate, raw) {
   const e = new EmbedBuilder()
     .setColor(HUE.DRAFT)
     .setTitle('📝 Bản nháp — chưa lưu')
-    .setDescription(cut(draft.title, 250))
-    .addFields(
+    .setDescription(cut(draft.title, 250));
+
+  // Hiện NGUYÊN VĂN hai tin đã bốc, trước phần LLM viết lại.
+  // Thiếu khối này thì TA không thể thấy bot ghép nhầm cặp hỏi-đáp.
+  if (raw) {
+    e.addFields(
+      { name: `1️⃣ Tin được coi là CÂU HỎI — @${raw.askedBy}`, value: cut(raw.rawQuestion, 500) || '—' },
+      { name: `2️⃣ Tin được coi là TRẢ LỜI — @${raw.answeredBy}`, value: cut(raw.rawAnswer, 500) || '—' },
+      { name: '\u200b', value: '**↓ LLM viết lại thành mục tri thức ↓**' },
+    );
+  }
+
+  e.addFields(
       { name: 'Câu hỏi', value: cut(draft.question, 900) },
       { name: 'Cách xử lý', value: cut(draft.answer, 1024) },
       { name: 'Chủ đề', value: draft.topic, inline: true },
