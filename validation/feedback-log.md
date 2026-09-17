@@ -64,3 +64,21 @@ Bảo không nêu chỗ vướng cụ thể nào, nên phản hồi này **xác 
 ---
 
 
+
+---
+
+## Còn nợ — phỏng vấn TA (5 phút/người)
+
+TA là job executor trong spec, nhưng cả 21 người trả lời khảo sát đều là học viên.
+Nhóm mới hỏi 1 anh TA ở buổi lên ý tưởng và anh nói *"cũng được, cũng ok"* — **không tính là
+bằng chứng**, vì đó là lời khen cho một bản pitch chứ không phải chuyện đã xảy ra.
+
+Hỏi lại theo Mom Test, **không nhắc gì tới bot**:
+
+1. *"Lần gần nhất anh phải gõ lại một hướng dẫn mà anh biết chắc mình đã gõ rồi là khi nào?"*
+2. *"Lúc đó anh làm gì — gõ lại từ đầu, hay đi tìm lại tin cũ? Mất bao lâu?"*
+3. *"Trong tuần vừa rồi chuyện đó xảy ra mấy lần?"*
+
+Nghe được khen → **cảm ơn rồi quay lại câu 1**. Nghe *"thường thì anh…"* → hỏi *"lần gần nhất là khi nào?"*
+
+Ghi **nguyên văn** câu trả lời + tên người + ngày. Không có log thì không được tính *(`02-guide.md` §1.3)*.
