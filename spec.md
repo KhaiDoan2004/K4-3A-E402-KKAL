@@ -421,11 +421,8 @@ Mỗi dòng là **một quyết định đã đổi**. Xếp theo mốc mà vi�
 ### Phần chưa xong — tự khai
 
 - **Chưa phỏng vấn TA đúng cách** — TA mới là job executor, nhưng cả 21 người trả lời khảo sát
-  đều là học viên. Nhóm **có** hỏi 1 anh TA ở buổi lên ý tưởng, anh nói ý tưởng *"cũng được, cũng ok"*.
-  Nhóm **không tính đây là bằng chứng**: đó là hỏi ý kiến về ý tưởng chứ không hỏi về việc anh
-  đã thật sự làm, chỉ 1 người, và không có log nguyên văn — đúng ba thứ `02-guide.md` §1.3 dặn tránh.
-  Việc cần làm: hỏi **1–2 TA** theo Mom Test về **lần gần nhất** họ gõ lại một hướng dẫn đã gõ rồi,
-  và ghi nguyên văn.
+  đều là học viên. Nhóm **có** hỏi 1 anh TA/lab coach ở buổi lên ý tưởng, anh nói ý tưởng *cũng được, cũng ok*.
+  Nhóm tạm không tính đây là bằng chứng: đó là hỏi ý kiến về ý tưởng chứ không hỏi anh để thật sự làm khảo sát paint point, chỉ 1 người, và không có log nguyên văn
 - **Chưa làm buổi thử có quan sát** với willing user. Hai người đã dùng và nhắn lại nhận xét
   tổng quát, nhưng nhóm **chưa ngồi xem họ dùng** — nên chưa biết họ phản ứng thế nào
   ngay lúc bot nói *"chưa có trong kho"*, vốn là chỗ đáng quan sát nhất. Kế hoạch ở §8.
