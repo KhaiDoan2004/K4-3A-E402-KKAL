@@ -397,54 +397,24 @@ Hai câu trên là **nhóm tóm tắt lại**; bản gốc là tin nhắn của 
 
 ## §9. Changelog
 
-Mỗi dòng là **một quyết định đã đổi** so với mốc trước, kèm lý do.
+Mỗi dòng là **một quyết định đã đổi**. Xếp theo mốc mà việc đó **thuộc về**, không theo ngày gõ phím.
 
-### CP1 · 16/9 — chọn bài toán
-
-| Đổi gì | Vì sao |
-|---|---|
-| Track **B1 → B2** | B1 *(bot hỏi lại khi câu hỏi mơ hồ)* là ứng viên C, giá trị không cộng dồn |
-| B2: bản tin cuối ngày → **ghim tri thức** | Giá trị bản tin rơi gọn vào 1 TA/ngày; ghim thì tích luỹ theo thời gian |
-
-### CP2 · 16/9 — thiết kế luồng
-
-| Đổi gì | Vì sao |
-|---|---|
-| Bỏ ý định hiện **điểm khớp** cho người dùng | Người dùng không cần biết cosine; đưa số ra chỉ làm loãng quyết định |
-
-### CP3 · 17/9 — dựng prototype
-
-| Đổi gì | Vì sao |
-|---|---|
-| Bỏ **fixture ghim giả** → **context menu thật** của Discord | Pack không có cột reaction, nhưng không cần mock: Discord có sẵn lệnh context menu *(Canvas Ô2 đã sửa)* |
-| Tách quyền nút 👎: **học viên báo, TA mới gỡ** | Trước đó một cú click của bất kỳ ai cũng xoá tri thức của cả lớp |
-| Thêm nguồn tri thức **tài liệu PDF** (77 mục) | Kho chỉ có 20 mục từ chat → quá mỏng. Giữ phân biệt `trust: ta` / `trust: doc` |
-| Pin `seed: 42` | Phát hiện cùng một ca lúc PASS lúc FAIL giữa các lượt chạy |
-
-### CP4 · 17/9 — chốt spec + quality bar
-
-**Chất lượng bot**
-
-| Đổi gì | Vì sao |
-|---|---|
-| **Sửa prompt**: bỏ thứ tự ưu tiên tuyến tính → cây quyết định 3 bước; chặn theo *thứ được hỏi* thay vì *chủ đề* | 8/9 ca trượt cùng một nguyên nhân. **33 → 36/41.** Quality bar giữ nguyên |
-| Bản sửa **đầu tiên** bị hoàn tác một phần | Nó làm `G13` tụt `OUT_OF_SCOPE` → `UNCERTAIN` — bot bắt đầu trả lời một yêu cầu phê duyệt. Tổng điểm vẫn *tăng* nên suýt cho qua; đọc từng ca mới thấy |
-
-**Bằng chứng**
-
-| Đổi gì | Vì sao |
-|---|---|
-| Bổ sung **evidence chuẩn A** — khảo sát **N = 21** | Trước đó spec chỉ đứng trên chuẩn B. Nay đạt **cả hai chuẩn A và B** |
-| **Vá lỗi bỏ dấu** trong `eval/dem-discord.py`: `đ` bị xoá thành khoảng trắng nên 3/22 cụm hỏi không bao giờ khớp | Đếm sót **34 câu hỏi**. Số chính đổi **45/211 = 21% → 50/245 = 20%**, "bot né" **27 → 29** — kết luận không đổi, nhưng số phải đúng |
-| Sửa cách phát biểu giá trị: **"có nguồn + im lặng đúng lúc"**, bỏ ý *"nhanh hơn TA"* | Khảo sát cho thấy chờ TA lâu không phải nỗi đau chính (2/21 *thường xuyên*) |
-
-**Phạm vi & kế hoạch**
-
-| Đổi gì | Vì sao |
-|---|---|
-| Đổi ưu tiên mẻ tri thức tiếp theo → **Daily Standup + quy trình đề tài** | Hai chủ đề hỏi nhiều nhất (**95%** và **67%**) nhưng kho có **0 mục**. Từ feedback của Biển, khảo sát xác nhận |
-| Bỏ hạng mục **nút *Lưu QA* cuối thread** | Context menu đã phủ đúng nhu cầu đó; thêm nút thứ hai chỉ làm rối |
-| Gỡ `eval/run_results_v1.0.md` | Repo chỉ nên có **một** bảng kết quả hiện hành; số lượt 1 giữ ở §7 và trace gốc |
+| Mốc | Đổi gì | Vì sao |
+|---|---|---|
+| **CP1** | Track **B1 → B2** | B1 *(bot hỏi lại khi câu hỏi mơ hồ)* là ứng viên C, giá trị không cộng dồn |
+| **CP1** | B2: bản tin cuối ngày → **ghim tri thức** | Bản tin chỉ lợi cho 1 TA/ngày; ghim thì tích luỹ theo thời gian |
+| **CP1** | Bổ sung **khảo sát N = 21** → evidence đạt **cả chuẩn A và B** | Mining một mình n nhỏ: 19 tin / 7 người |
+| **CP1** | **Vá lỗi bỏ dấu `đ`** trong script đếm *(mãi CP4 mới phát hiện)* | 3/22 cụm hỏi không bao giờ khớp → sót 34 câu hỏi. Số chính **21% → 20%** |
+| **CP2** | Bỏ ý định hiện **điểm khớp** cho người dùng | Không ai cần biết cosine; đưa số ra chỉ làm loãng quyết định |
+| **CP2** | Bỏ **ghim bằng reaction** → **context menu** của Discord *(dựng ở CP3)* | Pack không có cột reaction — nhưng không cần mock, Discord có sẵn lệnh này |
+| **CP3** | Tách quyền nút 👎: **học viên báo, TA mới gỡ** | Trước đó một click của bất kỳ ai cũng xoá tri thức của cả lớp |
+| **CP3** | Thêm nguồn **tài liệu PDF** — 77 mục | Kho chỉ có 20 mục từ chat, quá mỏng. Giữ phân biệt `trust: ta` / `doc` |
+| **CP3** | Pin `seed: 42` | Cùng một ca lúc PASS lúc FAIL giữa các lượt chạy |
+| **CP4** | **Sửa prompt**: thứ tự ưu tiên tuyến tính → **cây quyết định 3 bước** | 8/9 ca trượt cùng một nguyên nhân. **33 → 36/41** |
+| **CP4** | Hoàn tác một phần bản sửa đầu | Nó làm `G13` tụt `OUT_OF_SCOPE` → `UNCERTAIN`. Tổng điểm vẫn *tăng* nên suýt cho qua |
+| **CP4** | Sửa phát biểu giá trị → **"có nguồn + im lặng đúng lúc"** | Khảo sát: chờ TA lâu không phải nỗi đau chính *(2/21)* |
+| **CP4** | Ưu tiên mẻ tri thức tiếp theo: **Standup + đề tài** | Hai chủ đề hỏi nhiều nhất *(95%, 67%)* nhưng kho có **0 mục** |
+| **CP4** | Bỏ hạng mục **nút *Lưu QA* cuối thread** | Context menu đã phủ đúng nhu cầu đó |
 
 ### Phần chưa xong — tự khai
 
