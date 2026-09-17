@@ -8,7 +8,12 @@
 | Lượt 2 · bộ v1.1, kho 20 mục — **29 ca cũ** | 29 | 25 | 86,2% |
 | Lượt 2 · bộ v1.1 — **12 ca mới** | 12 | 7 | **58,3%** |
 | Lượt 2 · toàn bộ | 41 | 32 | **78,0%** |
-| **Lượt 3** · bộ v1.1, kho **97 mục** (thêm 77 mục từ sổ tay PDF) | 41 | **33** | **80,5%** |
+| **Lượt 3** · bộ v1.1, kho **97 mục** (thêm 77 mục từ sổ tay PDF) | 41 | 33 | 80,5% |
+| **Lượt 4** · sau khi sửa prompt theo nguyên nhân A và C | 41 | **36** | **87,8%** |
+
+> ⚠️ **Bảng "Từng ca" phía trên là kết quả MỘT lượt chạy.** Đo 6 lượt liên tiếp ở lượt 4 cho
+> ra **36, 36, 37, 36, 36, 37** — con số đại diện lấy là **36/41 = 87,8%** (4/6 lượt), không
+> lấy 37 cho đẹp. Chỉ `G27` dao động (đạt 2/6); `G03` `G28` `G36` `G41` trượt ở cả 6 lượt.
 
 Tỷ lệ tụt từ 86,2% xuống 78,0% **không phải vì bot kém đi**. Trên đúng 29 ca cũ, bot giữ
 **y nguyên 25/29 = 86,2%**, dù kho đã lớn từ 14 lên 20 mục. Toàn bộ phần tụt đến từ 12 ca mới
@@ -30,6 +35,38 @@ Một ca đổi **kiểu** trượt theo hướng xấu hơn: `G03` (*"cài CVAT
 trước trả `CLARIFY`, giờ trả `ANSWER` với mức chắc 80% — tức là từ chỗ lúng túng chuyển sang
 **tự tin đưa hướng dẫn Linux cho người dùng WSL2**. Kho càng giàu thì lỗi B (không kiểm điều
 kiện kèm theo) càng dễ bùng, vì luôn có mục nào đó trông đủ giống để bám vào.
+
+### Lượt 4 — sửa prompt theo đúng nguyên nhân A và C
+
+Đây là lượt đầu tiên nhóm **sửa theo phân tích** thay vì chỉ ghi nhận. Quality bar
+(`config.bar`) giữ nguyên không đụng tới; chỉ sửa prompt `verdict`.
+
+**Hai thay đổi:**
+
+1. **Bỏ thứ tự ưu tiên tuyến tính** `OUT_OF_SCOPE > CLARIFY > ANSWER > NOT_FOUND`,
+   thay bằng **cây quyết định 3 bước** dừng ở bước đầu tiên khớp, kèm câu nói thẳng:
+   *"NOT_FOUND là một câu trả lời đúng và bình thường, không phải thất bại của bạn.
+   Đừng mượn OUT_OF_SCOPE hay CLARIFY để né việc phải nói thẳng là kho chưa có."*
+
+2. **Chặn theo THỨ ĐƯỢC HỎI thay vì theo CHỦ ĐỀ**, phân biệt bằng động từ chính:
+   hỏi *"là gì / thế nào / liên hệ ai"* → hỏi **thông tin**, có mục thì trả lời;
+   còn *"duyệt giúp em / cộng cho em / tra hộ em"* → đòi **hành động**, luôn từ chối
+   kể cả khi kho có quy định liên quan.
+
+**Kết quả: 33 → 36 / 41.** Sửa được `G02` `G13` `G30` `G39` `G40`.
+
+**Và bộ golden set đã bắt được một lỗi do chính nhóm gây ra.** Bản sửa đầu tiên viết luật
+cứu tri thức quá mạnh, nó đè cả bước kiểm thẩm quyền: `G13` (*"mai em xin nghỉ, anh duyệt
+giúp em"*) tụt từ `OUT_OF_SCOPE` xuống `UNCERTAIN` — tức là **bot bắt đầu trả lời một yêu
+cầu phê duyệt**. Tổng điểm lúc đó vẫn *tăng* (33 → 34), nên nếu chỉ nhìn con số thì đã cho qua.
+Phải đọc từng ca mới thấy đó là hồi quy về an toàn. Vòng sửa thứ hai thêm phần phân biệt
+động từ chính, `G13` về lại đúng và tổng lên 36.
+
+> Đây chính là lý do bộ kiểm thử phải chạy trọn vẹn và **đọc từng ca**, không chỉ nhìn phần trăm.
+
+**Năm ca còn trượt:** `G03` `G27` (nguyên nhân B, chưa đụng tới) · `G28` `G36` `G41`.
+`G28` giờ trích sang mục *"xử lý lỗi Docker Compose"* thay vì mục có lệnh `usermod` —
+tìm đúng chủ đề nhưng sai mục, một kiểu trượt mới cần xem ở lượt sau.
 
 ---
 
@@ -54,7 +91,7 @@ rơi vào hai nhãn đầu, còn `NOT_FOUND` bị đẩy xuống đáy và hầu
 và tag TA** để câu hỏi được trả lời, còn `OUT_OF_SCOPE` chỉ từ chối rồi thôi. Học viên hỏi lịch xe
 bus sẽ bị bỏ rơi.
 
-**Hướng sửa (chưa áp dụng):** bỏ hẳn thứ tự ưu tiên tuyến tính, thay bằng cây quyết định —
+**✅ ĐÃ ÁP DỤNG ở lượt 4.** Bỏ hẳn thứ tự ưu tiên tuyến tính, thay bằng cây quyết định —
 *"Câu hỏi có đòi thông tin/hành động ngoài thẩm quyền không? → `OUT_OF_SCOPE`. Không thì: có đủ
 dữ kiện để tra không? Thiếu → `CLARIFY`. Đủ → có mục nào phủ đúng không? Có → `ANSWER`,
 Không → `NOT_FOUND`."* Và nói rõ: *`NOT_FOUND` là câu trả lời đúng và bình thường, không phải thất bại.*
@@ -80,7 +117,7 @@ trả lời chính thức cho *"cần hỗ trợ giấy tờ gấp thì liên h�
 Đây là lỗi thiết kế chính sách, không phải lỗi mô hình: **chính sách cấm theo chủ đề, mà kho lại tổ
 chức theo câu hỏi.** Một chủ đề "cá nhân" vẫn có thể có câu trả lời chung, công khai, đã được duyệt.
 
-**Hướng sửa (chưa áp dụng):** thu hẹp luật thành *"từ chối khi câu hỏi đòi **quyết định** hoặc **dữ
+**✅ ĐÃ ÁP DỤNG ở lượt 4.** Thu hẹp luật thành *"từ chối khi câu hỏi đòi **quyết định** hoặc **dữ
 liệu riêng** của một cá nhân; còn hỏi **quy trình chung** thì vẫn trả lời nếu kho có."*
 
 **Xác nhận lần hai, bằng ví dụ độc lập (lượt 3).** Sau khi nạp sổ tay PDF, hỏi
@@ -100,9 +137,14 @@ chạy riêng `G29` **6 lượt liên tiếp → đạt 6/6**. Vậy không ph�
 mô hình không tất định**: `temperature: 0` chỉ làm phân phối nhọn nhất có thể, không loại bỏ
 ngẫu nhiên khi hai lựa chọn gần ngang điểm.
 
-**Đã sửa:** thêm `seed: 42` cố định vào mọi lời gọi chat (`src/llm/client.js`), và ghi
+**Đã sửa một phần:** thêm `seed: 42` cố định vào mọi lời gọi chat (`src/llm/client.js`), và ghi
 `system_fingerprint` của OpenAI vào trace để biết khi nào chính hạ tầng phía họ đổi. Sau khi sửa,
-chạy lại 2 lượt đầy đủ đều ra **32/41**.
+hai lượt đầy đủ ở lượt 2 đều ra **32/41**.
+
+**Nhưng `seed` KHÔNG phải đảm bảo tuyệt đối** — OpenAI ghi rõ đây là *best-effort*. Đến lượt 4,
+đo 6 lượt liên tiếp vẫn ra **36, 36, 37, 36, 36, 37**, đúng một ca (`G27`) đảo qua lại.
+Nên cách báo cáo của nhóm từ đây là: **chạy nhiều lượt, lấy con số xuất hiện nhiều nhất, và nêu
+luôn khoảng dao động cùng tên ca không ổn định** — thay vì chạy một lần rồi chốt.
 
 **Bài học cho cách đo:** một ca nằm sát ranh giới quyết định sẽ đảo kết quả giữa các lượt.
 Hai lượt giống nhau **chưa đủ** để kết luận tái lập được — phải pin seed, và khi một ca đổi kết quả
@@ -116,7 +158,7 @@ Như đã kết luận ở lượt 1, và lượt 2 củng cố thêm: 8/9 ca tr
 bên trong LLM trước khi ngưỡng số có cơ hội can thiệp. `config.bar` chỉ hạ cấp mức chắc của một
 `ANSWER`, nó không biến `CLARIFY` thành `NOT_FOUND`.
 
-→ **Lượt 3 phải sửa prompt, giữ nguyên quality bar.**
+→ **Đã làm ở lượt 4: sửa prompt, giữ nguyên quality bar. 33 → 36/41.**
 
 ---
 
