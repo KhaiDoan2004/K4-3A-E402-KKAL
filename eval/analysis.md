@@ -20,7 +20,9 @@ Tỷ lệ tụt từ 86,2% xuống 78,0% **không phải vì bot kém đi**. Tr�
 cố ý khó hơn (mâu thuẫn nguồn, tiếng Việt không dấu, câu hai ý, đòi bot thực hiện hành động),
 chỉ đạt 58,3% và kéo trung bình xuống.
 
-Bộ v1.0 và kết quả lượt 1 giữ nguyên trong `eval/run_results_v1.0.md`, không sửa đè.
+Bộ v1.0 đã bị bộ v1.1 thay thế; kết quả lượt 1 (**25/29 = 86,2%**) giữ lại ở bảng §7 của `spec.md`
+và trong trace gốc `eval/traces/eval-2026-09-17T05-20-47.jsonl`. File kết quả riêng của lượt 1
+đã gỡ để repo chỉ còn **một** bảng kết quả hiện hành.
 
 ### Lượt 3 — nạp thêm tài liệu PDF vào kho
 

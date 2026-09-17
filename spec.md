@@ -346,6 +346,9 @@ từng chỉnh**:
 1. **`temperature: 0` không đảm bảo tất định.** Đã pin `seed: 42`, nhưng OpenAI ghi rõ đây là
    *best-effort*. Đo 6 lượt liên tiếp ở lượt 4: **36, 36, 37, 36, 36, 37**. Nhóm lấy **36** —
    con số xuất hiện nhiều nhất — **không lấy 37 cho đẹp**. Chỉ `G27` dao động.
+   ⚠️ File `eval/run_results.md` trong repo là bản tự sinh của **một** lượt cụ thể, và lượt đó
+   rơi vào nhánh **37/41 = 90,2%**. Con số nhóm báo cáo vẫn là **36/41** — chênh lệch này là
+   đúng như mô tả ở trên, không phải hai phép đo khác nhau.
 2. **Data pack của khoá có 3 `msg_id` bị trùng** (1.092 dòng / 1.089 mã) trong khi
    `DATA_DICTIONARY.md` mô tả đây là mã để dẫn nguồn. `seed.js` luôn giữ **bản đầu tiên**
    để việc trích dẫn ổn định qua các lần chạy.

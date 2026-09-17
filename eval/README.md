@@ -52,7 +52,8 @@ cd ../.. && node eval/run_eval.mjs
 Lượt 2 thấp hơn **không phải vì bot kém đi**: trên đúng 29 ca của lượt 1, bot giữ y nguyên
 25/29 = 86,2%. Phần tụt đến từ 12 ca mới cố ý khó hơn (58,3%). Chi tiết: `analysis.md`.
 
-Kết quả lượt 1 giữ nguyên ở `run_results_v1.0.md`, không sửa đè.
+Kết quả lượt 1 (**25/29 = 86,2%**) giữ ở bảng §7 `spec.md` + trace gốc; file kết quả riêng của lượt 1 đã gỡ
+để repo chỉ còn **một** bảng kết quả hiện hành.
 
 Thành phần golden set so với chuẩn R4:
 

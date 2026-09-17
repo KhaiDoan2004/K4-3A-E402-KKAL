@@ -10,7 +10,8 @@
 
 **Lời gọi AI thật nằm ở đâu:** `bot/src/core/decide.js` (quyết định trung tâm) và
 `bot/src/core/capture.js` (làm mượt). Trace mọi lượt gọi: `eval/traces/*.jsonl`.
-Kết quả kiểm thử lượt 1: `eval/run_results.md` — **25/29 = 86,2%**.
+Kết quả kiểm thử: `eval/run_results.md`. Bảng đầy đủ 4 lượt ở `spec.md` §7 —
+số nhóm báo cáo là **36/41 = 87,8%** (lượt đại diện).
 
 Bản chạy online: https://claude.ai/artifact/RcDFrLhdXG147cFsjPZCzU
 

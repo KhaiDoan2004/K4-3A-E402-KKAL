@@ -17,8 +17,6 @@ Buổi thử **có quan sát** (xem họ dùng bot trực tiếp) vẫn còn n�
 **Nhóm tóm tắt:** tích hợp được vào Discord, gọi API thật và ra kết quả thật —
 nhưng **cần xem xét kĩ hơn bài toán dữ liệu và chi phí**.
 
-> **Quote nguyên văn** *(chép từ tin nhắn của Biển)*
-> `(chưa chép — dán nguyên văn tin nhắn vào đây)`
 
 Đây là phản hồi có sức nặng nhất nhóm nhận được, vì nó chỉ đúng hai chỗ yếu thật:
 
@@ -48,8 +46,6 @@ Biển nói đúng cả hai, nhưng hai vế không nặng như nhau.
 
 **Nhóm tóm tắt:** tính năng **có triển vọng, tiện dụng**, hiện **hoạt động được ở mức cơ bản**.
 
-> **Quote nguyên văn** *(chép từ tin nhắn của Bảo)*
-> `(chưa chép — dán nguyên văn tin nhắn vào đây)`
 
 Nhóm không nâng câu này lên thành "đã nghiệm thu". *"Mức cơ bản"* khớp đúng với mức prototype
 nhóm tự khai ở `spec.md` §4 — **Working**, chạy thật nhưng chưa lên lớp thật.
