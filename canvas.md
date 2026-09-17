@@ -50,7 +50,7 @@
 ### ⚠️ Hai hạn chế tự khai *(từ CP1)*
 
 1. **Pack chỉ có 3 ngày onboarding** và lab CVAT rơi đúng 1 ngày → **n nhỏ: 19 tin / 7 người**.
-   🔄 **Đã bù ở CP4:** khảo sát chuẩn A **N = 15** học viên khoá 4 — 87% từng phải hỏi lại bot, 80% phải tự đi kiểm tra lại câu trả lời, 60% thấy câu hỏi lặp lại *thường xuyên*. Chưa đạt chuẩn A (BTC yêu cầu ≥20 người) nên evidence vẫn dựa trên **chuẩn B**; cũng **chưa khảo sát TA**. Chi tiết: `docs/khao-sat-nguoi-dung.md`.
+   🔄 **Đã bù ở CP4:** khảo sát **chuẩn A đạt đủ — N = 21** học viên ngoài nhóm (≥20 ✅, xác nhận 86–90% ✅, log đầy đủ ✅). 90% từng phải hỏi lại bot · 86% phải tự đi kiểm tra lại câu trả lời · 21/21 đều từng thấy câu hỏi lặp lại. Nhóm nay có **cả hai chuẩn A và B**. Còn lại: **chưa khảo sát TA**. Chi tiết: `docs/khao-sat-nguoi-dung.md`.
 2. 🔄 **Data pack KHÔNG có cột reaction/emoji** (12 cột: `msg_id, guild, channel, author, is_bot, msg_type, created_at_vn, reply_to, mentions_bot, n_attachments, n_chars, content`), nên **không lấy được sự kiện ghim từ data lịch sử**.
    **Cách giải quyết đã đổi ở CP3:** thay vì dựng fixture giả, nhóm bỏ hẳn cơ chế "ghim bằng reaction" và dùng **lệnh context menu thật của Discord** — trợ giảng chuột phải vào tin trả lời → *Apps → Lưu vào kho tri thức*. Sự kiện lưu vì thế là **thật, không mock**. Kho hiện có **4 mục được lưu trực tiếp trên Discord** theo đúng đường này.
    Data pack vẫn dùng để **nạp kho ban đầu**: 19 cặp hỏi–đáp có thật, chọn tay theo `msg_id`, chạy qua `codebase/bot/src/seed.js`.
@@ -71,7 +71,7 @@
 | C · Bot hỏi lại 1 câu khi câu hỏi mơ hồ | 75 chuỗi hỏi-lại / 198 tin | Mỗi ngày | Học viên diễn đạt lại 2–7 lượt | ✅ dễ nhất | ❌ đây là **B1**, không phải B2 |
 | D · Sửa lỗi format bản tin ("nguồn tham chiếu" chèn giữa từ) | 13 chỗ trong 1/4 bản tin | 1/4 bản tin | Đọc vấp | ✅ | ❌ **bug `str.replace` thiếu biên từ — sửa 1 dòng, không phải bài toán AI.** Vẫn báo lại team vận hành |
 
-**Lý do chọn A bằng số:** A là ứng viên duy nhất mà **giá trị cộng dồn** — mỗi ca được ghim làm giảm chi phí của mọi ca sau, trong khi B phải chạy lại từ đầu mỗi ngày. Bằng chứng A còn cho thấy **giải pháp thủ công đã tự phát sinh** (`M55809` học viên tự lập topic gom issue, `M97517` mod trỏ người sang đó) — nhu cầu được người dùng tự xác nhận bằng hành động, không phải bằng lời nói. Đổi lại A có **n nhỏ nhất** (19 tin) nên phải bù bằng khảo sát — 🔄 **đã làm ở CP4, N = 15**, xác nhận đúng hướng nhưng cũng cho thấy **nỗi đau là độ tin cậy chứ không phải tốc độ** (chỉ 2/15 *thường xuyên* phải đợi TA lâu).
+**Lý do chọn A bằng số:** A là ứng viên duy nhất mà **giá trị cộng dồn** — mỗi ca được ghim làm giảm chi phí của mọi ca sau, trong khi B phải chạy lại từ đầu mỗi ngày. Bằng chứng A còn cho thấy **giải pháp thủ công đã tự phát sinh** (`M55809` học viên tự lập topic gom issue, `M97517` mod trỏ người sang đó) — nhu cầu được người dùng tự xác nhận bằng hành động, không phải bằng lời nói. Đổi lại A có **n nhỏ nhất** (19 tin) nên phải bù bằng khảo sát — 🔄 **đã làm ở CP4, N = 21**, xác nhận đúng hướng nhưng cũng cho thấy **nỗi đau là độ tin cậy chứ không phải tốc độ** (chỉ 2/21 *thường xuyên* phải đợi TA lâu).
 
 ---
 

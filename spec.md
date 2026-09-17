@@ -31,26 +31,27 @@ cách sửa đó ngay mà không phải gõ lại, để tôi dành thời gian 
 **cách sửa chỉ tồn tại trong trí nhớ của người vừa gỡ nó**. Người tiếp theo gặp đúng lỗi phải
 hỏi lại từ đầu, TA tiếp theo phải gõ lại từ đầu — dù câu trả lời đã nằm sẵn trong lịch sử kênh.
 
-### Evidence — **chuẩn A** (khảo sát người dùng, N = 15)
+### Evidence — **chuẩn A** (khảo sát người dùng, N = 21) ✅
 
-Khảo sát **con bot sẵn có của khoá 4**, 15 học viên, 9 câu hỏi đóng.
+Khảo sát **con bot sẵn có của khoá 4**, 21 học viên ngoài nhóm, 9 câu hỏi đóng.
 Dữ liệu gốc: `docs/…Câu-trả-lời.xlsx` · phân tích đầy đủ: **`docs/khao-sat-nguoi-dung.md`**.
+Đạt đủ 3 điều kiện chuẩn A của BTC: **≥20 người** (21) · **≥50% xác nhận** (86–90%) · **log đầy đủ**.
 
 | Chỉ số | Kết quả |
 |---|---|
-| Dùng bot hằng ngày / vài lần mỗi tuần | **14/15 (93%)** |
-| Bot hiểu đúng ngay lần đầu *(thang 1–5)* | **median 3** · 12/15 chấm ≤ 3 |
-| Đã phải **hỏi lại** vì câu đầu không đúng ý | **13/15 (87%)** |
-| Đã phải **tự kiểm tra lại** bằng nguồn khác | **12/15 (80%)** — trong đó 8 người đi hỏi Mentor/TA |
-| Khi kiểm tra lại, bot **không hoàn toàn đúng** | **13/15 (87%)**, chủ yếu là *"đúng một phần"* (10/15) |
-| Thấy bạn học hỏi lại câu TA/BTC đã trả lời | **9/15 (60%)** *thường xuyên* hoặc *rất thường xuyên* |
+| Dùng bot hằng ngày / vài lần mỗi tuần | **18/21 (86%)** |
+| Bot hiểu đúng ngay lần đầu *(thang 1–5)* | **median 3** · 18/21 chấm ≤ 3 |
+| Đã phải **hỏi lại** vì câu đầu không đúng ý | **19/21 (90%)** |
+| Đã phải **tự kiểm tra lại** bằng nguồn khác | **18/21 (86%)** — 14 trong số đó đi hỏi người thật |
+| Khi kiểm tra lại, bot **không hoàn toàn đúng** | **19/21 (90%)**, chủ yếu là *"đúng một phần"* (16/21) |
+| Thấy bạn học hỏi lại câu TA/BTC đã trả lời | **11/21 (52%)** *thường xuyên+* · **21/21 đều từng thấy** |
 
 **Hai điều khảo sát làm rõ:**
 
-1. **Bot hiện tại không kết thúc câu hỏi, nó thêm một bước.** 12/15 phải đi xác minh lại, và
-   **10 trong 12 người đó xác minh bằng cách hỏi người thật** (Mentor/TA, BTC hoặc bạn học).
+1. **Bot hiện tại không kết thúc câu hỏi, nó thêm một bước.** 18/21 phải đi xác minh lại, và
+   **14 trong 18 người đó xác minh bằng cách hỏi người thật** (Mentor/TA, BTC hoặc bạn học).
    Mỗi lượt hỏi bot vẫn đẻ ra một lượt hỏi người — đúng chi phí nhóm muốn cắt.
-2. **Nỗi đau là độ tin cậy, không phải tốc độ.** Chỉ 2/15 *thường xuyên* phải đợi TA lâu; 5/15
+2. **Nỗi đau là độ tin cậy, không phải tốc độ.** Chỉ 2/21 *thường xuyên* phải đợi TA lâu; 7/21
    *chưa bao giờ*. Nhóm **giữ nguyên lát cắt** nhưng sửa cách phát biểu giá trị: không phải
    *"trả lời nhanh hơn TA"* mà là **"trả lời có nguồn, và im lặng đúng lúc khi không có nguồn"**.
 
@@ -95,11 +96,8 @@ sinh trong khoá** — nhu cầu được người dùng xác nhận bằng hàn
 ### ⚠️ Hạn chế của evidence *(tự khai)*
 
 - **n nhỏ ở chuẩn B:** pack chỉ có 3 ngày onboarding, lab CVAT rơi đúng 1 ngày → 19 tin / 7 người.
-- **Khảo sát mới có N = 15** → **chưa đạt chuẩn A** (BTC yêu cầu ≥20 người). Hai điều kiện còn lại
-  của chuẩn A thì đạt: tỉ lệ xác nhận 80–87% (cần ≥50%) và log đầy đủ (file gốc commit trong `docs/`).
-  **Spec vẫn đứng vững trên chuẩn B** — BTC chấm *"A và/hoặc B"*. Mẫu **tự nguyện, không ngẫu nhiên**
-  nên có thể nghiêng về người dùng bot nặng.
-- **Chưa khảo sát được TA** — trong khi TA mới là job executor. Toàn bộ 15 người trả lời là học viên.
+- Mẫu khảo sát **tự nguyện, không ngẫu nhiên** → có thể nghiêng về người dùng bot nặng.
+- **Chưa khảo sát được TA** — trong khi TA mới là job executor. Toàn bộ 21 người trả lời là học viên.
 - Khảo sát **không có câu mở** → không có quote nguyên văn nào từ nguồn này; mọi con số là tự đánh giá.
 - `is_q` là heuristic, **chưa chấm tay 30 mẫu** để đo độ chính xác.
 
@@ -376,8 +374,8 @@ Hai câu trên là **nhóm tóm tắt lại**; bản gốc là tin nhắn của 
 
 **Feedback của Biển đã dẫn tới hai việc:**
 
-- **Dữ liệu** — khảo sát xác nhận Biển đúng: 2 chủ đề hỏi nhiều nhất (*Daily Standup* 93%,
-  *chọn/đổi đề tài* 53%) hiện có **0 mục** trong kho. → đổi thứ tự ưu tiên cho mẻ tri thức tiếp theo.
+- **Dữ liệu** — khảo sát xác nhận Biển đúng: 2 chủ đề hỏi nhiều nhất (*Daily Standup* **95%**,
+  *chọn/đổi đề tài* **67%**) hiện có **0 mục** trong kho. → đổi thứ tự ưu tiên cho mẻ tri thức tiếp theo.
 - **Chi phí** — trước đó nhóm chỉ ước chừng; đã **đo thật** từ 741 lượt hỏi trong trace:
   **≈ 0,34 $ / 1.000 câu hỏi**, độ trễ **p50 ≈ 1,5 giây**. Kết luận: nút thắt là **dữ liệu**,
   không phải tiền.
@@ -409,22 +407,21 @@ Hai câu trên là **nhóm tóm tắt lại**; bản gốc là tin nhắn của 
 | 17/9 CP3 | Thêm nguồn tri thức **tài liệu PDF** (77 mục) | Kho chỉ có 20 mục từ chat → quá mỏng. Giữ phân biệt `trust: ta` / `trust: doc` |
 | 17/9 CP3 | Pin `seed: 42` | Phát hiện cùng một ca lúc PASS lúc FAIL giữa các lượt |
 | 17/9 CP4 | **Sửa prompt** theo phân tích: bỏ thứ tự ưu tiên tuyến tính → cây quyết định; chặn theo *thứ được hỏi* thay vì *chủ đề* | 8/9 ca trượt cùng một nguyên nhân. **33 → 36/41.** Quality bar giữ nguyên |
-| 17/9 CP4 | Bổ sung **evidence chuẩn A** (khảo sát N=15) vào §1 | Trước đó spec chỉ đứng trên chuẩn B |
-| 17/9 CP4 | Sửa cách phát biểu giá trị: **"có nguồn + im lặng đúng lúc"**, bỏ ý *"nhanh hơn TA"* | Khảo sát cho thấy chờ TA lâu không phải nỗi đau chính (2/15) |
-| 17/9 CP4 | Đổi ưu tiên mẻ tri thức tiếp theo → **Daily Standup + quy trình đề tài** | Hai chủ đề hỏi nhiều nhất nhưng kho có **0 mục**. Từ feedback của Biển, khảo sát xác nhận |
+| 17/9 CP4 | Bổ sung **evidence chuẩn A** (khảo sát **N = 21**) vào §1 | Trước đó spec chỉ đứng trên chuẩn B. Nay **đạt cả hai chuẩn A và B** |
+| 17/9 CP4 | Sửa cách phát biểu giá trị: **"có nguồn + im lặng đúng lúc"**, bỏ ý *"nhanh hơn TA"* | Khảo sát cho thấy chờ TA lâu không phải nỗi đau chính (2/21 *thường xuyên*) |
+| 17/9 CP4 | Đổi ưu tiên mẻ tri thức tiếp theo → **Daily Standup + quy trình đề tài** | Hai chủ đề hỏi nhiều nhất (**95%** và **67%**) nhưng kho có **0 mục**. Từ feedback của Biển, khảo sát xác nhận |
 | 17/9 CP4 | Bỏ hạng mục **nút *Lưu QA* cuối thread** khỏi kế hoạch | Context menu đã phủ đúng nhu cầu đó; thêm nút thứ hai chỉ làm rối |
 | 17/9 CP4 | Bản sửa **đầu tiên** bị hoàn tác một phần | Nó làm `G13` tụt từ `OUT_OF_SCOPE` xuống `UNCERTAIN` — bot bắt đầu trả lời một yêu cầu phê duyệt. Tổng điểm vẫn *tăng* nên suýt cho qua; đọc từng ca mới thấy |
 
 ### Phần chưa xong — tự khai
 
-- **Khảo sát N = 15 → thiếu 5 người** là đạt trọn chuẩn A (BTC yêu cầu ≥20). Không chặn điểm R1
-  vì chuẩn B đã đạt, nhưng đây là 5 người dễ kiếm nhất trong tất cả các việc còn lại.
-  Ngoài ra **chưa khảo sát TA** — người thật sự chịu chi phí trong JTBD.
+- **Chưa khảo sát TA** — người thật sự chịu chi phí trong JTBD. Khảo sát N = 21 đã đạt chuẩn A
+  nhưng toàn bộ người trả lời là học viên.
 - **Chấm tay 30 mẫu** để đo độ chính xác heuristic `is_q` — chưa làm.
 - **Chưa làm buổi thử có quan sát** với willing user. Hai người đã dùng và nhắn lại nhận xét
   tổng quát, nhưng nhóm **chưa ngồi xem họ dùng** — nên chưa biết họ phản ứng thế nào
   ngay lúc bot nói *"chưa có trong kho"*, vốn là chỗ đáng quan sát nhất. Kế hoạch ở §8.
-- **Kho lệch chủ đề:** *Daily Standup* (93% người hỏi) và *chọn/đổi đề tài* (53%) hiện **0 mục**.
+- **Kho lệch chủ đề:** *Daily Standup* (**95%** người hỏi) và *chọn/đổi đề tài* (**67%**) hiện **0 mục**.
   Với hai chủ đề này bot trả `NOT_FOUND` — đúng thiết kế, nhưng cho thấy kho còn mỏng so với
   nhu cầu thật. Chỉ dày lên được khi TA dùng thật, không vá được bằng sửa prompt.
 - **Ca hiếm mới đạt 2/5 = 40%** — yếu nhất, và là nhóm quality bar không ràng buộc. Ba ca trượt:

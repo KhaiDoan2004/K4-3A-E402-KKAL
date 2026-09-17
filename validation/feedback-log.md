@@ -20,8 +20,8 @@ nhưng **cần xem xét kĩ hơn bài toán dữ liệu và chi phí**.
 
 Đây là phản hồi có sức nặng nhất nhóm nhận được, vì nó chỉ đúng hai chỗ yếu thật:
 
-**① Dữ liệu.** Đúng. Số liệu khảo sát xác nhận: hai chủ đề học viên hỏi nhiều nhất —
-**Daily Standup (93%)** và **chọn/đổi đề tài (53%)** — hiện có **0 mục** trong kho.
+**① Dữ liệu.** Đúng. Số liệu khảo sát (N = 21) xác nhận: hai chủ đề học viên hỏi nhiều nhất —
+**Daily Standup (95%)** và **chọn/đổi đề tài (67%)** — hiện có **0 mục** trong kho.
 Kho đang nghiêng về nội dung giới thiệu chương trình (77/100 mục từ sổ tay) và
 3 ngày chat onboarding, chứ không phải quy trình vận hành hằng ngày.
 → Chi tiết: `docs/khao-sat-nguoi-dung.md`.
@@ -63,13 +63,4 @@ Bảo không nêu chỗ vướng cụ thể nào, nên phản hồi này **xác 
 
 ---
 
-## Còn nợ trước CP5 — buổi thử có quan sát (15 phút/người)
 
-1. **Không hướng dẫn trước.** Chỉ đưa tên bot và nói *"thử hỏi nó một câu xem sao"*.
-2. Giao **2 task**: **T1** hỏi một lỗi kỹ thuật từng gặp thật · **T2** hỏi một câu kho chắc chắn chưa có.
-3. **Quan sát, không can thiệp.** Ghi: họ gõ gì · đợi bao lâu · có đọc dòng nguồn không ·
-   có bấm 👍/👎 không · có hỏi lại không.
-4. Chép **quote nguyên văn**, đặc biệt lúc bot nói *"chưa có trong kho"* — phản ứng ở đó cho biết
-   người dùng thấy bot **thành thật** hay thấy bot **vô dụng**. Đây là câu hỏi quan trọng nhất
-   chưa ai trả lời được: hai nhận xét ở trên đều là đánh giá tổng quát sau khi dùng,
-   **không phải phản ứng tại chỗ lúc bot từ chối trả lời**.
