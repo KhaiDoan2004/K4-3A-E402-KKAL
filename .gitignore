@@ -33,3 +33,7 @@ codebase/bot/data/
 # Phiếu chấm tay chứa nguyên văn tin nhắn từ data pack của khoá — không commit.
 # Kết quả (eval/cham-tay-ketqua.md) chỉ có số đếm + trích ngắn nên commit được.
 eval/cham-tay-phieu.md
+
+# Bản sao template gốc 12 trang (8,5 MB) — chỉ dùng để dựng lại slide, không cần commit.
+# Bản gốc: Discord Template.pptx của Slidechef.
+slides/demo-slide.template-goc.pptx
