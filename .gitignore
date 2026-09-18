@@ -29,6 +29,7 @@ codebase/bot/data/
 *.pdf
 # Trừ slide nộp CP5 — nhóm tự làm, BTC đòi nằm ở gốc repo
 !demo-slides.pdf
+!demo-slide.pdf
 
 # Phiếu chấm tay chứa nguyên văn tin nhắn từ data pack của khoá — không commit.
 # Kết quả (eval/cham-tay-ketqua.md) chỉ có số đếm + trích ngắn nên commit được.
