@@ -1,0 +1,618 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<title>KKAL — Bot ghim tri thức cho Discord khoá 4</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Roboto:wght@300;400;500;700&family=Roboto+Mono:wght@400;500;700&family=Special+Gothic+Expanded+One&display=swap">
+<style>
+:root{
+  --navy:#0C0F43; --navy2:#1A1E80; --navy3:#343591; --deep:#00010B;
+  --cyan:#9BE6F3; --blurple:#5865F2;
+  --good:#3BA55D; --bad:#ED4245; --warn:#FAA81A;
+  --ink:#FFFFFF; --muted:#A9B2E0; --dim:#8089C4;
+  --line:rgba(155,230,243,.22); --line2:rgba(255,255,255,.10);
+  --card:rgba(26,30,128,.46); --card2:rgba(12,15,67,.62);
+  --disp:"Special Gothic Expanded One","Montserrat",sans-serif;
+  --head:"Montserrat",-apple-system,sans-serif;
+  --body:"Roboto",-apple-system,sans-serif;
+  --mono:"Roboto Mono",ui-monospace,Menlo,monospace;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:#05061F}
+body{font-family:var(--body);color:var(--ink);font-weight:300;
+  -webkit-print-color-adjust:exact; print-color-adjust:exact}
+
+.slide{
+  width:1280px; height:720px; position:relative; overflow:hidden;
+  margin:0 auto 22px auto; display:flex; flex-direction:column;
+  padding:38px 54px 0 54px;
+  background:
+    linear-gradient(180deg, rgba(12,15,67,.90) 0%, rgba(12,15,67,.80) 46%, rgba(12,15,67,.88) 100%),
+    url("bg.png") center/cover no-repeat, var(--navy);
+}
+@page{ size:13.333in 7.5in; margin:0 }
+@media print{
+  html,body{background:#fff}
+  .slide{margin:0; page-break-after:always; break-after:page}
+  .slide:last-child{page-break-after:auto; break-after:auto}
+}
+
+/* ─── header ─── */
+.top{display:flex; align-items:center; gap:16px; padding-bottom:9px;
+  border-bottom:1px solid var(--line)}
+.top .num{font-family:var(--disp); font-size:19px; color:var(--cyan); line-height:1;
+  letter-spacing:.01em}
+.top .sec{flex:1; font-family:var(--head); font-weight:600; font-size:12px;
+  letter-spacing:.17em; text-transform:uppercase; color:var(--ink)}
+.top .team{font-family:var(--disp); font-size:13px; color:var(--dim); letter-spacing:.02em}
+
+h1{font-family:var(--head); font-weight:700; font-size:31px; line-height:1.18;
+  letter-spacing:-.01em; margin:17px 0 5px 0; max-width:33ch; text-wrap:balance}
+.dek{font-size:14.5px; color:var(--muted); margin:0 0 15px 0; max-width:92ch; line-height:1.45;
+  font-weight:300}
+.dek strong,p strong,li strong,td strong{font-weight:500; color:var(--ink)}
+
+h2{font-family:var(--head); font-size:10.5px; font-weight:700; letter-spacing:.15em;
+  text-transform:uppercase; color:var(--cyan); margin:0 0 8px 0}
+
+p{margin:0 0 8px 0; font-size:14px; line-height:1.5}
+p:last-child{margin-bottom:0}
+em{font-style:italic; color:#CFD6FF}
+.mono{font-family:var(--mono)}
+code{font-family:var(--mono); font-size:.85em; background:rgba(88,101,242,.30);
+  border:1px solid rgba(155,230,243,.16); padding:1px 5px; border-radius:3px; color:#DCE2FF}
+
+/* ─── grid ─── */
+.cols{display:grid; gap:22px; flex:1; min-height:0}
+.c-5-7{grid-template-columns:5fr 7fr}
+.c-7-5{grid-template-columns:7fr 5fr}
+.c-1-1{grid-template-columns:1fr 1fr}
+.c-3{grid-template-columns:repeat(3,1fr)}
+.stack{display:flex; flex-direction:column; gap:13px; min-height:0}
+
+/* ─── cards ─── */
+.card{background:var(--card); border:1px solid var(--line2); border-radius:9px;
+  padding:14px 17px}
+.card.cy{border-left:3px solid var(--cyan)}
+.card.gd{border-left:3px solid var(--good); background:rgba(59,165,93,.16)}
+.card.wn{border-left:3px solid var(--warn); background:rgba(250,168,26,.13)}
+.card.bd{border-left:3px solid var(--bad); background:rgba(237,66,69,.13)}
+.card h2{margin-top:0}
+
+blockquote.slice{margin:0; padding:15px 19px; border-radius:9px;
+  background:linear-gradient(135deg, rgba(88,101,242,.42), rgba(26,30,128,.42));
+  border:1px solid rgba(155,230,243,.26);
+  font-size:16px; line-height:1.5; font-weight:400}
+blockquote.slice em{color:var(--cyan); font-style:normal; font-weight:500}
+
+/* ─── stats ─── */
+.stats{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:8px}
+.stats li{display:grid; grid-template-columns:104px 1fr; gap:13px; align-items:baseline;
+  font-size:13.5px; line-height:1.4}
+.stats .v{font-family:var(--mono); font-weight:700; font-size:17px; color:var(--cyan);
+  text-align:right; font-variant-numeric:tabular-nums; letter-spacing:-.02em}
+.stats .v.bad{color:var(--bad)} .stats .v.good{color:var(--good)}
+
+/* ─── tables ─── */
+table{border-collapse:collapse; width:100%; font-size:12.5px; line-height:1.38; font-weight:300}
+th{text-align:left; font-family:var(--head); font-size:9.5px; letter-spacing:.13em;
+  text-transform:uppercase; color:var(--cyan); font-weight:700;
+  padding:0 9px 7px 0; border-bottom:1px solid var(--line)}
+td{padding:8px 9px 8px 0; border-bottom:1px solid var(--line2); vertical-align:top}
+tr:last-child td{border-bottom:none}
+td.num{font-family:var(--mono); font-variant-numeric:tabular-nums; white-space:nowrap}
+.pick{color:var(--good); font-weight:700} .drop{color:var(--dim)}
+tr.hi td{background:rgba(88,101,242,.24)}
+tr.hi td:first-child{border-radius:5px 0 0 5px} tr.hi td:last-child{border-radius:0 5px 5px 0}
+
+/* ─── layer strip ─── */
+.layers{display:grid; grid-template-columns:repeat(4,1fr); gap:9px}
+.layer{background:var(--card2); border:1px solid var(--line2); border-radius:8px;
+  padding:10px 11px; font-size:11.5px; line-height:1.42; font-weight:300}
+.layer .lh{font-family:var(--head); font-weight:700; font-size:12.5px; color:var(--cyan);
+  display:block; margin-bottom:4px}
+.layer .ex{color:var(--dim); font-style:italic}
+
+/* ─── quotes ─── */
+.qcard{background:var(--card2); border:1px solid var(--line2); border-radius:9px;
+  padding:13px 16px; font-size:13.5px; line-height:1.45}
+.qcard .who{font-family:var(--mono); font-size:10.5px; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--cyan); margin-bottom:7px; font-weight:500}
+.qslot{border:1.5px dashed var(--warn); border-radius:6px; padding:9px 11px;
+  color:var(--warn); font-size:11.5px; font-family:var(--mono); line-height:1.4;
+  margin-top:9px}
+
+/* ─── verdict ─── */
+.verdict{display:flex; align-items:center; gap:18px; background:rgba(59,165,93,.20);
+  border:1px solid rgba(59,165,93,.45); border-left:3px solid var(--good);
+  border-radius:9px; padding:13px 18px}
+.verdict .big{font-family:var(--disp); font-size:30px; color:var(--good); line-height:1;
+  letter-spacing:.01em; white-space:nowrap}
+.verdict .d{font-size:12.5px; line-height:1.45}
+
+/* ─── priorities ─── */
+.prio{list-style:none; margin:0; padding:0; counter-reset:p;
+  display:flex; flex-direction:column; gap:13px}
+.prio li{counter-increment:p; display:grid; grid-template-columns:26px 1fr; gap:13px;
+  font-size:14px; line-height:1.52; font-weight:300}
+.prio li::before{content:counter(p); font-family:var(--disp); font-size:12px;
+  color:var(--navy); background:var(--cyan); width:23px; height:23px; border-radius:50%;
+  display:grid; place-items:center; margin-top:1px}
+.tag{font-family:var(--mono); font-size:10.5px; color:var(--dim)}
+
+
+/* ─── sơ đồ kiến trúc ─── */
+.arch{display:grid; grid-template-columns:auto 22px auto 22px 1fr 22px auto; align-items:stretch; gap:0}
+.abox{background:var(--card2); border:1px solid var(--line2); border-radius:9px; padding:11px 13px}
+.abox.kb{background:rgba(88,101,242,.22); border-color:rgba(88,101,242,.5)}
+.abox.core{background:rgba(155,230,243,.11); border-color:rgba(155,230,243,.42)}
+.abox h3{font-family:var(--head); font-size:9.5px; font-weight:700; letter-spacing:.13em;
+  text-transform:uppercase; color:var(--cyan); margin:0 0 7px 0}
+.arow{font-size:11.5px; line-height:1.4; font-weight:300; margin-bottom:5px}
+.arow:last-child{margin-bottom:0}
+.arow b{font-weight:500; color:#fff}
+.arrow{display:grid; place-items:center; color:var(--cyan); font-size:16px; font-family:var(--mono)}
+.steps{display:flex; flex-direction:column; gap:5px}
+.step{background:rgba(12,15,67,.55); border:1px solid var(--line2); border-radius:6px;
+  padding:6px 9px; font-size:11px; line-height:1.38; font-weight:300}
+.step b{color:var(--cyan); font-weight:500; font-family:var(--mono); font-size:10px;
+  letter-spacing:.06em; margin-right:5px}
+.outs{display:flex; flex-direction:column; gap:5px; justify-content:center}
+.out{font-family:var(--mono); font-size:10.5px; padding:5px 9px; border-radius:5px;
+  border-left:3px solid; white-space:nowrap; font-weight:500}
+.out.ok{background:rgba(59,165,93,.20); border-color:var(--good); color:#7FE0A0}
+.out.un{background:rgba(250,168,26,.18); border-color:var(--warn); color:#FFD08A}
+.out.cl{background:rgba(88,101,242,.24); border-color:var(--blurple); color:#B6BEFF}
+.out.os{background:rgba(237,66,69,.18); border-color:var(--bad); color:#FF9B9D}
+.out.nf{background:rgba(255,255,255,.08); border-color:#8996A3; color:#C2CBDE}
+
+/* ─── embed Discord dựng lại ─── */
+.dc{background:#313338; border-radius:8px; padding:11px 12px; font-family:var(--body)}
+.dc .msg{display:flex; gap:9px; margin-bottom:9px}
+.dc .msg:last-child{margin-bottom:0}
+.dc .av{width:24px; height:24px; border-radius:50%; flex:0 0 24px;
+  background:linear-gradient(135deg,#5865F2,#9BE6F3)}
+.dc .av.bot{background:linear-gradient(135deg,#23A55A,#9BE6F3)}
+.dc .bd{flex:1; min-width:0}
+.dc .nm{font-size:11.5px; font-weight:500; color:#F2F3F5; margin-bottom:2px}
+.dc .nm .app{background:#5865F2; color:#fff; font-size:8px; font-weight:700; padding:1px 4px;
+  border-radius:3px; margin-left:4px; vertical-align:1px; letter-spacing:.03em}
+.dc .nm .tm{color:#949BA4; font-size:9.5px; font-weight:400; margin-left:5px}
+.dc .tx{font-size:11.5px; line-height:1.42; color:#DBDEE1; font-weight:300}
+.dc .mention{background:rgba(88,101,242,.3); color:#C9CDFB; border-radius:3px; padding:0 2px}
+.emb{background:#2B2D31; border-left:4px solid #949BA4; border-radius:4px;
+  padding:9px 11px; margin-top:5px}
+.emb.ok{border-left-color:#23A55A}
+.emb .et{font-size:12.5px; font-weight:600; color:#F2F3F5; margin-bottom:5px}
+.emb .eb{font-size:11px; line-height:1.45; color:#DBDEE1; font-weight:300}
+.emb ul{margin:0; padding-left:15px}
+.emb li{margin-bottom:3px}
+.emb .fl{font-size:10.5px; font-weight:600; color:#F2F3F5; margin-top:7px}
+.emb .ft{font-size:9.5px; color:#949BA4; margin-top:6px; font-family:var(--mono)}
+.emb .lk{color:#00A8FC}
+.dbtns{display:flex; gap:6px; margin-top:6px}
+.dbtn{font-size:10px; font-weight:500; padding:5px 10px; border-radius:4px; color:#fff}
+.dbtn.s{background:#4E5058} .dbtn.d{background:#DA373C}
+.caption{font-family:var(--mono); font-size:9.5px; color:var(--dim); margin-top:6px; line-height:1.4}
+
+
+/* ─── dải demo ảnh thật ─── */
+.demoband{display:flex; align-items:flex-start; justify-content:center; gap:12px; margin-top:16px}
+.shot{margin:0; display:flex; flex-direction:column; gap:6px}
+.shot img{height:286px; width:auto; display:block; border-radius:8px;
+  border:1px solid var(--line2); box-shadow:0 6px 22px rgba(0,0,0,.45)}
+.shot figcaption{font-size:11px; line-height:1.4; color:var(--muted); font-weight:300;
+  max-width:none}
+.shot figcaption b{font-family:var(--mono); font-size:10px; letter-spacing:.08em; font-weight:700}
+.between{display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:5px; height:286px; flex:0 0 112px; text-align:center}
+.between .ar{font-family:var(--mono); font-size:26px; color:var(--cyan); line-height:1}
+.between .bt{font-size:10.5px; line-height:1.35; color:var(--muted); font-weight:300}
+.between .bt em{color:var(--cyan); font-style:normal; font-weight:500}
+
+/* ─── footer ─── */
+.src{margin-top:auto; padding:9px 0 14px 0; border-top:1px solid var(--line2);
+  font-family:var(--mono); font-size:10px; color:var(--dim); letter-spacing:.02em;
+  display:flex; gap:9px; flex-wrap:wrap}
+.src b{color:var(--cyan); font-weight:500; letter-spacing:.1em}
+.src span{white-space:nowrap}
+.src span::after{content:" ·"; color:rgba(255,255,255,.22)}
+.src span:last-child::after{content:""}
+</style>
+</head>
+<body>
+
+<!-- ═══ 1 ═══ -->
+<section class="slide">
+  <div class="top"><span class="num">01/06</span><span class="sec">Người dùng &amp; công việc</span>
+    <span class="team">KKAL · 3A · E402 · C1</span></div>
+  <h1>Cách sửa chỉ tồn tại trong trí nhớ của người vừa gỡ nó</h1>
+  <p class="dek"><strong>Job executor: Lab Coach / TA khoá 4</strong> — người trực kênh Discord.
+    Học viên là người gõ câu hỏi, nhưng người đang chịu chi phí lặp lại là TA.</p>
+
+  <div class="cols c-5-7">
+    <div class="stack">
+      <blockquote class="slice">Khi tôi trực kênh và có người hỏi <em>một lỗi đã từng được gỡ</em>,
+        tôi muốn đưa lại cách sửa đó ngay mà không phải gõ lại — để dành thời gian cho ca thật sự mới.</blockquote>
+      <div class="card">
+        <h2>Workflow hiện tại · không có AI</h2>
+        <p style="font-size:12.5px;line-height:1.55">Học viên gặp lỗi → TA chẩn đoán →
+          gõ 5–7 tin cách sửa → xong →
+          <strong>cách sửa trôi vào lịch sử chat</strong> → người sau gặp đúng lỗi đó →
+          <strong>TA gõ lại từ đầu</strong>.</p>
+      </div>
+      <div class="card cy">
+        <p style="font-size:12.5px;line-height:1.5"><span class="mono" style="color:var(--cyan)">M55809</span>
+          — <em>“Mình tạo topic này mong muốn các bạn chia sẻ các issuse gặp phải trong quá trình cài đặt”</em><br>
+          → <strong>Giải pháp thủ công đã tự phát sinh trong khoá.</strong>
+          Nhu cầu được xác nhận bằng hành động, không phải bằng lời nói.</p>
+      </div>
+    </div>
+
+    <div class="stack">
+      <div class="card">
+        <h2>Chuẩn A — khảo sát 21 học viên ngoài nhóm</h2>
+        <ul class="stats">
+          <li><span class="v bad">19/21</span><span>đã phải <strong>hỏi lại</strong> vì câu đầu của bot không đúng ý</span></li>
+          <li><span class="v bad">18/21</span><span>phải <strong>tự kiểm tra lại</strong> bằng nguồn khác — <strong>14 trong số đó đi hỏi người thật</strong></span></li>
+          <li><span class="v bad">21/21</span><span>đều từng thấy bạn học hỏi lại câu TA/BTC đã trả lời</span></li>
+        </ul>
+      </div>
+      <div class="card">
+        <h2>Chuẩn B — mining 1.092 tin Discord K4 · 12–14/09</h2>
+        <ul class="stats">
+          <li><span class="v bad">24 phút</span><span>lượt hướng dẫn cài CVAT <strong>bị gõ lại từ đầu</strong> — lần thứ hai trong <em>cùng một ngày</em>, tốn 12 tin</span></li>
+          <li><span class="v bad">0/29</span><span>ca bot né <em>“nhờ Mod vào trả lời giúp”</em> có người thật vào tiếp nhận</span></li>
+        </ul>
+      </div>
+      <div class="card wn">
+        <h2 style="color:var(--warn)">Khảo sát bác bỏ một giả định của chính nhóm</h2>
+        <p style="font-size:12.5px;line-height:1.5">Nhóm từng nghĩ nỗi đau là <strong>chờ TA lâu</strong>.
+          Số liệu nói ngược: chỉ <strong>2/21</strong> <em>thường xuyên</em> phải đợi, <strong>7/21 chưa bao giờ</strong>.
+          Nỗi đau thật là <strong>độ tin cậy</strong>.<br>
+          → Nhóm <strong>giữ nguyên lát cắt</strong> nhưng đổi phát biểu giá trị: không phải
+          <em>“trả lời nhanh hơn TA”</em> mà là <strong style="color:var(--cyan)">“trả lời có nguồn, và im lặng đúng lúc khi không có nguồn”</strong>.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="src"><b>Nguồn</b><span>docs/khao-sat-nguoi-dung.md</span><span>eval/dem-discord.py</span><span>spec.md §1</span></div>
+</section>
+
+<!-- ═══ 2 ═══ -->
+<section class="slide">
+  <div class="top"><span class="num">02/06</span><span class="sec">Lát cắt &amp; kiến trúc tổng quan</span>
+    <span class="team">Mức prototype tự khai · Working</span></div>
+
+  <blockquote class="slice" style="margin:16px 0 13px 0; font-size:15px">Một <em>học viên khoá 4</em> hỏi một câu trong Discord ·
+    AI quyết định câu hỏi này <em>có được trả lời bằng một mục tri thức đã có trong kho hay không</em>,
+    và <em>có đủ chắc để tự trả lời hay không</em> · nếu chắc thì trả lời kèm dẫn nguồn,
+    nếu không chắc hoặc không có thì <em>nói thẳng và tag TA</em>.</blockquote>
+
+  <div class="arch">
+    <div class="abox" style="max-width:158px">
+      <h3>Nguồn vào</h3>
+      <div class="arow"><b>Học viên</b> — tag bot hoặc <code>/hoi</code></div>
+      <div class="arow"><b>TA</b> — context menu <em>“Lưu tri thức”</em> ngay trên tin nhắn</div>
+      <div class="arow"><b>Sổ tay PDF</b> — nạp một lần bằng CLI</div>
+    </div>
+    <div class="arrow">→</div>
+    <div class="abox kb" style="max-width:150px">
+      <h3>Kho tri thức · 100 mục</h3>
+      <div class="arow"><b>23</b> mục <code>trust: ta</code><br>kèm link nhảy tới tin gốc</div>
+      <div class="arow"><b>77</b> mục <code>trust: doc</code><br>trích theo số trang</div>
+      <div class="arow" style="color:var(--cyan)">Cùng khớp → mục TA thắng <b>(−0.03 cho doc)</b></div>
+    </div>
+    <div class="arrow">→</div>
+    <div class="abox core">
+      <h3>Quyết định trung tâm · <code>core/decide.js</code></h3>
+      <div class="steps">
+        <div class="step"><b>1</b>Bỏ mention · che PII/token · cắt 1.200 ký tự</div>
+        <div class="step"><b>2</b>Embed câu hỏi — <code>text-embedding-3-small</code></div>
+        <div class="step"><b>3</b>Xếp hạng lai: cosine + từ khoá (tối đa +0.08) − phạt doc 0.03 · lọc ≥ 0.30 · lấy <b style="font-family:var(--body);color:#fff">top 3</b></div>
+        <div class="step"><b>4</b>LLM phán quyết 3 bước — <code>gpt-4o-mini</code>:<br>&nbsp;&nbsp;có thuộc thẩm quyền không → câu đã đủ thông tin chưa → kho có nội dung trả lời không</div>
+        <div class="step"><b>5</b>Đối chiếu ngưỡng <code>config.bar</code> — chỉ <b style="font-family:var(--body);color:#FFD08A">hạ cấp</b>, không bao giờ nâng cấp</div>
+      </div>
+    </div>
+    <div class="arrow">→</div>
+    <div class="outs">
+      <div class="out ok">✅ ANSWER</div>
+      <div class="out un">⚠️ UNCERTAIN</div>
+      <div class="out cl">❓ CLARIFY</div>
+      <div class="out os">🚫 OUT_OF_SCOPE</div>
+      <div class="out nf">🔍 NOT_FOUND</div>
+    </div>
+  </div>
+
+  <div class="cols c-3" style="flex:0 0 auto; margin-top:14px">
+    <div class="card cy">
+      <h2>Automation: Conditional — chọn theo cost-of-error</h2>
+      <p style="font-size:12px;line-height:1.5">Nội dung trả lời đã qua cổng người nên phát lại là an toàn.
+        Thứ AI tự quyết là <strong>việc khớp</strong>.
+        <strong style="color:var(--bad)">Khớp sai</strong> → học viên chạy nhầm <code>docker</code>/<code>usermod</code>
+        cho một lỗi khác → <strong>hỏng môi trường ngay trước buổi lab</strong>.
+        <strong style="color:var(--good)">Chuyển nhầm sang TA</strong> → tốn TA vài giây.
+        → <strong>Chỉ tự trả lời ở ca chắc, còn lại chuyển người.</strong></p>
+    </div>
+    <div class="card">
+      <h2>Ba ứng viên đã loại — loại bằng số</h2>
+      <p style="font-size:12px;line-height:1.5">
+        <strong>B · Bản tin cuối ngày</strong> <span class="mono" style="color:var(--dim)">50/245 câu = 20% không ai reply</span> —
+        giá trị rơi vào đúng 1 TA mỗi ngày, không tích luỹ.<br>
+        <strong>C · Bot hỏi lại khi câu mơ hồ</strong> <span class="mono" style="color:var(--dim)">75 chuỗi hỏi-lại/198 tin</span> —
+        là track B1; <em>quay lại thành nhánh <code>CLARIFY</code> bên trong A</em>.<br>
+        <strong>D · Sửa lỗi format bản tin</strong> <span class="mono" style="color:var(--dim)">13 chỗ/1 bản tin</span> —
+        bug <code>str.replace</code> thiếu biên từ, sửa 1 dòng, không phải bài toán AI.<br>
+        <strong style="color:var(--cyan)">A thắng vì mỗi ca được ghim làm giảm chi phí của mọi ca sau.</strong></p>
+    </div>
+    <div class="card">
+      <h2>Năm thứ nhóm cố ý KHÔNG build</h2>
+      <p style="font-size:11.5px;line-height:1.5">
+        <strong>1.</strong> Không tự sinh cách sửa lỗi mới — chỉ trả lại nội dung <strong>đã có trong kho</strong>.<br>
+        <strong>2.</strong> Không tự trả lời khi không đủ chắc — <strong>tag TA, không đoán</strong>.<br>
+        <strong>3.</strong> Bot <strong>không tự tạo</strong> mục tri thức từ chat. Tri thức chỉ vào kho qua hai cổng, cả hai do <strong>người chủ động mở</strong>.<br>
+        <strong>4.</strong> Không cho bot chủ động đọc cả kênh — ngưỡng <code>passive: 0.85</code> có trong code nhưng <strong>chưa bật</strong>.<br>
+        <strong>5.</strong> Không nêu tên/định danh học viên trong mục tri thức — dẫn link ca gốc, <strong>không dẫn người</strong>.<br>
+        <span style="color:var(--cyan)">Bản build không vi phạm điều nào.</span></p>
+    </div>
+  </div>
+
+  <div class="src"><b>Nguồn</b><span>spec.md §2 §4</span><span>codebase/bot/src/core/decide.js</span><span>codebase/bot/src/config.js → config.bar</span><span>codebase/cp2_workflow.html</span></div>
+</section>
+
+<!-- ═══ 3 ═══ -->
+<section class="slide">
+  <div class="top"><span class="num">03/06</span><span class="sec">4 lớp chỗ khó &amp; cách giải trong trải nghiệm</span>
+    <span class="team">12 kịch bản · 4 đường đi</span></div>
+  <h1 style="max-width:52ch; font-size:28px; margin:14px 0 10px 0">Chỗ khó không được giấu — nó được đưa thẳng ra mặt người dùng</h1>
+
+  <table style="font-size:11.5px">
+    <tr><th style="width:15%">Lớp chỗ khó</th><th style="width:26%">Tình huống thật</th><th style="width:44%">Người dùng nhìn thấy gì</th><th>Đường đi</th></tr>
+    <tr><td><strong style="color:var(--cyan)">① Nguồn sự thật</strong><br><span class="mono" style="font-size:9.5px;color:var(--dim)">7 ca · G10 G11</span></td>
+      <td>Hỏi cài CVAT trên <strong>Macbook M1</strong>, kho chỉ có hướng dẫn Linux</td>
+      <td>Nói thẳng <em>“chưa có trong kho”</em>, <strong>không suy từ kiến thức chung</strong>, tag TA, ghi câu hỏi vào danh sách chưa trả lời được. Kho có 2 mục ngược nhau → nói rõ <strong>ai nói, khi nào</strong>.</td>
+      <td class="num" style="color:#C2CBDE">NOT_FOUND</td></tr>
+    <tr><td><strong style="color:var(--cyan)">② Mơ hồ</strong><br><span class="mono" style="font-size:9.5px;color:var(--dim)">6 ca · G10</span></td>
+      <td><em>“em chạy tới bước 3 thì bị lỗi như này ạ”</em></td>
+      <td>Hỏi lại <strong>đúng thứ còn thiếu</strong> (lỗi gì, hướng dẫn nào), <strong>chưa tag TA</strong> ở bước này, không trích bừa một mục.</td>
+      <td class="num" style="color:#B6BEFF">CLARIFY</td></tr>
+    <tr><td><strong style="color:var(--cyan)">③ Ngoài thẩm quyền</strong><br><span class="mono" style="font-size:9.5px;color:var(--dim)">7 ca · G10</span></td>
+      <td><em>“Cộng cho em 50 XP bài lab 1”</em> · xin passcode Zoom · tra mã đội trên Phoenix</td>
+      <td>Từ chối lịch sự + <strong>chỉ đúng người/kênh cần hỏi</strong>. Chặn theo <strong>thứ được hỏi</strong>, không theo chủ đề: <em>“nghỉ mấy buổi”</em> → trả lời · <em>“mai em nghỉ, duyệt giúp em”</em> → từ chối.</td>
+      <td class="num" style="color:#FF9B9D">OUT_OF_SCOPE</td></tr>
+    <tr><td><strong style="color:var(--cyan)">④ Đặc thù domain</strong><br><span class="mono" style="font-size:9.5px;color:var(--dim)">8 ca · G11 G9</span></td>
+      <td><em>“cho minh hoi mot team bao nhieu ban vay a”</em> — không dấu, teencode</td>
+      <td>Hiểu đúng nhờ bảng thuật ngữ nội bộ trong prompt (<code>lv2</code>, <code>WS</code>, <code>labcoach</code>, <code>Phoenix</code>) → trả lời kèm nguồn. Sai thì 👎: <strong>học viên báo, TA mới gỡ</strong>.</td>
+      <td class="num" style="color:#7FE0A0">ANSWER</td></tr>
+  </table>
+
+  <div class="demoband">
+    <figure class="shot"><img src="demo-truoc.png" alt="Bot trả lời chưa có trong kho">
+      <figcaption><b style="color:#C2CBDE">TRƯỚC</b> — kho <b>98 mục</b>. Bot <b>không đoán</b>, tag TA.</figcaption></figure>
+    <div class="between">
+      <div class="bt">Lab Coach trả lời<br>trong thread</div>
+      <div class="ar">→</div>
+      <div class="bt">bấm <em>Lưu tri thức</em><br>ở context menu</div>
+    </div>
+    <figure class="shot"><img src="demo-sau.png" alt="Bot trả lời có trong kho kèm dẫn nguồn">
+      <figcaption><b style="color:#7FE0A0">SAU</b> — kho <b>99 mục</b>. Trả lời + <b>dẫn nguồn ai lưu, ngày nào, link tin gốc</b>.</figcaption></figure>
+  </div>
+
+  <div class="src"><b>Nguồn</b><span>ảnh chụp luồng thật 17/09/2026 · kênh #bot-chat-test</span><span>spec.md §5 §6 §4b</span><span>eval/traces/</span></div>
+</section>
+
+<!-- ═══ 4 ═══ -->
+<section class="slide">
+  <div class="top"><span class="num">04/06</span><span class="sec">Kết quả đo · đối chiếu Quality Bar</span>
+    <span class="team">Bar khoá lúc 21:00 · 17/9 · CP4</span></div>
+  <h1 style="max-width:42ch">87,8% — đối chiếu bar đã cam kết <em style="color:var(--cyan);font-style:normal">trước khi</em> biết kết quả</h1>
+
+  <div class="cols c-7-5">
+    <div class="stack">
+      <div class="card cy">
+        <h2>Quality bar — nguyên văn, chốt tại CP4, không sửa sau đó</h2>
+        <p style="font-size:13.5px;line-height:1.5"><strong>ĐẠT khi ≥ 80% số ca trong golden set đạt cả hai chiều,
+          VÀ mỗi lớp ①②③④ đạt ≥ 75%, VÀ 0 ca bịa nội dung ngoài kho tri thức.</strong><br>
+          <span style="color:var(--muted)">Hai chiều = <strong>đúng hành vi</strong> (nhãn nằm trong tập đã khai trước khi chạy)
+          + <strong>có căn cứ</strong> (trích đúng mục đã chỉ định, thoả <code>must_include</code>/<code>must_not_include</code>).
+          Chấm bằng máy → người ngoài nhóm chạy lại ra đúng cùng kết quả.
+          Điều kiện thứ ba là <strong>ràng buộc cứng</strong> — vi phạm một ca là trượt, bất kể phần trăm.</span></p>
+      </div>
+
+      <table>
+        <tr><th style="width:8%">Lượt</th><th style="width:21%">Bộ / kho</th><th style="width:22%">Đạt</th><th>Đổi gì trước lượt đó</th></tr>
+        <tr><td class="num">1</td><td class="num">29 ca · 14 mục</td><td class="num">25/29 = 86,2%</td><td>Lượt đầu</td></tr>
+        <tr><td class="num">2</td><td class="num">41 ca · 20 mục</td><td class="num" style="color:var(--bad);font-weight:700">32/41 = 78,0%</td><td><strong>Thêm 12 ca khó hơn → trượt bar</strong></td></tr>
+        <tr><td class="num">3</td><td class="num">41 ca · 97 mục</td><td class="num">33/41 = 80,5%</td><td>Nạp thêm sổ tay PDF — 77 mục</td></tr>
+        <tr class="hi"><td class="num"><strong>4</strong></td><td class="num">41 ca · 97 mục</td><td class="num" style="color:var(--good);font-weight:700">36/41 = 87,8%</td><td><strong>Sửa prompt: ưu tiên tuyến tính → cây quyết định 3 bước</strong></td></tr>
+      </table>
+
+      <div class="verdict">
+        <span class="big">87,8%</span>
+        <span class="d"><strong style="color:var(--good);font-size:14px">ĐẠT</strong> — 87,8% ≥ 80% ✅ · mọi lớp ①②③④ ≥ 75% ✅ · <strong>0 ca bịa nội dung ngoài kho</strong> ✅<br>
+          <span style="color:var(--muted)">Bar không phải con số cho có — <strong>lượt 2 đạt 78,0%, đã trượt chính nó.</strong>
+          Ngưỡng trong <code>config.bar</code> cố định từ lượt 1, chưa từng chỉnh theo kết quả.</span></span>
+      </div>
+    </div>
+
+    <div class="stack">
+      <div class="card">
+        <h2>Lượt 4 — theo lớp chỗ khó</h2>
+        <ul class="stats">
+          <li><span class="v good">86%</span><span>① Nguồn sự thật — 6/7</span></li>
+          <li><span class="v good">100%</span><span>② Mơ hồ — 6/6</span></li>
+          <li><span class="v good">100%</span><span>③ Ngoài thẩm quyền — 7/7</span></li>
+          <li><span class="v good">88%</span><span>④ Đặc thù domain — 7/8</span></li>
+          <li><span class="v good">100%</span><span>Ca thường gặp — 8/8</span></li>
+          <li><span class="v bad">40%</span><span><strong>Ca hiếm — 2/5.</strong> Bar không ràng buộc nhóm này nên vẫn tính đạt, nhưng nhóm <strong>không coi là đã xong</strong>.</span></li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>Kiểm “0 ca bịa” bằng cách nào</h2>
+        <p style="font-size:11.5px;line-height:1.5">Các ca lớp ① khai sẵn <code>must_not_include</code> với đúng những
+          chuỗi mà một câu trả lời bịa sẽ chứa — <span class="mono" style="color:var(--cyan)">G02</span> cấm <em>“rosetta”</em>,
+          <span class="mono" style="color:var(--cyan)">G39</span> cấm giờ xe bus, <span class="mono" style="color:var(--cyan)">G40</span> cấm chữ <em>“thầy”</em>.
+          Máy chấm phần này; nhóm <strong>đọc tay toàn bộ 41 câu trả lời</strong> của lượt 4 để soát phần máy không bắt được.</p>
+      </div>
+
+      <div class="card">
+        <p style="font-size:11.5px;line-height:1.5;color:var(--muted)">
+          <strong>Về tính tất định:</strong> đã pin <code>seed: 42</code>,
+          nhưng OpenAI ghi rõ đây là <em>best-effort</em>. Đo 6 lượt liên tiếp:
+          <span class="mono" style="color:var(--cyan)">36 · 36 · 37 · 36 · 36 · 37</span>.
+          Nhóm báo cáo <strong>36</strong> — con số xuất hiện nhiều nhất —
+          <strong>không lấy 37 cho đẹp</strong>.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="src"><b>Nguồn</b><span>spec.md §7</span><span>eval/golden_set.json</span><span>eval/run_results.md</span><span>eval/analysis.md</span><span>eval/traces/</span></div>
+</section>
+
+<!-- ═══ 5 ═══ -->
+<section class="slide">
+  <div class="top"><span class="num">05/06</span><span class="sec">Bài học từ thất bại &amp; phản hồi người dùng</span>
+    <span class="team">R6 · validation ngoài nhóm</span></div>
+  <h1 style="max-width:50ch">Hai thứ dạy được nhiều nhất đều là thứ làm nhóm tụt điểm</h1>
+
+  <div class="cols c-1-1" style="margin-top:2px">
+    <div class="stack">
+      <h2 style="margin-bottom:0">① Từ các ca thất bại</h2>
+      <div class="card bd">
+        <p style="font-size:12px;line-height:1.5"><strong>5 ca trượt, gom về 2 lỗi:</strong><br>
+          <strong style="color:#FF9B9D">Trả lời dù điều kiện không khớp</strong>
+          <span class="mono" style="color:var(--dim)">(G03, G27)</span> — kho chỉ có hướng dẫn cài CVAT trên Linux;
+          hỏi <strong>WSL2</strong> hay <strong>Arch</strong>, bot vẫn dùng đúng hướng dẫn đó ở mức chắc <strong>70–90%</strong>.
+          → Đây <strong>đúng là cost-of-error đã khai ở trang 2</strong>: khớp sai làm hỏng môi trường.<br>
+          <strong style="color:#FF9B9D">Kho có câu trả lời nhưng bot dùng sai</strong>
+          <span class="mono" style="color:var(--dim)">(G28, G36, G41)</span> — trích nhầm mục cùng chủ đề, hỏi lại thay vì trả lời,
+          hoặc bỏ sót một ý khi câu hỏi có hai ý.</p>
+      </div>
+      <div class="card wn">
+        <p style="font-size:12px;line-height:1.5"><strong>Một bản sửa suýt lọt lưới.</strong> Bản sửa prompt đầu làm
+          <span class="mono" style="color:var(--cyan)">G13</span> tụt từ <code>OUT_OF_SCOPE</code> xuống <code>UNCERTAIN</code> —
+          nhưng <strong>tổng điểm vẫn tăng</strong> nên suýt cho qua. Phải hoàn tác một phần.
+          → <strong>Tổng % che được một hồi quy thật.</strong></p>
+      </div>
+      <div class="card cy">
+        <h2>Bài học lớn nhất</h2>
+        <p style="font-size:13px;line-height:1.5">Ở lượt 2 nhóm thêm 12 ca khó và tụt xuống
+          <strong style="color:var(--bad)">78,0% — trượt chính cái bar mình vừa cam kết</strong>.
+          Cách chữa không phải hạ bar, mà là đọc 9 ca trượt và thấy
+          <strong>8/9 trượt cùng một nguyên nhân</strong>.
+          <strong style="color:var(--cyan)">Bộ test làm mình tụt điểm là bộ test duy nhất dạy được gì.</strong></p>
+      </div>
+      <div class="card wn">
+        <p style="font-size:11.5px;line-height:1.5"><strong>Lỗi nằm trong chính công cụ đo.</strong>
+          Hàm bỏ dấu của <code>eval/dem-discord.py</code> ăn mất chữ <strong>đ</strong> — Unicode NFD
+          <strong>không tách</strong> <code>đ</code> (U+0111), nên nó sống sót qua bước bỏ dấu rồi bị xoá thành khoảng trắng.
+          <strong>3 trong 22 cụm hỏi không bao giờ khớp</strong>: đếm sót 34 tin, <span class="mono">211 → 245</span>.
+          Mãi CP4 mới phát hiện. Kết luận không đổi, nhưng
+          <strong style="color:var(--warn)">công cụ đo cũng phải được kiểm như sản phẩm.</strong></p>
+      </div>
+    </div>
+
+    <div class="stack">
+      <h2 style="margin-bottom:0">② Từ người dùng ngoài nhóm — R6</h2>
+      <div class="qcard">
+        <div class="who">Nguyễn Văn Biển · học viên K4 · willing user khai từ CP1</div>
+        <p style="font-size:12.5px"><em>Nhóm tóm tắt:</em> tích hợp được vào Discord, gọi API thật, ra kết quả thật —
+          <strong>nhưng cần xem xét kĩ hơn bài toán dữ liệu và chi phí</strong>.</p>
+        <div class="qslot">⟨ QUOTE NGUYÊN VĂN — dán đúng từng chữ trước khi xuất PDF nộp ⟩</div>
+      </div>
+      <div class="qcard">
+        <div class="who">Nguyễn Phúc Bảo · học viên K4 · willing user khai từ CP1</div>
+        <p style="font-size:12.5px"><em>Nhóm tóm tắt:</em> tính năng có triển vọng, tiện dụng, hiện
+          <strong>hoạt động được ở mức cơ bản</strong> — khớp đúng mức nhóm tự khai là <em>Working</em>.</p>
+        <div class="qslot">⟨ QUOTE NGUYÊN VĂN — dán đúng từng chữ trước khi xuất PDF nộp ⟩</div>
+      </div>
+      <div class="card">
+        <h2>Đã đổi gì vì phản hồi đó</h2>
+        <table>
+          <tr><td style="width:27%">Biển — <em>dữ liệu</em></td>
+            <td><strong>Đổi ưu tiên.</strong> Khảo sát xác nhận Biển đúng: hai chủ đề hỏi nhiều nhất —
+              <strong>Daily Standup 95%</strong>, <strong>chọn/đổi đề tài 67%</strong> — hiện có
+              <strong style="color:var(--bad)">0 mục</strong>. Mẻ tri thức tiếp theo nhặt hai chủ đề này trước. → <code>spec.md §9</code></td></tr>
+          <tr><td>Biển — <em>chi phí</em></td>
+            <td><strong>Không đổi thiết kế</strong>, thay ước chừng bằng <strong>số đo thật</strong> từ 741 lượt hỏi trong trace:
+              <span class="mono" style="color:var(--cyan)">≈ 0,34 $ / 1.000 câu</span> · <span class="mono" style="color:var(--cyan)">p50 ≈ 1,5 s</span>.
+              → Nút thắt là <strong>dữ liệu</strong>, không phải tiền.</td></tr>
+          <tr><td>Bảo — <em>mức cơ bản</em></td>
+            <td><strong>Giữ nguyên</strong> tự khai prototype là <em>Working</em>. Không nâng lên <em>Deployed</em>.</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="src"><b>Nguồn</b><span>eval/analysis.md</span><span>validation/user_testing_log.md</span><span>validation/feedback-log.md</span><span>spec.md §7 §8 §9</span></div>
+</section>
+
+<!-- ═══ 6 ═══ -->
+<section class="slide">
+  <div class="top"><span class="num">06/06</span><span class="sec">Kế hoạch mở rộng &amp; đóng góp</span>
+    <span class="team">Nhóm KKAL</span></div>
+  <h1>Ba việc, cả ba trỏ về một chỗ chưa xử xong</h1>
+
+  <div class="cols c-7-5">
+    <div class="stack">
+      <ol class="prio">
+        <li><span><strong>Nạp mẻ tri thức Standup + quy trình đề tài.</strong>
+          Hai chủ đề học viên hỏi nhiều nhất (<strong>95%</strong> và <strong>67%</strong>) hiện có
+          <strong style="color:var(--bad)">0 mục</strong>. Bot trả <code>NOT_FOUND</code> — đúng thiết kế,
+          nhưng cho thấy kho mỏng so với nhu cầu thật.
+          <em>Chỉ dày lên được khi TA dùng thật — không vá được bằng sửa prompt.</em>
+          <span class="tag">← phản hồi của Biển, trang 5</span></span></li>
+        <li><span><strong>Vá lỗi “trả lời dù điều kiện không khớp”.</strong>
+          <span class="mono" style="color:var(--cyan)">G03, G27</span> — hỏi WSL2/Arch, bot vẫn dùng
+          hướng dẫn Linux ở mức chắc 70–90%. Failure đắt nhất theo chính bảng cost-of-error của nhóm,
+          và nó kéo theo <strong>ca hiếm 2/5 = 40%</strong>.
+          <span class="tag">← thất bại trang 4 &amp; 5</span></span></li>
+        <li><span><strong>Phỏng vấn TA theo Mom Test, không nhắc gì tới bot.</strong>
+          <em>“Lần gần nhất anh phải gõ lại một hướng dẫn mà anh biết chắc mình đã gõ rồi là khi nào?”</em>
+          TA là job executor nhưng vẫn chưa có một dòng bằng chứng nguyên văn nào.
+          <span class="tag">← lỗ hổng trang 1</span></span></li>
+      </ol>
+
+      <div class="card wn">
+        <p style="font-size:12px;line-height:1.5"><strong>Phần chưa xong đã tự khai đầy đủ</strong> ở
+          <code>spec.md §9</code>: chưa phỏng vấn TA đúng cách · chưa có buổi thử có quan sát ·
+          kho lệch chủ đề · ca hiếm 40%.
+          <strong style="color:var(--warn)">Khai thiếu không bị trừ điểm — giấu mới bị.</strong></p>
+      </div>
+    </div>
+
+    <div class="stack">
+      <div class="card">
+        <h2>Đóng góp của từng thành viên</h2>
+        <table>
+          <tr><th style="width:36%">Thành viên</th><th>Phần việc</th></tr>
+          <tr><td><strong>Đoàn Bá Khải</strong><br><span class="mono" style="font-size:10px;color:var(--dim)">2A202602728 · đội trưởng</span></td>
+            <td><code>spec.md</code> §1–§9 · chốt quality bar trước 21:00 17/9 · nộp cả 5 form CP1–CP5</td></tr>
+          <tr><td><strong>Nguyễn Văn An</strong><br><span class="mono" style="font-size:10px;color:var(--dim)">2A202602782 · code</span></td>
+            <td>Toàn bộ <code>codebase/bot/</code> — quyết định trung tâm gọi LLM thật, nạp kho từ data pack và PDF, adapter Discord · bộ chạy <code>eval/run_eval.mjs</code></td></tr>
+          <tr><td><strong>Trần Ngọc Khuyến</strong><br><span class="mono" style="font-size:10px;color:var(--dim)">2A202602682 · evidence</span></td>
+            <td>Mining <code>k4_messages.csv</code> bằng <code>eval/dem-discord.py</code> · khảo sát 21 người ngoài nhóm có log đầy đủ</td></tr>
+          <tr><td><strong>Đỗ Thanh Lâm</strong><br><span class="mono" style="font-size:10px;color:var(--dim)">2A202602577 · test &amp; demo</span></td>
+            <td>Golden set 41 ca — ≥2 ca mỗi lớp chỗ khó · 4 lượt chạy trọn bộ + bảng kết quả · demo script và dry run</td></tr>
+        </table>
+      </div>
+
+      <div class="card">
+        <p style="font-size:11.5px;line-height:1.55;color:var(--muted)">
+          <strong>Repo:</strong> <span class="mono" style="color:var(--cyan)">github.com/KhaiDoan2004/K4-3A-E402-KKAL</span><br>
+          Mọi con số trong bộ slide này <strong>chạy lại được</strong>:
+          bằng chứng bằng <code>eval/dem-discord.py</code>,
+          kết quả kiểm thử bằng <code>node eval/run_eval.mjs</code>.
+          <strong>Mỗi thành viên giải thích được phần có tên mình.</strong></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="src"><b>Nguồn</b><span>spec.md §8 §9</span><span>README.md</span><span>validation/</span></div>
+</section>
+
+</body>
+</html>
