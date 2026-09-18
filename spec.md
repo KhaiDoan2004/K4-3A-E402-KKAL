@@ -423,9 +423,6 @@ Mỗi dòng là **một quyết định đã đổi**. Xếp theo mốc mà vi�
 - **Chưa phỏng vấn TA đúng cách** — TA mới là job executor, nhưng cả 21 người trả lời khảo sát
   đều là học viên. Nhóm **có** hỏi 1 anh TA/lab coach ở buổi lên ý tưởng, anh nói ý tưởng *cũng được, cũng ok*.
   Nhóm tạm không tính đây là bằng chứng: đó là hỏi ý kiến về ý tưởng chứ không hỏi anh để thật sự làm khảo sát paint point, chỉ 1 người, và không có log nguyên văn
-- **Chưa làm buổi thử có quan sát** với willing user. Hai người đã dùng và nhắn lại nhận xét
-  tổng quát, nhưng nhóm **chưa ngồi xem họ dùng** — nên chưa biết họ phản ứng thế nào
-  ngay lúc bot nói *"chưa có trong kho"*, vốn là chỗ đáng quan sát nhất. Kế hoạch ở §8.
 - **Kho lệch chủ đề:** *Daily Standup* (**95%** người hỏi) và *chọn/đổi đề tài* (**67%**) hiện **0 mục**.
   Với hai chủ đề này bot trả `NOT_FOUND` — đúng thiết kế, nhưng cho thấy kho còn mỏng so với
   nhu cầu thật. Chỉ dày lên được khi TA dùng thật, không vá được bằng sửa prompt.
